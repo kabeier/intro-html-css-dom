@@ -131,3 +131,9 @@ test('lecture 2: each broken page fails, and the solution passes', async () => {
     await context.close()
   }
 })
+
+test('the Fix It page links to the other lecture', async () => {
+  const { context, page } = await open(null)
+  assert.ok(await page.$('.fx-lessons a[href*="lesson=js-dom"]'))
+  await context.close()
+})

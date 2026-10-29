@@ -26,7 +26,10 @@
   const mainEl = document.querySelector('.fx-main')
 
   function renderList() {
-    listEl.innerHTML = '<h2>Problems</h2>' + problems.map((p, k) =>
+    const lessons = Course.all().filter((l) => (window.FIXIT || {})[l.id])
+    listEl.innerHTML = `<div class="fx-lessons">${lessons.map((l, k) =>
+      `<a class="fx-lesson${l === lesson ? ' on' : ''}" href="?lesson=${l.id}">Lecture ${Course.all().indexOf(l) + 1}: ${esc(l.title)}</a>`).join('')}</div>` +
+      '<h2>Problems</h2>' + problems.map((p, k) =>
       `<button type="button" class="fx-item${p === current ? ' on' : ''}" data-id="${p.id}"><span class="fx-mark">${solved.has(p.id) ? '✅' : k + 1}</span> ${esc(p.title)}</button>`).join('')
     listEl.querySelectorAll('.fx-item').forEach((b) => (b.onclick = () => show(problems.find((p) => p.id === b.dataset.id))))
   }

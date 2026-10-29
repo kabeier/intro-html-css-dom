@@ -46,3 +46,7 @@ code, pre { font-family: 'JetBrains Mono', ui-monospace, monospace; }
   .fx-pad .lp-preview { border-left: 0; border-top: 1px solid #3c3c3c; }
 }
 @media (max-width: 600px) { .fx-top, .fx-wrap { padding-left: 16px; padding-right: 16px; } }
+.fx-lessons { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.fx-lesson { font-weight: 700; color: var(--blue); text-decoration: none; border-left: 4px solid transparent; padding-left: 8px; }
+.fx-lesson.on { border-left-color: var(--ink); color: var(--ink); }
+@media (max-width: 1000px) { .fx-lessons { flex-direction: row; flex-wrap: wrap; } }
