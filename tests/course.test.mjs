@@ -40,8 +40,8 @@ test('applyStep append on empty text is just the code', () => {
   assert.equal(Course.applyStep('', { mode: 'append', code: 'b' }), 'b')
 })
 
-test('applyStep replace swaps the first match only', () => {
-  assert.equal(Course.applyStep('x y x', { mode: 'replace', find: 'x', code: 'z' }), 'z y x')
+test('applyStep replace swaps the match', () => {
+  assert.equal(Course.applyStep('x y w', { mode: 'replace', find: 'x', code: 'z' }), 'z y w')
 })
 
 test('applyStep insertAfter adds a line after the line containing find', () => {
@@ -166,4 +166,14 @@ test('buildDoc keeps link clicks and form submits inside the preview', () => {
   const doc = Course.buildDoc({ 'index.html': '<head></head><body></body>' })
   assert.match(doc, /preventDefault/)
   assert.match(doc, /scrollIntoView/)
+})
+
+test('insertAfter refuses when the anchor line appears more than once', () => {
+  assert.throws(() => Course.applyStep('</head>\nx\n</head>', { id: 'd', mode: 'insertAfter', find: '</head>', code: 'y' }),
+    (e) => e instanceof Course.StepMismatch && /more than once/.test(e.message))
+})
+
+test('replace refuses when find appears more than once', () => {
+  assert.throws(() => Course.applyStep('a b a', { id: 'd', mode: 'replace', find: 'a', code: 'z' }),
+    (e) => e instanceof Course.StepMismatch && /more than once/.test(e.message))
 })

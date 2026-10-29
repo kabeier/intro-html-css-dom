@@ -11,7 +11,7 @@
   const POPOUT = new URL('popout.html', document.currentScript.src).href
   const channel = new BroadcastChannel('livepad')
   let splitOpen = false
-  let popWin = null, popOpen = false
+  let popWin = null, popOpen = false, lastSent = 0
   const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   const langOf = (f) => (f.endsWith('.css') ? 'css' : f.endsWith('.js') ? 'javascript' : f.endsWith('.html') ? 'html' : 'plaintext')
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
@@ -163,7 +163,9 @@
       const old = pad.files[step.file] || ''
       let text
       try { text = Course.applyStep(old, step) } catch (e) {
-        if (e instanceof Course.StepMismatch) return pad.setStatus("✕ can't apply the next step: your code changed. Shift+N resets this slide", true)
+        if (e instanceof Course.StepMismatch) return pad.setStatus(/more than once/.test(e.message)
+          ? "✕ can't apply the next step: the line it needs is in your code twice. Shift+N resets this slide"
+          : "✕ can't apply the next step: your code changed. Shift+N resets this slide", true)
         throw e
       }
       pad.busy = true
@@ -238,6 +240,7 @@
   function broadcast() {
     const pad = active()
     if (!pad) return
+    lastSent = Date.now()
     channel.postMessage({ type: 'doc', lesson: pad.lesson && pad.lesson.id, slide: slideNo(pad), doc: Course.buildDoc(pad.files) })
   }
   const setPop = (open) => { popOpen = open; paintAll() }
@@ -250,12 +253,23 @@
     popWin = window.open(POPOUT, 'livepad-popout', `popup=yes,width=${g.w},height=${g.h},left=${g.x},top=${g.y}`)
     if (popWin) setPop(true)
   }
+  let lastHello = 0
   channel.onmessage = (e) => {
     const t = e.data && e.data.type
-    if (t === 'hello') { setPop(true); broadcast() }
+    if (t === 'hello') { lastHello = Date.now(); if (!popOpen) setPop(true); if (document.hasFocus() || !lastSent) broadcast() }
     else if (t === 'bye') { popWin = null; setPop(false) }
   }
-  setInterval(() => { if (popWin && popWin.closed) { popWin = null; setPop(false) } }, 1000)
+  // Is the pop-out still there? (Its "bye" can be lost, e.g. during a reload.)
+  setInterval(() => {
+    if (popWin && popWin.closed) { popWin = null; setPop(false); return }
+    if (popOpen && !popWin) {
+      if (Date.now() - lastHello > 3500) setPop(false)
+      else channel.postMessage({ type: 'ping' })
+    }
+  }, 1000)
+  // Back on this tab: show this page in the pop-out again.
+  addEventListener('focus', () => broadcast())
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) broadcast() })
 
   addEventListener('keydown', (e) => {
     if (e.target.closest && e.target.closest('.monaco-editor, input, textarea, select, [contenteditable]')) return

@@ -155,7 +155,9 @@
     if (popWin && !popWin.closed) return popWin.focus()
     popWin = window.open('shared/popout.html', 'livepad-popout', 'popup=yes,width=900,height=800')
   }
-  channel.onmessage = (e) => { if (e.data && e.data.type === 'hello') send() }
+  // Answer the pop-out only while this tab is the one being used.
+  channel.onmessage = (e) => { if (e.data && e.data.type === 'hello' && document.hasFocus()) send() }
+  addEventListener('focus', send)
 
   function go(fid) {
     at = fid; showBefore = false; picked = null

@@ -10,8 +10,8 @@
   'use strict'
 
   class StepMismatch extends Error {
-    constructor(step) {
-      super(`Step ${step && step.id} can't apply: "${step && step.find}" is not in ${step && step.file}`)
+    constructor(step, many) {
+      super(`Step ${step && step.id} can't apply: "${step && step.find}" is ${many ? 'in ' + (step && step.file) + ' more than once' : 'not in ' + (step && step.file)}`)
       this.name = 'StepMismatch'
       this.step = step
     }
@@ -38,11 +38,13 @@
     if (step.mode === 'insertAfter') {
       const at = lines.findIndex((l) => l.text.includes(step.find))
       if (at < 0) throw new StepMismatch(step)
+      if (lines.filter((l) => l.text.includes(step.find)).length > 1) throw new StepMismatch(step, true)
       return [...lines.slice(0, at + 1), ...tagged(step.code, id), ...lines.slice(at + 1)]
     }
     if (step.mode === 'replace') {
       const idx = text.indexOf(step.find)
       if (idx < 0) throw new StepMismatch(step)
+      if (text.indexOf(step.find, idx + 1) >= 0) throw new StepMismatch(step, true)
       const first = count(text.slice(0, idx), '\n')
       const last = first + count(step.find, '\n')
       const next = text.slice(0, idx) + step.code + text.slice(idx + step.find.length)

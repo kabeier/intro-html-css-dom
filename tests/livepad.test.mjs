@@ -134,3 +134,16 @@ test('a clicked file tab does not keep focus, so Enter/Space act once (deck only
   assert.equal(await page.evaluate(() => !!document.activeElement.closest('.lp-tab')), false)
   await page.close()
 })
+
+test('typing while N auto-types is ignored, so the step lands cleanly', async () => {
+  const page = await openSlide2()
+  await page.click('.slide.active .lp-tab[data-file="index.html"]')
+  await page.mouse.click(5, 5)
+  await page.keyboard.press('n')
+  await page.click('.slide.active .lp-editor')
+  await page.keyboard.type('zzz')
+  await until(page, () => !window.Livepad.current().busy)
+  const s = await state(page)
+  assert.deepEqual(s.files, Course.filesAt(lesson, 'f2s1'))
+  await page.close()
+})
