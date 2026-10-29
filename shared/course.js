@@ -20,6 +20,7 @@
   const lessons = {}
   const register = (lesson) => { lessons[lesson.id] = lesson; return lesson }
   const get = (id) => lessons[id]
+  const all = () => Object.values(lessons)
 
   const split = (text) => (text === '' ? [] : text.split('\n'))
   const tagged = (text, stepId) => split(text).map((t) => ({ text: t, stepId }))
@@ -209,5 +210,5 @@
     return /<head[^>]*>/i.test(doc) ? doc.replace(/<head[^>]*>/i, (h) => h + REPORTER) : REPORTER + doc
   }
 
-  return { register, get, applyStep, filesAt, checkpoint, origins, noteFor, buildDoc, StepMismatch }
+  return { register, get, all, applyStep, filesAt, checkpoint, origins, noteFor, buildDoc, StepMismatch }
 })

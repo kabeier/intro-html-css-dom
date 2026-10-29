@@ -20,10 +20,14 @@
     const k = feats.findIndex((f) => f.id === fid)
     return k > 0 ? Course.checkpoint(lesson, feats[k - 1].id) : Course.filesAt(lesson, null)
   }
-  const stepLabel = (stepId) => {
-    for (const [k, f] of feats.entries()) {
+  const lessonNo = (l) => Course.all().indexOf(l) + 1
+  const stepLabel = (stepId, from = lesson) => {
+    for (const [k, f] of from.features.entries()) {
       const n = f.steps.findIndex((s) => s.id === stepId)
-      if (n >= 0) return { feature: f, text: `Feature ${k + 1} (${f.title}), step ${n + 1}` }
+      if (n >= 0) {
+        const pre = from === lesson ? '' : `Lecture ${lessonNo(from)} (${from.title}): `
+        return { feature: f, lesson: from, text: `${pre}Feature ${k + 1} (${f.title}), step ${n + 1}` }
+      }
     }
     return null
   }
@@ -45,7 +49,9 @@
   const storyEl = document.querySelector('.ex-story')
 
   function renderFeatures() {
-    featuresEl.innerHTML = '<h2>Features</h2>' + feats.map((f, k) =>
+    featuresEl.innerHTML = `<div class="ex-lessons">${Course.all().map((l) =>
+      `<a class="ex-lesson${l === lesson ? ' on' : ''}" href="?lesson=${l.id}&at=${l.features[0].id}">Lecture ${lessonNo(l)}: ${esc(l.title)}</a>`).join('')}</div>` +
+      '<h2>Features</h2>' + feats.map((f, k) =>
       `<button type="button" class="ex-feature${f.id === at ? ' on' : ''}" data-feature="${f.id}"><b>${k + 1}</b> ${esc(f.title)}</button>`).join('')
     featuresEl.querySelectorAll('.ex-feature').forEach((b) => (b.onclick = () => go(b.dataset.feature)))
   }
@@ -111,8 +117,9 @@
     mainEl.querySelectorAll('.ex-line').forEach((d) => d.classList.toggle('picked', Number(d.dataset.line) === n))
     const text = (filesAfter(at)[tab] || '').split('\n')[n - 1] || ''
     const r = Course.noteFor(lesson, lastStep(featOf(at)), tab, n)
-    const when = r.stepId ? stepLabel(r.stepId) : null
-    const whenHtml = when ? `<p class="ex-when">Added in <a href="?lesson=${lesson.id}&at=${when.feature.id}">${esc(when.text)}</a></p>` : ''
+    const from = Course.get(r.lessonId) || lesson
+    const when = r.stepId ? stepLabel(r.stepId, from) : null
+    const whenHtml = when ? `<p class="ex-when">Added in <a href="?lesson=${when.lesson.id}&at=${when.feature.id}">${esc(when.text)}</a></p>` : ''
     const head = `<p class="ex-line-shown"><code>${esc(text.trim()) || '(blank line)'}</code></p>`
     if (text.trim() === '') {
       storyEl.innerHTML = head + '<p><b>Nothing to explain on this line.</b> Blank lines only make the code easier to read.</p>'

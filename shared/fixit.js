@@ -63,6 +63,12 @@
   checker.className = 'fx-checker'
   checker.setAttribute('aria-hidden', 'true')
   document.body.append(checker)
+  // A form submit nobody prevented reloads the checked page too, like a real browser.
+  addEventListener('message', (e) => {
+    if (e.source === checker.contentWindow && e.data && e.data.type === 'livepad-reload') {
+      const d = checker.srcdoc; checker.removeAttribute('srcdoc'); checker.srcdoc = d
+    }
+  })
   function settle(doc) {
     const imgs = [...doc.images].filter((i) => !i.complete)
     return Promise.race([
@@ -75,10 +81,17 @@
     const out = mainEl.querySelector('.fx-result')
     out.className = 'fx-result'
     out.textContent = 'Checking…'
-    await new Promise((resolve) => { checker.onload = resolve; checker.srcdoc = Course.buildDoc(editor.getFiles()) })
+    const html = Course.buildDoc(editor.getFiles())
+    await new Promise((resolve) => { checker.onload = resolve; checker.srcdoc = html })
     const doc = checker.contentDocument, win = checker.contentWindow
     await settle(doc)
-    const results = p.checks.map((c) => { let ok = false; try { ok = !!c.run(doc, win) } catch {} return { name: c.name, ok } })
+    const ctx = { wait: (ms) => new Promise((r) => setTimeout(r, ms)), doc: () => checker.contentDocument }
+    const results = []
+    for (const c of p.checks) {
+      let ok = false
+      try { ok = !!(await c.run(doc, win, ctx)) } catch {}
+      results.push({ name: c.name, ok })
+    }
     const all = results.every((r) => r.ok)
     if (p !== current) return
     out.className = 'fx-result ' + (all ? 'ok' : 'bad')

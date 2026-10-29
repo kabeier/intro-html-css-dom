@@ -8,24 +8,27 @@ const Course = require('../shared/course.js')
 globalThis.Course = Course
 await import('../shared/course/html-css.js')
 await import('../shared/course/html-css-fixit.js')
+await import('../shared/course/js-dom.js')
+await import('../shared/course/js-dom-fixit.js')
 const lesson = Course.get('html-css')
 const problems = globalThis.FIXIT['html-css']
+const jsProblems = globalThis.FIXIT['js-dom']
 
 let srv, browser
 before(async () => { srv = await serve(); browser = await launch() })
 after(async () => { await browser?.close(); srv?.close() })
 
-const solution = (p) => {
-  const files = { ...Course.checkpoint(lesson, p.base) }
+const solution = (p, l = lesson) => {
+  const files = { ...Course.checkpoint(l, p.base) }
   for (const s of p.solve || []) files[s.file] = Course.applyStep(files[s.file], s)
   return files
 }
 
-async function open(id, opts = {}) {
+async function open(id, opts = {}, lessonId = 'html-css') {
   const context = await browser.newContext({ viewport: { width: 1440, height: 900 } })
   if (opts.noStorage) await context.addInitScript(() => { Storage.prototype.getItem = () => { throw new Error('blocked') }; Storage.prototype.setItem = () => { throw new Error('blocked') } })
   const page = await context.newPage()
-  await page.goto(srv.url + '/fixit.html?lesson=html-css' + (id ? '&p=' + id : ''))
+  await page.goto(srv.url + '/fixit.html?lesson=' + lessonId + (id ? '&p=' + id : ''))
   await until(page, () => window.FixIt && window.FixIt.ready)
   return { context, page }
 }
@@ -110,4 +113,21 @@ test('offline (no Monaco) the code can still be edited and fixed', async () => {
   await box.fill(text.replace('card {', '.card {'))
   assert.match(await press(page), /Fixed!/)
   await context.close()
+})
+
+
+test('lecture 2: 10 problems, first 6 core', () => {
+  assert.equal(jsProblems.length, 10)
+  for (const p of jsProblems.slice(6)) assert.match(p.title, /^Bonus:/)
+})
+
+test('lecture 2: each broken page fails, and the solution passes', async () => {
+  const js = Course.get('js-dom')
+  for (const p of jsProblems) {
+    const { context, page } = await open(p.id, {}, 'js-dom')
+    assert.match(await press(page), /Still broken/, p.id + ' broken fails')
+    await page.evaluate((f) => window.FixIt.setFiles(f), solution(p, js))
+    assert.match(await press(page), /Fixed!/, p.id + ' solution passes')
+    await context.close()
+  }
 })

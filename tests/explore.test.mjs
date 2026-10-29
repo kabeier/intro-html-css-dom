@@ -11,6 +11,7 @@ const require = createRequire(import.meta.url)
 const Course = require('../shared/course.js')
 globalThis.Course = Course
 await import('../shared/course/html-css.js')
+await import('../shared/course/js-dom.js')
 const lesson = Course.get('html-css')
 const f3 = Course.checkpoint(lesson, 'f3')['index.html'].split('\n')
 const lineOf = (pred) => f3.findIndex(pred) + 1
@@ -115,5 +116,20 @@ test('the feature list switches features', async () => {
   await page.click('.ex-feature[data-feature="f4"]')
   await until(page, () => { const d = document.querySelector('.ex-preview iframe').contentDocument; return d && d.querySelector('form') })
   assert.match(page.url(), /at=f4/)
+  await context.close()
+})
+
+test('the explorer can switch lessons, and lecture 1 lines in lecture 2 link back to lecture 1', async () => {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+  const page = await context.newPage()
+  await page.goto(srv.url + '/explore.html?lesson=js-dom&at=f1')
+  await until(page, () => { const f = document.querySelector('.ex-preview iframe'); return f && f.contentDocument && f.contentDocument.querySelector('h1') })
+  assert.match(await page.textContent('.ex-lessons'), /HTML & CSS/)
+  const js = Course.checkpoint(Course.get('js-dom'), 'f1')['index.html'].split('\n')
+  await page.click(`.ex-code .ex-line[data-line="${js.findIndex((l) => l.includes('<img')) + 1}"]`)
+  const story = await page.textContent('.ex-story')
+  assert.match(story, /An image/)
+  assert.match(story, /Lecture 1/)
+  assert.ok(await page.$('.ex-story a[href*="lesson=html-css"]'))
   await context.close()
 })
