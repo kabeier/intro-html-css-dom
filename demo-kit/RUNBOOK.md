@@ -1,54 +1,58 @@
-# Live demo runbook: APP gets FEATURE
+# Runbook · Lecture 1: HTML & CSS (~40 min)
 
-**The story:** where the app is now (one line), and what's wrong with it.
-- **Lecture 1 (TITLE):** concepts in one line. Live: the one hands-on step.
-- **Lecture 2 (TITLE):** the build in one line. Payoff: what the class sees at the end.
+## Before class
 
-## What's in the kit
-
-| File | What it is |
+| Do | Why |
 |---|---|
-| `prompts.md` | Every prompt, in order, plus good answers to Claude's questions and what to check at each pause |
-| `start-APP/` | **The starting point:** the app as the class left it last lecture. No `.mcp.json`, no `.env` |
-| `backup-APP/` | The app after Lecture 2, tested. The fallback if a live prompt stalls |
-| `reset-to-start.sql` | After a dry run: the database back to today's starting point |
+| Open https://kabeier.github.io/intro-html-css-dom/ → **Open the slides** | the deck |
+| **Ctrl+Shift+R** once | fresh engine files |
+| Press **F** (fullscreen), then **P** (presenter notes window) | notes + clock |
+| Click into the first code slide once and wait for the editor | Monaco loads from the internet the first time |
+| Zoom: share the **whole screen** if you will use **↗ Pop out** | the pop-out is a separate window |
 
-## Setup (once, before Lecture 1)
+## Keys on a code slide
 
-```bash
-cp -r /path/to/site/demo-kit ~/KIT
-cd ~/demos/APP
-git status                       # clean? If not: commit first
-claude mcp list                  # the MCP servers this lecture needs: Connected
-# Snapshot for resetting after the dry run
-rm -rf ~/demos/APP-snapshot && cp -a ~/demos/APP ~/demos/APP-snapshot
-```
+| Key | Does |
+|---|---|
+| **N** | types the next short chunk (also in the notes table) |
+| **Shift+N** | resets this slide to its start |
+| **A** | live page beside the code; A again hides it (stays open on later slides) |
+| **↗ Pop out** | live page in its own window, synced; resize it to show the media query |
+| click in the editor | type yourself; the page updates as you type. **Esc** leaves the editor so arrows change slides again |
 
-## Dry run (the night before), then reset
+If you typed in the editor and **N** says "can't apply": press **Shift+N**.
 
-1. Run both lectures' live steps from the tables below. Note what Claude asks and how long each prompt takes.
-2. Reset the folder: `rm -rf ~/demos/APP && cp -a ~/demos/APP-snapshot ~/demos/APP`
-3. Reset the database / services: …
+## Slide by slide
 
-## Lecture 1 in class (TITLE)
-
-| Slide (~min) | Where | Do | Say |
+| # | Min | Do | Say |
 |---|---|---|---|
-| 2 (~1) | … | … | "…" |
+| 1 | 0 | T (clock) | "HTML is what's on the page. CSS is how it looks." |
+| 2 | 1 | students make `trainer-profile/index.html` + `styles.css` | keys N / A / Pop out |
+| 3 | 3 | **N ×3**, A after N 2 | the four skeleton tags (table in notes) |
+| 4 | 7 | — | start tag · attribute · content · end tag; void elements |
+| 5 | 9 | **N ×5**, A after N 2, click About | id = one, class = group |
+| 6 | 14 | — | semantic tags table |
+| 7 | 15 | **N ×5**, A before N 3 | ul → ol; tables are for data |
+| 8 | 18 | **N ×4** | label for = input id; name = the data |
+| 9 | 21 | click the timer (6:00) | Fix It, problems 1–6 |
+| 10 | 27 | — | inline / internal / external |
+| 11 | 28 | **N ×6**, A open the whole time | selector { property: value; } |
+| 12 | 31 | **N ×2** | ID > class > element: red wins |
+| 13 | 34 | (DevTools on the pop-out if time) | content, padding, border, margin |
+| 14 | 35 | **N ×3**, then Pop out + narrow window | media query: links stack |
+| 15 | 38 | — | MDN, Code Explorer |
+| 16 | 39 | — | Homework Part I, top to bottom |
 
-## Lecture 2 in class (TITLE)
+## Time checks
 
-| Slide (~min) | Where | Do | Say |
-|---|---|---|---|
-| 4 (~4) | … | … | "…" |
-
-**Time check, Lecture 2:** the prompts are the risky part.
-
-- **STEP not done by ~min NN:**
-  1. Esc.
-  2. The backup: …
-  3. Say: "This is what Claude was building."
+| At slide | Should be | If late |
+|---|---|---|
+| 9 (activity) | min 21 | shorten the activity to 4 minutes (problems 1–4) |
+| 13 | min 34 | skip DevTools; say the four layers |
 
 ## Things to expect
 
-- **Claude asks X:** answer Y, because Z.
+- **The image doesn't show** in the live page: no internet (it comes from raw.githubusercontent.com). Everything else works.
+- **Students' Send button reloads the page**: normal; lecture 2 stops it with JavaScript.
+- **"Different from the curriculum"** (until the curriculum branch `front-end-unit-rewrite` is merged): the page called `<img />` "self-closing" (HTML has void elements) and said HTML and CSS are both W3C (HTML is WHATWG). Both are in the slide notes.
+- Fell-behind student: Code Explorer → their feature → **Download the code at this feature**.

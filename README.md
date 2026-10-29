@@ -1,28 +1,30 @@
-# TOPIC
+# HTML, CSS & the DOM (Front-End, unit 1)
 
-Lecture site for Code Platoon Phase III, **CURRICULUM-SECTION**: SHORT DESCRIPTION.
+Lecture site for Code Platoon Phase II, Front-End unit 1 (Vanilla Development). Live at https://kabeier.github.io/intro-html-css-dom/
 
-**Live site:** https://kabeier.github.io/REPO/
-
-## Lecture 1: TITLE (~40 min, NN slides)
-
-- **Slides:** `lecture-1-SLUG/slides.html`
-- **Activity:** `lecture-1-SLUG/activity-NAME/`
-
-## Lecture 2: TITLE (~40 min, NN slides)
-
-- **Slides:** `lecture-2-SLUG/slides.html`
-- **Activity:** `lecture-2-SLUG/activity-NAME/`
-
-## Instructor kit
-
-- `demo-kit/RUNBOOK.md`: every live step, timings, time checks and backups
-- `demo-kit/prompts.md`: every Claude prompt, with answers to its questions
-
-## Diagrams
-
-`diagrams/*.png` with editable `.tldr` sources (open in tldraw.com).
+| Path | What |
+|---|---|
+| `index.html` | Landing page: lectures, Fix It, Code Explorer, homework |
+| `lecture-1-html-css/slides.html` | Lecture 1 deck (16 slides, ~40 min) |
+| `lecture-2-js-dom/` | Lecture 2 (coming) |
+| `explore.html?lesson=html-css&at=f3` | Code Explorer: the page after any feature, the changes, the story of every line, zip download |
+| `fixit.html?lesson=html-css` | Fix It: 10 broken pages with behaviour checks (lecture 1's activity) |
+| `shared/course.js` | Lesson data model: steps → checkpoints, line origins, notes, `buildDoc` |
+| `shared/course/html-css.js` | Lecture 1's page as data (7 features). **Edit code here**: slides, explorer and Fix It all read it |
+| `shared/course/html-css-fixit.js` | Lecture 1's Fix It problems |
+| `shared/livepad.js`, `.css`, `popout.html` | The editor + live preview in the slides |
+| `tools/gen-notes.mjs` | Regenerates the presenter-note step tables from the lesson data |
+| `demo-kit/` | RUNBOOK, the finished page (`html-css-final/`) |
+| `tests/` | `node --test tests/*.test.mjs` (Chromium via the playwright-core in the npx cache) |
 
 ## Deck keys
 
-→ / Space next · ← back · **P** presenter window (notes + timer) · **T** start/pause the clock · **O** overview · **F** fullscreen · click a diagram to zoom
+→ / Space next · ← back · **N** type the next step · **Shift+N** reset the slide · **A** show/hide the live page · **↗ Pop out** live page in its own window · P presenter notes · T clock · O overview · F fullscreen
+
+## After changing a lesson
+
+```bash
+node tools/gen-notes.mjs lecture-1-html-css/slides.html   # notes tables
+node --test tests/*.test.mjs                              # everything still applies, validates, fits
+```
+Bump `?v=` on any changed `shared/` file.
