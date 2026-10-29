@@ -3,129 +3,340 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lecture N · TITLE</title>
-<link rel="stylesheet" href="../shared/deck.css">
-<!-- Slide-specific tweaks go in a small <style> here (e.g. pre b.ours { color: #ffe76a; }) -->
+<title>Lecture 1 · HTML & CSS</title>
+<link rel="stylesheet" href="../shared/deck.css?v=1">
+<link rel="stylesheet" href="../shared/livepad.css?v=1">
+<style>
+  .slide.code { padding: 60px 64px 36px; }
+  .slide.code h2 { font-size: 44px; margin: 0; display: flex; align-items: baseline; gap: 18px; }
+  .slide.code h2 .say { font: 500 22px var(--mono); color: var(--muted); }
+  .slide.code .livepad { flex: 1; height: auto; min-height: 0; }
+  .anatomy { font: 40px/1.4 var(--mono); background: var(--ink); color: #e9edf5; padding: 26px 32px; border-radius: 10px; margin: 6px 0 22px; }
+  .anatomy .t { color: #569cd6; } .anatomy .a { color: #9cdcfe; } .anatomy .s { color: #ce9178; }
+  .boxm { display: grid; place-items: center; }
+  .boxm div { border-radius: 6px; padding: 26px 34px; text-align: center; font: 600 22px var(--mono); }
+  .boxm .m { background: #fde7c8; border: 2px dashed #c47a14; }
+  .boxm .b { background: #ffcb05; padding: 8px; margin-top: 8px; }
+  .boxm .p { background: #c9e7d6; margin-top: 8px; }
+  .boxm .c { background: #fff; border: 2px solid var(--ink); padding: 18px 40px; margin-top: 8px; }
+  .keys td:first-child { font: 700 26px var(--mono); white-space: nowrap; }
+</style>
 </head>
 <body data-minutes="40">
 <div class="stage">
 
-<!--
-  One <section class="slide"> per slide. Attributes:
-    data-seg  = the segment name shown top-left (e.g. "Open", "Activity: Name", "Live: …", "Wrap up")
-    data-at   = the minute this slide should start at (drives the presenter clock)
-  Every slide gets <aside class="notes">: what to SAY and DO, as short bullets.
-  Slide types below: title · statement · diagram · table · two cards · activity · code/prompt · homework.
-  Delete the ones you don't need; keep ~12–16 slides for a 40-minute lecture.
--->
-
 <!-- ============ OPEN (0–3) ============ -->
 <section class="slide title" data-seg="Open" data-at="0">
-  <div class="kicker">Building Applications · TOPIC · Part 1 of 2</div>
-  <h1>Lecture title in sentence case</h1>
-  <p class="sub">One sentence: the question this lecture answers, in the running app's terms.</p>
+  <div class="kicker">Front-End · Vanilla Development · Lecture 1 of 2</div>
+  <h1>HTML is what's on the page. CSS is how it looks.</h1>
+  <p class="sub">We build a Trainer profile page, one short step at a time.</p>
   <aside class="notes">
-    <p><b>Before class</b> (demo-kit/RUNBOOK.md): the state everything must be in.</p>
-    <p>Tabs to have open: … Press <b>T</b> to start the clock.</p>
+    <p><b>Before class</b> (demo-kit/RUNBOOK.md): open this deck, press <b>F</b> (fullscreen), then <b>P</b> (these notes).</p>
+    <p>Second tab: the class site (Code Explorer + Fix it are linked there).</p>
+    <p>Press <b>T</b> to start the clock.</p>
   </aside>
 </section>
 
-<section class="slide statement" data-seg="Open" data-at="1">
-  <h2>The hook: what's wrong / missing right now</h2>
-  <ul>
-    <li>Concrete fact about the running app</li>
-    <li>Why that's a problem</li>
-    <li>…</li>
-  </ul>
-  <p class="bottomline">Today: what we'll learn. Next lecture: what we'll build.</p>
-  <aside class="notes">
-    <p><b>** LIVE, 1 minute. **</b> The exact demo step that shows the problem.</p>
-  </aside>
-</section>
-
-<!-- ============ CONCEPT (3–8) ============ -->
-<section class="slide diagram" data-seg="Concept" data-at="3">
-  <img src="../diagrams/XX1-01-name.png" alt="Full description of the diagram for screen readers and for the zoom view.">
-  <div class="src">diagrams/XX1-01-name.tldr</div>
-  <aside class="notes">
-    <p>"The one sentence to say about this picture."</p>
-    <ul><li>Point 1</li><li>Point 2</li></ul>
-  </aside>
-</section>
-
-<section class="slide" data-seg="Concept" data-at="5">
-  <h2>Comparison table</h2>
-  <table class="dbt">
-    <tr><th></th><th>Option A</th><th>Option B</th></tr>
-    <tr><td><b>Row</b></td><td>…</td><td class="pk">highlighted cell</td></tr>
-  </table>
-  <p class="bottomline">The one line to remember.</p>
-  <aside class="notes"><p>…</p></aside>
-</section>
-
-<section class="slide" data-seg="Concept" data-at="6">
-  <h2>Two cards side by side</h2>
+<section class="slide" data-seg="Open" data-at="1">
+  <h2>Two questions, two languages</h2>
   <div class="cols">
-    <div class="card blue"><h3>Left idea</h3><p>Short text.</p></div>
-    <div class="card red"><h3>Right idea</h3><p>Short text.</p></div>
+    <div class="card blue"><h3>HTML: structure</h3><p><b>"What is on this page?"</b><br>Headings, text, images, links, forms.</p></div>
+    <div class="card green"><h3>CSS: presentation</h3><p><b>"What should it look like?"</b><br>Colours, fonts, spacing, layout.</p></div>
   </div>
-  <p class="bottomline">The contrast in one line.</p>
-  <aside class="notes"><p>…</p></aside>
+  <table class="dbt small keys" style="margin-top:26px">
+    <tr><td>N</td><td>types the next short chunk of code</td></tr>
+    <tr><td>A</td><td>shows the live page next to the code (A again hides it)</td></tr>
+    <tr><td>↗</td><td>opens the live page in its own window</td></tr>
+  </table>
+  <p class="bottomline">Type along in VS Code: index.html and styles.css.</p>
+  <aside class="notes">
+    <p>Say: "HTML answers <b>what</b>. CSS answers <b>how it looks</b>. Today we keep them apart on purpose."</p>
+    <p><b>Students:</b> new folder <code>trainer-profile</code>, files <code>index.html</code> + <code>styles.css</code>, open with Live Server (or just double-click index.html and refresh).</p>
+    <p>Lost later? The <b>Code Explorer</b> on the class site has the code after every feature, with a <b>Download</b> button.</p>
+  </aside>
 </section>
 
-<!-- ============ ACTIVITY (8–14) ============ -->
-<section class="slide activity" data-seg="Activity: Name" data-at="8">
-  <h2>Activity: Name</h2>
+<!-- ============ HTML (3–21) ============ -->
+<section class="slide code" data-seg="Code along: skeleton" data-at="3">
+  <h2>The skeleton every page has <span class="say">index.html</span></h2>
+  <div class="livepad" data-lesson="html-css" data-start="null" data-steps="f1s1 f1s2 f1s3" data-files="index.html styles.css"></div>
+  <aside class="notes">
+    <p><b>** CODE ALONG, about 4 minutes. **</b> Press <b>N</b> for each step; students type the same lines.</p>
+<!-- steps:html-css:f1 -->
+<table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;!DOCTYPE html&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Line 1 tells the browser "modern HTML". Everything else lives inside &lt;html&gt;.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;head&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">The head is for the browser, not the page. Watch the tab title change.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;body&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">The body is everything you see. First thing on the page: the main heading.</td></tr>
+</table>
+<!-- /steps -->
+    <table style="border-collapse:collapse;font-size:15px;margin:6px 0">
+      <tr><th style="padding:4px 10px;border-bottom:1px solid #34405a">Tag</th><th style="padding:4px 10px;border-bottom:1px solid #34405a">Job</th></tr>
+      <tr><td style="padding:4px 10px"><code>&lt;!DOCTYPE html&gt;</code></td><td style="padding:4px 10px">"modern HTML"</td></tr>
+      <tr><td style="padding:4px 10px"><code>&lt;html&gt;</code></td><td style="padding:4px 10px">the root: wraps everything</td></tr>
+      <tr><td style="padding:4px 10px"><code>&lt;head&gt;</code></td><td style="padding:4px 10px">for the browser: title, charset, CSS link</td></tr>
+      <tr><td style="padding:4px 10px"><code>&lt;body&gt;</code></td><td style="padding:4px 10px">for the user: everything you see</td></tr>
+    </table>
+    <p>After N 2: the tab title. On the slide press <b>↗ Pop out</b>: the window title is the page title, like a browser tab. Students see it in their own tab.</p>
+    <p>VS Code shortcut: <code>!</code> + Tab writes this skeleton. Show it once, but type it today.</p>
+  </aside>
+</section>
+
+<section class="slide" data-seg="HTML" data-at="7">
+  <h2>Anatomy of an element</h2>
+  <div class="anatomy">&lt;<span class="t">a</span> <span class="a">href</span>=<span class="s">"#team"</span>&gt;Team&lt;/<span class="t">a</span>&gt;</div>
+  <table class="dbt small">
+    <tr><th>Piece</th><th>Here</th><th>Job</th></tr>
+    <tr><td><b>Start tag</b></td><td><code>&lt;a …&gt;</code></td><td>opens the element</td></tr>
+    <tr><td><b>Attribute</b></td><td><code>href="#team"</code></td><td>extra information: <b>name="value"</b></td></tr>
+    <tr><td><b>Content</b></td><td><code>Team</code></td><td>what is shown</td></tr>
+    <tr><td><b>End tag</b></td><td><code>&lt;/a&gt;</code></td><td>closes it (note the <b>/</b>)</td></tr>
+  </table>
+  <p class="bottomline">Void elements like &lt;img&gt; and &lt;br&gt; have no content and no end tag.</p>
+  <aside class="notes">
+    <p>Say: "Every element is a start tag, maybe attributes, content, and an end tag."</p>
+    <ul>
+      <li><b>Void elements</b>: <code>&lt;img&gt;</code>, <code>&lt;br&gt;</code>, <code>&lt;meta&gt;</code>, <code>&lt;link&gt;</code>, <code>&lt;input&gt;</code>.</li>
+      <li>You will see <code>&lt;img /&gt;</code> online: the slash is allowed and <b>ignored</b>.</li>
+      <li><b>Different from the curriculum</b> (until the fix is merged): the page called these "self-closing". HTML has no self-closing tags.</li>
+    </ul>
+    <p>Common attributes: <code>id</code>, <code>class</code>, <code>src</code>, <code>href</code>, <code>alt</code>. We use all five in the next code-along.</p>
+  </aside>
+</section>
+
+<section class="slide code" data-seg="Code along: content" data-at="9">
+  <h2>Content with meaning <span class="say">index.html</span></h2>
+  <div class="livepad" data-lesson="html-css" data-start="f1s3" data-steps="f2s1 f2s2 f2s3 f2s4 f2s5" data-files="index.html styles.css"></div>
+  <aside class="notes">
+    <p><b>** CODE ALONG, about 5 minutes. **</b></p>
+<!-- steps:html-css:f2 -->
+<table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;header&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Wrap the top of the page in &lt;header&gt;. The h1 gets an id: a unique name we can point at later.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;nav&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Links! href="#about" jumps to the element with id="about". Those sections come next.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;main&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">One &lt;main&gt; per page: the real content. Each part of it is a &lt;section&gt; with its own &lt;h2&gt;.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;img src="https://raw.githubusercontent.com/…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">An image and a paragraph. &lt;img&gt; has no closing tag: it is a "void" element.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 5</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;footer&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">The footer closes the page. Now we have header, main and footer: the classic page shape.</td></tr>
+</table>
+<!-- /steps -->
+    <ul>
+      <li>After N 2: press <b>A</b>, click <b>About</b>: nothing happens yet (no id="about"). After N 3 it jumps.</li>
+      <li>Say: "<b>id</b> = one element. <b>class</b> = a group."</li>
+      <li>Watch for: a missing <code>"</code> in src: the image breaks and the rest of the line turns odd colours.</li>
+    </ul>
+  </aside>
+</section>
+
+<section class="slide" data-seg="HTML" data-at="14">
+  <h2>Semantic tags say what a part of the page is</h2>
+  <table class="dbt small">
+    <tr><th>Tag</th><th>Means</th><th>On our page</th></tr>
+    <tr><td><code>&lt;header&gt;</code></td><td>the top: title, logo, menu</td><td>"Trainer Profile" + links</td></tr>
+    <tr><td><code>&lt;nav&gt;</code></td><td>the menu</td><td>About · Team · Contact</td></tr>
+    <tr><td><code>&lt;main&gt;</code></td><td>the main content (one per page)</td><td>the three cards</td></tr>
+    <tr><td><code>&lt;section&gt;</code></td><td>one topic, with a heading</td><td>About me, My team, Battle request</td></tr>
+    <tr><td><code>&lt;article&gt;</code> / <code>&lt;aside&gt;</code></td><td>stands alone / side note</td><td>(not used today)</td></tr>
+    <tr><td><code>&lt;footer&gt;</code></td><td>the bottom</td><td>"Made with HTML and CSS"</td></tr>
+  </table>
+  <p class="bottomline">Looks like a &lt;div&gt;. Means more: accessibility, search, the next developer.</p>
+  <aside class="notes">
+    <p>Say: "A <b>div</b> says nothing. A <b>nav</b> says 'this is the menu'. Screen readers use that."</p>
+    <p>Semantic HTML improves: <b>accessibility</b>, <b>SEO</b>, <b>maintainability</b>, <b>team communication</b> (curriculum list).</p>
+  </aside>
+</section>
+
+<section class="slide code" data-seg="Code along: lists + table" data-at="15">
+  <h2>Lists and a table <span class="say">index.html</span></h2>
+  <div class="livepad" data-lesson="html-css" data-start="f2s5" data-steps="f3s1 f3s2 f3s3 f3s4 f3s5" data-files="index.html styles.css"></div>
+  <aside class="notes">
+    <p><b>** CODE ALONG, about 3 minutes. **</b></p>
+<!-- steps:html-css:f3 -->
+<table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;section id="team" class="card"&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A second section, with a list. &lt;ul&gt; = unordered: bullets.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;li&gt;Bulbasaur&lt;/li&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Two more items. Same tag, new text.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;ol&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Change ul to ol and the bullets become numbers. Order matters now: this is my battle order.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;table&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A table is for data in rows and columns. First the header row.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 5</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;tbody&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">The body of the table: one &lt;tr&gt; per Pokémon, one &lt;td&gt; per value.</td></tr>
+</table>
+<!-- /steps -->
+    <ul>
+      <li>N 3 changes ul → ol: press <b>A</b> first so they <b>see</b> bullets turn into numbers.</li>
+      <li>Say: "Tables are for <b>data</b>, never for page layout."</li>
+      <li>Curriculum also lists <code>&lt;dl&gt;</code>/<code>&lt;dt&gt;</code>/<code>&lt;dd&gt;</code> (definition lists): mention, don't type.</li>
+    </ul>
+  </aside>
+</section>
+
+<section class="slide code" data-seg="Code along: form" data-at="18">
+  <h2>A form: label + input pairs <span class="say">index.html</span></h2>
+  <div class="livepad" data-lesson="html-css" data-start="f3s5" data-steps="f4s1 f4s2 f4s3 f4s4" data-files="index.html styles.css"></div>
+  <aside class="notes">
+    <p><b>** CODE ALONG, about 3 minutes. **</b></p>
+<!-- steps:html-css:f4 -->
+<table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;section id="contact" class="card"&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">The last section holds a form. A form wraps the inputs that are sent together.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;label for="trainer"&gt;Your name&lt;/label&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Label + input are a pair: label for="trainer" points at the input with id="trainer". Click the label and see the cursor jump.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;label for="favorite"&gt;Favorite type&lt;/label&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A dropdown: &lt;select&gt; with &lt;option&gt;s inside.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;label for="message"&gt;Message&lt;/label&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A big text box and the button that sends the form.</td></tr>
+</table>
+<!-- /steps -->
+    <table style="border-collapse:collapse;font-size:15px;margin:6px 0">
+      <tr><th style="padding:4px 10px;border-bottom:1px solid #34405a">Attribute</th><th style="padding:4px 10px;border-bottom:1px solid #34405a">For</th></tr>
+      <tr><td style="padding:4px 10px"><code>for</code> / <code>id</code></td><td style="padding:4px 10px">people: the label names the input</td></tr>
+      <tr><td style="padding:4px 10px"><code>name</code></td><td style="padding:4px 10px">the data: the key it is sent under</td></tr>
+      <tr><td style="padding:4px 10px"><code>action</code> / <code>method</code></td><td style="padding:4px 10px">where and how it is sent (not today)</td></tr>
+    </table>
+    <p>Pressing <b>Send</b> reloads the page: that is normal. Lecture 2 stops it with JavaScript.</p>
+  </aside>
+</section>
+
+<!-- ============ ACTIVITY (21–27) ============ -->
+<section class="slide activity" data-seg="Activity: Fix it" data-at="21">
+  <h2>Activity: Fix it</h2>
   <div class="countdown" data-sec="360"></div>
   <ol class="steps">
-    <li>A situation appears</li>
-    <li>In chat on "go": <b>OPTION A</b>, <b>OPTION B</b> or <b>OPTION C</b></li>
-    <li>Bonus: …</li>
+    <li>Open <b>Fix it</b> from the class site</li>
+    <li>Pick a problem: the page is broken, the symptom is at the top</li>
+    <li>Edit the code, press <b>Fix</b>: <b>✅ Fixed!</b> or <b>❌ Still broken</b></li>
+    <li>Do 1–6. Fast? Try 7–10</li>
   </ol>
-  <p class="muted small" style="margin-top:24px">Page: activity-name/</p>
+  <p class="muted small" style="margin-top:24px">Page: <a href="../fixit.html?lesson=html-css" target="_blank" rel="noopener">fixit.html</a> · stuck 2 minutes? press <b>Hint</b>, then <b>Show solution</b></p>
   <aside class="notes">
-    <p>About 30 seconds a card; the first 6 are the core set. Space reveals.</p>
-    <p>Answers are also in your Notes (teacher guide).</p>
+    <p>Click the timer to start (6 minutes). Students work alone; then go over 2 or 3 in chat.</p>
+    <p>Answers: in your Notes (teacher guide) and behind <b>Show solution</b>.</p>
+    <p>The ✅ is saved in their browser, so they can come back later.</p>
   </aside>
 </section>
 
-<!-- ============ LIVE (14–30) ============ -->
-<section class="slide" data-seg="Live: the step" data-at="14">
-  <h2>The prompt</h2>
-  <p class="muted" style="font-size:19px; margin:-14px 0 8px">The curriculum's prompt, our paths in bold, <b style="color:#b8860b">our block in yellow</b>.</p>
-  <pre style="font-size:15px; line-height:1.4; padding:18px 26px; white-space:pre-wrap">Curriculum prompt text, word for word, with <b>our/paths</b> in bold.
-
-<b class="ours">Also for this project:
-- Answers to the questions Claude will ask (from the dry run).</b>
-
-Do you have any questions before …?</pre>
+<!-- ============ CSS (27–38) ============ -->
+<section class="slide" data-seg="CSS" data-at="27">
+  <h2>Three places CSS can live</h2>
+  <table class="dbt small">
+    <tr><th>Way</th><th>Looks like</th><th>Use it?</th></tr>
+    <tr><td><b>Inline</b></td><td><code>&lt;p style="color: blue;"&gt;</code></td><td>Avoid: one element only, hard to override</td></tr>
+    <tr><td><b>Internal</b></td><td><code>&lt;style&gt; p { … } &lt;/style&gt;</code> in the head</td><td>Small demos: one page only</td></tr>
+    <tr><td><b>External</b></td><td><code>&lt;link rel="stylesheet" href="styles.css"&gt;</code></td><td class="pk"><b>Yes</b>: one file, every page</td></tr>
+  </table>
+  <p class="bottomline">External stylesheets keep structure (HTML) and looks (CSS) apart.</p>
   <aside class="notes">
-    <p><b>** LIVE. **</b> Where Claude runs, what to paste (also in demo-kit/prompts.md).</p>
-    <p><b>Its questions:</b> next slide.</p>
+    <p>Say: "We'll do all three in the next code-along, then keep only the last."</p>
+    <p>External: improves <b>maintainability</b>, scales to real projects, keeps <b>separation of concerns</b>.</p>
   </aside>
 </section>
 
-<!-- ============ WRAP (35–40) ============ -->
-<section class="slide" data-seg="Wrap up" data-at="35">
-  <h2>What you now know</h2>
-  <ul class="small">
-    <li>Takeaway 1</li>
-    <li>Takeaway 2</li>
-  </ul>
-  <p class="bottomline">Next lecture: … (or "in future lectures")</p>
-  <aside class="notes"><p>…</p></aside>
+<section class="slide code" data-seg="Code along: CSS" data-at="28">
+  <h2>Inline, internal, external <span class="say">index.html · styles.css</span></h2>
+  <div class="livepad" data-lesson="html-css" data-start="f4s4" data-steps="f5s1 f5s2 f5s3 f5s4 f5s5 f5s6" data-files="index.html styles.css"></div>
+  <aside class="notes">
+    <p><b>** CODE ALONG, about 4 minutes. **</b> Keep the live page open (<b>A</b>) the whole time.</p>
+<!-- steps:html-css:f5 -->
+<table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;h1 id="page-title" style="color: purple;"&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Way 1, inline: a style attribute on one element. Quick, but it styles only this one tag.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>(deletes code)</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Delete it again. We do not want CSS scattered through the HTML.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;style&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Way 2, internal: a &lt;style&gt; tag in the head. Works for this page only.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;link rel="stylesheet" href="styles.css"&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Way 3, external: one line links a CSS file. The heading goes back to black: styles.css is still empty.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 5</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>body {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Now in styles.css. A rule = selector + { property: value; }. This one styles the whole body.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 6</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>h1 {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Every h1 turns blue. One rule, every page that links this file.</td></tr>
+</table>
+<!-- /steps -->
+    <ul>
+      <li>A CSS rule: <b>selector { property: value; }</b>. Say it every time at first.</li>
+      <li>Watch for: a missing <code>;</code> or <code>}</code> silently kills the next rule.</li>
+    </ul>
+  </aside>
 </section>
 
-<section class="slide" data-seg="Wrap up" data-at="37">
+<section class="slide code" data-seg="Code along: selectors" data-at="31">
+  <h2>Element, .class, #id: the most specific wins <span class="say">styles.css</span></h2>
+  <div class="livepad" data-lesson="html-css" data-start="f5s6" data-steps="f6s1 f6s2" data-files="styles.css index.html"></div>
+  <aside class="notes">
+    <p><b>** CODE ALONG, about 3 minutes. **</b></p>
+<!-- steps:html-css:f6 -->
+<table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>.card {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A class selector starts with a dot. All three sections have class="card", so all three go white.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>#page-title {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">An id selector starts with #. Now two rules set the h1 colour: h1 says blue, #page-title says red. Red wins: id beats element.</td></tr>
+</table>
+<!-- /steps -->
+    <table style="border-collapse:collapse;font-size:15px;margin:6px 0">
+      <tr><th style="padding:4px 10px;border-bottom:1px solid #34405a">Selector</th><th style="padding:4px 10px;border-bottom:1px solid #34405a">Matches</th><th style="padding:4px 10px;border-bottom:1px solid #34405a">Strength</th></tr>
+      <tr><td style="padding:4px 10px"><code>h1</code></td><td style="padding:4px 10px">every h1</td><td style="padding:4px 10px">weakest</td></tr>
+      <tr><td style="padding:4px 10px"><code>.card</code></td><td style="padding:4px 10px">every class="card"</td><td style="padding:4px 10px">stronger</td></tr>
+      <tr><td style="padding:4px 10px"><code>#page-title</code></td><td style="padding:4px 10px">the one id="page-title"</td><td style="padding:4px 10px">strongest</td></tr>
+    </table>
+    <p>Say after N 2: "Two rules set the h1 colour. <b>ID &gt; class &gt; element</b>, so red wins, even though the blue rule is still there."</p>
+  </aside>
+</section>
+
+<section class="slide" data-seg="CSS" data-at="34">
+  <h2>Every element is a box</h2>
+  <div class="cols">
+    <div class="boxm"><div class="m">margin: outside, see-through<div class="b"><div class="p">padding: inside, takes the background<div class="c">content</div></div></div></div></div>
+    <ul>
+      <li><b>content</b>: the text or image</li>
+      <li><b>padding</b>: space inside the border</li>
+      <li><b>border</b>: the line around it</li>
+      <li><b>margin</b>: space between boxes</li>
+    </ul>
+  </div>
+  <p class="bottomline">DevTools → hover an element → you see these four layers.</p>
+  <aside class="notes">
+    <p>Say: "Inside out: content, padding, border, margin."</p>
+    <p>Show DevTools on the live page (↗ pop out → right-click → Inspect) if time allows.</p>
+  </aside>
+</section>
+
+<section class="slide code" data-seg="Code along: box + responsive" data-at="35">
+  <h2>Box model and one responsive rule <span class="say">styles.css</span></h2>
+  <div class="livepad" data-lesson="html-css" data-start="f6s2" data-steps="f7s1 f7s2 f7s3" data-files="styles.css index.html"></div>
+  <aside class="notes">
+    <p><b>** CODE ALONG, about 3 minutes. **</b></p>
+<!-- steps:html-css:f7 -->
+<table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>padding: 16px;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">The box model, from the inside out: content, padding, border, margin. Open DevTools and hover a card to see the layers.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>* {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">One fix almost every site uses: width includes padding and border. * means every element.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>@media (max-width: 600px) {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A media query: these rules only apply on screens 600px wide or less. Pop out the app and make the window narrow: the links stack.</td></tr>
+</table>
+<!-- /steps -->
+    <ul>
+      <li>After N 3: press <b>↗</b>, make the window narrow: the menu links stack.</li>
+      <li>Responsive design = flexible layouts, relative units, <b>media queries</b>. Tailwind (a future lecture) uses media queries for you.</li>
+      <li>The viewport <code>&lt;meta&gt;</code> from feature 1 is what makes this work on a real phone.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ============ WRAP (38–40) ============ -->
+<section class="slide" data-seg="Wrap up" data-at="38">
+  <h2>Habits, and where to look later</h2>
+  <div class="cols">
+    <div class="card blue"><h3>HTML</h3><p>Semantic tags · alt on every image · a label for every input · check it at <b>validator.w3.org</b></p></div>
+    <div class="card green"><h3>CSS</h3><p>External file · no inline styles · class names that say the role (<code>card</code>, not <code>yellow-box</code>)</p></div>
+  </div>
+  <p class="small" style="margin-top:22px"><b>Code Explorer</b> (class site): the page after every feature, click any line for its story · <b>MDN</b>: the reference for every tag and property</p>
+  <p class="bottomline">HTML defines what exists. CSS defines how it looks.</p>
+  <aside class="notes">
+    <p>Say: "You don't memorize tags. You look them up on MDN, every day."</p>
+    <p>Standards: HTML is the WHATWG living standard; CSS is the W3C. (<b>Different from the curriculum</b> until merged: it said both are W3C.)</p>
+  </aside>
+</section>
+
+<section class="slide" data-seg="Wrap up" data-at="39">
   <h2>Homework, Part I</h2>
-  <ol style="list-style:none;padding-left:0" class="small">
-    <li><b>Priority 1, …:</b> …</li>
-    <li><b>Priority 2, …:</b> …</li>
+  <ol class="steps small">
+    <li><b>To-Do List I</b></li>
+    <li><b>To-Do List II</b></li>
+    <li><b>Top Ten</b></li>
+    <li><b>Portfolio Website (Start)</b>: About Me + Projects (links to GitHub projects) + any other sections</li>
   </ol>
-  <aside class="notes"><p>Full steps are on the class site.</p></aside>
+  <p class="bottomline">Top to bottom: they get harder as you go. Links are on the class site.</p>
+  <aside class="notes">
+    <p>Curriculum: "Assignments should be completed from top to bottom as they will raise in difficulty the lower in the stack."</p>
+    <p>Portfolio: "This does not need to be completed today, but it's important to begin." Today's Trainer profile is a good starting shape.</p>
+  </aside>
 </section>
 
 </div>
 <script src="../shared/deck.js?v=1"></script>
+<script src="../shared/course.js?v=1"></script>
+<script src="../shared/course/html-css.js?v=1"></script>
+<script src="../shared/livepad.js?v=1"></script>
 </body>
 </html>

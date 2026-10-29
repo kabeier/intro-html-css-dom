@@ -104,7 +104,7 @@
     el.classList.add('livepad')
     el.innerHTML = `<div class="lp-bar"><div class="lp-tabs">${pad.tabs.map((f) => `<button type="button" class="lp-tab" data-file="${esc(f)}">${esc(f)}</button>`).join('')}</div>` +
       `<span class="lp-status"></span><button type="button" class="lp-btn lp-app" title="Show the live app (A)">A · App</button>` +
-      `<button type="button" class="lp-btn lp-pop" title="Open the live app in its own window">⧉ Pop out</button></div><div class="lp-body"><div class="lp-editor"></div><div class="lp-preview"><iframe title="Live app"></iframe></div></div>`
+      `<button type="button" class="lp-btn lp-pop" title="Open the live app in its own window">↗ Pop out</button></div><div class="lp-body"><div class="lp-editor"></div><div class="lp-preview"><iframe title="Live app"></iframe></div></div>`
     const statusEl = el.querySelector('.lp-status')
     const host = el.querySelector('.lp-editor')
     pad.iframe = el.querySelector('iframe')
@@ -203,11 +203,11 @@
 
   const active = () => pads.find((p) => p.el.closest('.slide.active')) || pads.find((p) => !p.el.closest('.slide'))
 
-  // ---------- Split (A) and pop-out window (⧉) ----------
+  // ---------- Split (A) and pop-out window (↗) ----------
   function paint(pad) {
     pad.el.classList.toggle('split', splitOpen && !popOpen)
     pad.el.querySelector('.lp-app').classList.toggle('on', splitOpen && !popOpen)
-    pad.el.querySelector('.lp-pop').textContent = popOpen ? '⧉ open' : '⧉ Pop out'
+    pad.el.querySelector('.lp-pop').textContent = popOpen ? '↗ open' : '↗ Pop out'
   }
   const paintAll = () => pads.forEach(paint)
   function toggleSplit() {

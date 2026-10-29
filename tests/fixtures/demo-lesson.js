@@ -3,7 +3,7 @@ Course.register({
   id: 'demo',
   title: 'Demo',
   files: {
-    'index.html': '<!DOCTYPE html>\n<html>\n<head>\n  <link rel="stylesheet" href="styles.css">\n</head>\n<body>\n  <h1>Hello</h1>\n</body>\n</html>',
+    'index.html': '<!DOCTYPE html>\n<html>\n<head>\n  <title>Demo page</title>\n  <link rel="stylesheet" href="styles.css">\n</head>\n<body>\n  <h1>Hello</h1>\n</body>\n</html>',
     'styles.css': '',
   },
   features: [

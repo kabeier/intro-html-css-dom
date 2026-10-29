@@ -78,6 +78,14 @@ test('Pop out opens a synced window; the split closes while it is open', async (
   await context.close()
 })
 
+test('the pop-out window title is the page <title>, like a browser tab', async () => {
+  const { context, page } = await open()
+  const [popup] = await Promise.all([context.waitForEvent('page'), page.click('.slide.active .lp-pop')])
+  await popup.waitForLoadState()
+  await until(popup, () => document.title === 'Demo page')
+  await context.close()
+})
+
 test('reloading the deck re-syncs the open pop-out; closing it reopens nothing', async () => {
   const { context, page } = await open()
   const [popup] = await Promise.all([context.waitForEvent('page'), page.click('.slide.active .lp-pop')])

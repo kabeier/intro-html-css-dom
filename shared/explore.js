@@ -64,7 +64,7 @@
         <div class="ex-tools">
           <button type="button" class="ex-before${showBefore ? ' on' : ''}">Before</button>
           <button type="button" class="ex-after${showBefore ? '' : ' on'}">After</button>
-          <button type="button" class="ex-pop">⧉ Pop out the app</button>
+          <button type="button" class="ex-pop">↗ Pop out the app</button>
           <button type="button" class="ex-download">⬇ Download the code at this feature</button>
         </div>
         <div class="ex-preview"><iframe title="The app ${showBefore ? 'before' : 'after'} this feature"></iframe></div>

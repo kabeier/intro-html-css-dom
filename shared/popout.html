@@ -31,6 +31,12 @@
     title.textContent = 'Live app' + (d.slide ? ' · slide ' + d.slide : '')
     if (d.doc !== last) { last = d.doc; frame.srcdoc = d.doc }
   }
+  // The window title follows the page's <title>, like a real browser tab.
+  frame.addEventListener('load', () => {
+    let t = ''
+    try { t = frame.contentDocument.title } catch {}
+    document.title = t || 'Live app'
+  })
   channel.postMessage({ type: 'hello' })
   const save = () => {
     try { localStorage.setItem('livepad-popout-geom', JSON.stringify({ w: outerWidth, h: outerHeight, x: screenX, y: screenY })) } catch {}
