@@ -104,8 +104,17 @@
     if (!line) return empty
     const steps = allSteps(lesson)
     const own = steps.find((s) => s.id === line.stepId)
-    const base = { stepId: line.stepId, featureId: own ? own.featureId : null }
-    if (line.text.trim() === '' || !own) return { note: null, ...base }
+    const base = { stepId: line.stepId, featureId: own ? own.featureId : null, lessonId: lesson.id }
+    if (line.text.trim() === '') return { note: null, ...base }
+    if (!own) {
+      // A line this lesson started with: ask the lesson it was built on.
+      const from = lesson.base && get(lesson.base.lesson)
+      if (!from) return { note: null, ...base }
+      const f = from.features.find((x) => x.id === lesson.base.feature)
+      const k = (checkpoint(from, f.id)[file] || '').split('\n').indexOf(line.text)
+      if (k < 0) return { note: null, ...base }
+      return { ...noteFor(from, f.steps[f.steps.length - 1].id, file, k + 1), lessonId: from.id }
+    }
     const hit = (own.notes || []).find((n) => line.text.includes(n.match))
     if (hit) return { note: hit, ...base }
     // A closing tag: show the note of the element it closes (same step first, then earlier steps).
@@ -123,7 +132,7 @@
     const upto = steps.slice(0, steps.findIndex((s) => s.id === stepId) + 1).reverse()
     for (const s of upto) {
       const n = (s.notes || []).find((x) => line.text.includes(x.match))
-      if (n) return { note: n, stepId: s.id, featureId: s.featureId }
+      if (n) return { note: n, stepId: s.id, featureId: s.featureId, lessonId: lesson.id }
     }
     return { note: null, ...base }
   }

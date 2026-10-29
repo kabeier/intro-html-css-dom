@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Trainer Profile</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1 id="page-title">Trainer Profile</h1>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#team">Team</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <p id="card-count"></p>
+  </header>
+  <main>
+    <section id="about" class="card">
+      <h2>About me</h2>
+      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="Pikachu">
+      <p>I am learning to build web pages, <strong>one tag at a time</strong>.</p>
+    </section>
+    <section id="team" class="card">
+      <h2>My team</h2>
+      <ol>
+        <li>Pikachu</li>
+        <li>Bulbasaur</li>
+        <li>Charmander</li>
+      </ol>
+      <label for="new-pokemon">New Pokémon</label>
+      <input type="text" id="new-pokemon" name="new-pokemon">
+      <button id="add-pokemon" type="button">Add to team</button>
+      <table>
+        <thead>
+          <tr><th>Pokémon</th><th>Type</th><th>Level</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Pikachu</td><td>Electric</td><td>12</td></tr>
+          <tr><td>Bulbasaur</td><td>Grass</td><td>9</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section id="contact" class="card">
+      <h2>Battle request</h2>
+      <form>
+        <label for="trainer">Your name</label>
+        <input type="text" id="trainer" name="trainer">
+        <label for="favorite">Favorite type</label>
+        <select id="favorite" name="favorite">
+          <option>Fire</option>
+          <option>Water</option>
+        </select>
+        <label for="message">Message</label>
+        <textarea id="message" name="message"></textarea>
+        <button type="submit">Send</button>
+      </form>
+      <p id="output"></p>
+    </section>
+  </main>
+  <footer>
+    <p>Made with HTML and CSS</p>
+  </footer>
+</body>
+</html>

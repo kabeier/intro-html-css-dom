@@ -177,3 +177,15 @@ test('replace refuses when find appears more than once', () => {
   assert.throws(() => Course.applyStep('a b a', { id: 'd', mode: 'replace', find: 'a', code: 'z' }),
     (e) => e instanceof Course.StepMismatch && /more than once/.test(e.message))
 })
+
+test('a lesson built on another lesson tells the stories of the inherited lines', () => {
+  const base = Course.register({ id: 'base1', title: 'Base', files: { 'i.html': '' }, features: [
+    { id: 'f1', title: 'Heading', why: 'w', steps: [{ id: 'f1s1', file: 'i.html', mode: 'append', code: '<h1>Hi</h1>', notes: [{ match: '<h1>', what: 'a heading', why: 'w' }] }] }] })
+  const next = Course.register({ id: 'next1', title: 'Next', base: { lesson: 'base1', feature: 'f1' },
+    files: { ...Course.checkpoint(base, 'f1'), 'a.js': '' }, features: [
+    { id: 'f1', title: 'Script', why: 'w', steps: [{ id: 'f1s1', file: 'i.html', mode: 'replace', find: '<h1>Hi</h1>', code: '<p>new</p>\n<h1>Hi</h1>' }] }] })
+  const r = Course.noteFor(next, 'f1s1', 'i.html', 2)
+  assert.equal(r.note.what, 'a heading')
+  assert.equal(r.lessonId, 'base1')
+  assert.equal(r.featureId, 'f1')
+})
