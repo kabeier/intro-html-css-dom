@@ -14,7 +14,8 @@
     doc.querySelector('#trainer').value = 'Sam'
     doc.querySelector('#favorite').value = 'Water'
     doc.querySelector('form').requestSubmit()
-    await ctx.wait(700)
+    await ctx.wait(150)
+    await ctx.settled()
     return text(ctx.doc(), '#output') || ''
   }
   const problems = [
@@ -30,7 +31,7 @@
       id: 'idtypo', title: 'The title stays the same', base: 'f6',
       symptom: 'The heading still says "Trainer Profile", and nothing else works either. The console says: Cannot set properties of null (setting \'textContent\').',
       breaks: [{ file: 'script.js', mode: 'replace', find: 'getElementById("page-title")', code: 'getElementById("page-titel")' }],
-      checks: [{ name: 'the title changes', run: (doc) => text(doc, '#page-title') === 'Trainer Profile (with JavaScript)' }],
+      checks: [{ name: 'the title changes', run: (doc) => text(doc, 'h1') === 'Trainer Profile (with JavaScript)' }],
       hint: 'Compare the id in the HTML with the string in getElementById, letter by letter.',
       why: 'getElementById returns null when no element has that id. The next line then crashes, and the rest of the script never runs.',
     },
@@ -93,6 +94,14 @@
         li.click()
         await ctx.wait(30)
         return !li.isConnected && card.classList.contains('picked') === before
+      } },
+      { name: 'clicking the card itself still toggles its outline', run: async (doc, win, ctx) => {
+        const card = doc.querySelector('#team'), h2 = doc.querySelector('#team h2')
+        if (!card || !h2) return false
+        const before = card.classList.contains('picked')
+        h2.click()
+        await ctx.wait(30)
+        return card.classList.contains('picked') !== before
       } }],
       hint: 'The click starts on the <li> and travels up through its parents. Which method stops it?',
       why: 'Events bubble up to every parent. evt.stopPropagation() in the list handler keeps the click from reaching #team.',

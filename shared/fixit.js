@@ -67,8 +67,10 @@
   checker.setAttribute('aria-hidden', 'true')
   document.body.append(checker)
   // A form submit nobody prevented reloads the checked page too, like a real browser.
+  let reloading = null
   addEventListener('message', (e) => {
     if (e.source === checker.contentWindow && e.data && e.data.type === 'livepad-reload') {
+      reloading = new Promise((r) => { checker.onload = () => { reloading = null; r() } })
       const d = checker.srcdoc; checker.removeAttribute('srcdoc'); checker.srcdoc = d
     }
   })
@@ -79,7 +81,13 @@
       new Promise((r) => setTimeout(r, 5000)),
     ])
   }
+  let checking = false
   async function check() {
+    if (checking) return
+    checking = true
+    try { await runChecks() } finally { checking = false }
+  }
+  async function runChecks() {
     const p = current
     const out = mainEl.querySelector('.fx-result')
     out.className = 'fx-result'
@@ -88,7 +96,8 @@
     await new Promise((resolve) => { checker.onload = resolve; checker.srcdoc = html })
     const doc = checker.contentDocument, win = checker.contentWindow
     await settle(doc)
-    const ctx = { wait: (ms) => new Promise((r) => setTimeout(r, ms)), doc: () => checker.contentDocument }
+    const ctx = { wait: (ms) => new Promise((r) => setTimeout(r, ms)), doc: () => checker.contentDocument,
+      settled: async () => { if (reloading) { await reloading; await settle(checker.contentDocument) } } }
     const results = []
     for (const c of p.checks) {
       let ok = false

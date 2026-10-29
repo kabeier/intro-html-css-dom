@@ -125,9 +125,8 @@ test('buildDoc inlines linked css and scripts and adds the error reporter', () =
 })
 
 test('buildDoc keeps defer meaning: a deferred script runs after the page is parsed', () => {
-  const doc = Course.buildDoc({ 'index.html': '<head><script src="script.js" defer></script></head><body></body>', 'script.js': 'go()' })
-  assert.match(doc, /DOMContentLoaded/)
-  assert.match(doc, /go\(\)/)
+  const doc = Course.buildDoc({ 'index.html': '<head><script src="script.js" defer></script></head><body><p>x</p></body>', 'script.js': 'go()' })
+  assert.match(doc, /<p>x<\/p><script>go\(\)<\/script><\/body>/)
 })
 
 test('buildDoc also inlines ./styles.css', () => {
@@ -188,4 +187,15 @@ test('a lesson built on another lesson tells the stories of the inherited lines'
   assert.equal(r.note.what, 'a heading')
   assert.equal(r.lessonId, 'base1')
   assert.equal(r.featureId, 'f1')
+})
+
+test('inherited lines point at their real step in the base lesson, even when the text repeats', async () => {
+  globalThis.Course = Course
+  await import('../shared/course/html-css.js')
+  await import('../shared/course/js-dom.js')
+  const js = Course.get('js-dom')
+  const lines = Course.checkpoint(js, 'f6')['index.html'].split('\n')
+  const idx = lines.map((l, k) => [l, k]).filter(([l]) => l === '    </section>').map(([, k]) => k + 1)
+  const r = idx.map((n) => Course.noteFor(js, 'f6s4', 'index.html', n))
+  assert.deepEqual(r.map((x) => [x.lessonId, x.stepId]), [['html-css', 'f2s3'], ['html-css', 'f3s1'], ['html-css', 'f4s1']])
 })

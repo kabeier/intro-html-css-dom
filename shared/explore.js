@@ -74,6 +74,7 @@
           <button type="button" class="ex-download">⬇ Download the code at this feature</button>
         </div>
         <div class="ex-preview"><iframe title="The app ${showBefore ? 'before' : 'after'} this feature"></iframe></div>
+        <div class="ex-console" hidden><p class="ex-console-head">Console</p><div class="ex-console-lines"></div></div>
       </section>
       <section class="ex-card ex-changes">
         <h3>What changed, step by step</h3>
@@ -162,11 +163,22 @@
     if (popWin && !popWin.closed) return popWin.focus()
     popWin = window.open('shared/popout.html', 'livepad-popout', 'popup=yes,width=900,height=800')
   }
-  // A form submit nobody prevented: reload the preview, like a real browser.
+  // Messages from the preview: console lines, and a form submit nobody prevented (reload, like a real browser).
   addEventListener('message', (e) => {
     const f = document.querySelector('.ex-preview iframe')
-    if (f && e.source === f.contentWindow && e.data && e.data.type === 'livepad-reload') { const d = f.srcdoc; f.removeAttribute('srcdoc'); f.srcdoc = d }
+    if (!f || e.source !== f.contentWindow || !e.data) return
+    if (e.data.type === 'livepad-reload') { clearConsole(); const d = f.srcdoc; f.removeAttribute('srcdoc'); f.srcdoc = d }
+    if (e.data.type === 'livepad-console') {
+      const box = document.querySelector('.ex-console'), lines = document.querySelector('.ex-console-lines')
+      if (!box || lines.childElementCount >= 200) return
+      box.hidden = false
+      const row = document.createElement('div')
+      row.className = 'ex-log' + (e.data.level === 'error' ? ' err' : '')
+      row.textContent = e.data.text
+      lines.append(row)
+    }
   })
+  const clearConsole = () => { const l = document.querySelector('.ex-console-lines'); if (l) l.textContent = '' }
   // Answer the pop-out only while this tab is the one being used.
   channel.onmessage = (e) => { if (e.data && e.data.type === 'hello' && document.hasFocus()) send() }
   addEventListener('focus', send)

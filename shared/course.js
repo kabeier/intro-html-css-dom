@@ -60,14 +60,14 @@
       while (trail < oldBlock.length - lead && trail < newBlock.length - lead &&
         oldBlock[oldBlock.length - 1 - trail].text === newBlock[newBlock.length - 1 - trail]) trail++
       return nextLines.map((t, i) => {
-        if (i < first) return { text: t, stepId: lines[i].stepId }
+        if (i < first) return { ...lines[i], text: t }
         if (i <= newLast) {
           const k = i - first
-          if (k < lead) return { text: t, stepId: oldBlock[k].stepId }
-          if (k >= newBlock.length - trail) return { text: t, stepId: oldBlock[oldBlock.length - (newBlock.length - k)].stepId }
+          if (k < lead) return { ...oldBlock[k], text: t }
+          if (k >= newBlock.length - trail) return { ...oldBlock[oldBlock.length - (newBlock.length - k)], text: t }
           return { text: t, stepId: id }
         }
-        return { text: t, stepId: lines[i - newLast + last].stepId }
+        return { ...lines[i - newLast + last], text: t }
       })
     }
     throw new Error(`Unknown step mode: ${step.mode}`)
@@ -80,6 +80,15 @@
   function linesAt(lesson, stepId) {
     const files = {}
     for (const [name, text] of Object.entries(lesson.files)) files[name] = tagged(text, null)
+    // Built on another lesson: remember where each starting line sits in that lesson.
+    const from = lesson.base && get(lesson.base.lesson)
+    if (from) {
+      const f = from.features.find((x) => x.id === lesson.base.feature)
+      const baseFiles = checkpoint(from, f.id)
+      for (const name of Object.keys(files)) {
+        if (baseFiles[name] === lesson.files[name]) files[name] = files[name].map((l, k) => ({ ...l, baseLine: k + 1 }))
+      }
+    }
     if (stepId == null) return files
     const steps = allSteps(lesson)
     const stop = steps.findIndex((s) => s.id === stepId)
@@ -112,9 +121,8 @@
       const from = lesson.base && get(lesson.base.lesson)
       if (!from) return { note: null, ...base }
       const f = from.features.find((x) => x.id === lesson.base.feature)
-      const k = (checkpoint(from, f.id)[file] || '').split('\n').indexOf(line.text)
-      if (k < 0) return { note: null, ...base }
-      return { ...noteFor(from, f.steps[f.steps.length - 1].id, file, k + 1), lessonId: from.id }
+      if (!line.baseLine) return { note: null, ...base }
+      return { ...noteFor(from, f.steps[f.steps.length - 1].id, file, line.baseLine), lessonId: from.id }
     }
     const hit = (own.notes || []).find((n) => line.text.includes(n.match))
     if (hit) return { note: hit, ...base }
@@ -147,26 +155,47 @@
       try { parent.postMessage(d, '*') } catch (e) {}
       try { if (opener) opener.postMessage(d, '*') } catch (e) {}
     }
+    var nameOf = function (v) { try { return (v.constructor && v.constructor.name) || '' } catch (e) { return '' } }
+    var has = function (k) { return typeof window[k] !== 'undefined' }
     var fmt = function (v, d) {
       d = d || 0
       if (typeof v === 'string') return d ? "'" + v + "'" : v
       if (v === null || (typeof v !== 'object' && typeof v !== 'function')) return String(v)
       if (typeof v === 'function') return '[Function: ' + (v.name || '(anonymous)') + ']'
-      if (typeof Element !== 'undefined' && v instanceof Element) {
+      if (v === window) return '[Window]'
+      if (has('Element') && v instanceof Element) {
         return '<' + v.tagName.toLowerCase() + (v.id ? ' id="' + v.id + '"' : '') + (v.className && typeof v.className === 'string' ? ' class="' + v.className + '"' : '') + '>'
       }
+      if (has('Node') && v instanceof Node) {
+        if (v.nodeType === 3) return '#text ' + JSON.stringify(v.textContent)
+        if (v.nodeType === 9) return '#document'
+        return v.nodeName
+      }
       if (v instanceof Error) return v.name + ': ' + v.message
+      if (v instanceof Date) return isNaN(v) ? 'Invalid Date' : v.toISOString()
+      if (has('Event') && v instanceof Event) return nameOf(v) + " { type: '" + v.type + "', target: " + fmt(v.target, d + 1) + ' }'
       if (d > 2) return Array.isArray(v) ? '[Array]' : '[Object]'
       var list = function (xs) { return [].map.call(xs, function (x) { return fmt(x, d + 1) }).join(', ') }
+      var pairs = function (it) { var out = []; it.forEach(function (x, k) { out.push(fmt(k, d + 1) + ' => ' + fmt(x, d + 1)) }); return out.join(', ') }
       if (Array.isArray(v)) return v.length ? '[ ' + list(v) + ' ]' : '[]'
-      if (typeof NodeList !== 'undefined' && (v instanceof NodeList || v instanceof HTMLCollection)) return v.constructor.name + '(' + v.length + ') [ ' + list(v) + ' ]'
+      if (v instanceof Map) return 'Map(' + v.size + ') { ' + pairs(v) + ' }'
+      if (v instanceof Set) return 'Set(' + v.size + ') { ' + list(Array.from(v)) + ' }'
+      if (has('FormData') && v instanceof FormData) {
+        var e = []; v.forEach(function (x, k) { e.push(k + ': ' + fmt(x, d + 1)) }); return 'FormData { ' + e.join(', ') + ' }'
+      }
+      if ((has('NodeList') && v instanceof NodeList) || (has('HTMLCollection') && v instanceof HTMLCollection) || (has('DOMTokenList') && v instanceof DOMTokenList)) {
+        return nameOf(v) + '(' + v.length + ') [ ' + list(v) + ' ]'
+      }
       var keys = Object.keys(v)
-      return keys.length ? '{ ' + keys.map(function (k) { return k + ': ' + fmt(v[k], d + 1) }).join(', ') + ' }' : '{}'
+      var cn = nameOf(v)
+      var pre = cn && cn !== 'Object' ? cn + ' ' : ''
+      return keys.length ? pre + '{ ' + keys.map(function (k) { return k + ': ' + fmt(v[k], d + 1) }).join(', ') + ' }' : pre + '{}'
     }
+    var safe = function (a) { try { return fmt(a) } catch (e) { return '[unprintable]' } }
     ;['log', 'info', 'warn', 'error'].forEach(function (k) {
       var orig = console[k]
       console[k] = function () {
-        post({ type: 'livepad-console', level: k, text: [].map.call(arguments, function (a) { return fmt(a) }).join(' ') })
+        try { post({ type: 'livepad-console', level: k, text: [].map.call(arguments, safe).join(' ') }) } catch (e) {}
         return orig.apply(console, arguments)
       }
     })
@@ -182,11 +211,17 @@
       if (h.charAt(0) === '#') { var t = document.getElementById(h.slice(1)); if (t) t.scrollIntoView() }
       else if (/^https?:/.test(h)) window.open(h, '_blank', 'noopener')
     }, true)
+    // Always stop the real navigation (it would load the site into the preview), and
+    // after every listener has run, reload only if the page itself never called preventDefault().
+    var realPrevent = Event.prototype.preventDefault
+    Event.prototype.preventDefault = function () {
+      try { this.__livepadPrevented = true } catch (e) {}
+      return realPrevent.call(this)
+    }
     window.addEventListener('submit', function (e) {
-      if (e.defaultPrevented) return
-      e.preventDefault()
-      post({ type: 'livepad-reload' })
-    })
+      realPrevent.call(e)
+      setTimeout(function () { if (!e.__livepadPrevented) post({ type: 'livepad-reload' }) }, 0)
+    }, true)
   }
   const REPORTER = '<script>(' + previewAgent.toString() + ')()</script>'
 
@@ -200,13 +235,18 @@
       const css = m && local(m[1])
       return css == null ? tag : `<style>${css}</style>`
     })
+    // defer / module scripts run after the page is parsed, before DOMContentLoaded:
+    // the same order as inline scripts placed at the very end of <body>.
+    const later = []
     doc = doc.replace(/<script\b([^>]*)\bsrc\s*=\s*["']([^"']+)["']([^>]*)>\s*<\/script>/gi, (tag, a, src, b) => {
       const js = local(src)
       if (js == null) return tag
       const attrs = a + b
-      if (/\b(defer|type\s*=\s*["']?module)/i.test(attrs)) return `<script>document.addEventListener("DOMContentLoaded",function(){\n${js}\n})</script>`
+      if (/\btype\s*=\s*["']?module/i.test(attrs)) { later.push(`<script type="module">${js}</script>`); return '' }
+      if (/\bdefer\b/i.test(attrs)) { later.push(`<script>${js}</script>`); return '' }
       return `<script>${js}</script>`
     })
+    if (later.length) doc = /<\/body>/i.test(doc) ? doc.replace(/<\/body>/i, later.join('') + '</body>') : doc + later.join('')
     return /<head[^>]*>/i.test(doc) ? doc.replace(/<head[^>]*>/i, (h) => h + REPORTER) : REPORTER + doc
   }
 

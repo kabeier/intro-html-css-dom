@@ -129,17 +129,33 @@
     pad.setStatus = (s, bad) => { pad.status = s; statusEl.textContent = s; statusEl.classList.toggle('bad', !!bad) }
     const consoleEl = el.querySelector('.lp-console')
     const linesEl = el.querySelector('.lp-console-lines')
-    pad.log = (level, text) => {
+    // Lines are queued and drawn once per frame, so a loop that logs 20,000 times can't freeze the deck.
+    const KEEP = 200
+    let queue = [], total = 0, drawing = false
+    const draw = () => {
+      drawing = false
+      const rows = queue.slice(-KEEP)
+      queue = []
+      const frag = document.createDocumentFragment()
+      for (const [level, text] of rows) {
+        const row = document.createElement('div')
+        row.className = 'lp-log' + (level === 'error' ? ' err' : level === 'warn' ? ' warn' : '')
+        row.textContent = text
+        frag.append(row)
+      }
+      linesEl.append(frag)
+      while (linesEl.childElementCount > KEEP) linesEl.firstChild.remove()
       consoleEl.hidden = false
-      const row = document.createElement('div')
-      row.className = 'lp-log' + (level === 'error' ? ' err' : level === 'warn' ? ' warn' : '')
-      row.textContent = text
-      linesEl.append(row)
-      if (linesEl.children.length > 200) linesEl.firstChild.remove()
+      consoleEl.querySelector('.lp-console-head').textContent = 'Console (' + total + ')'
       linesEl.scrollTop = linesEl.scrollHeight
-      consoleEl.querySelector('.lp-console-head').textContent = 'Console (' + linesEl.children.length + ')'
     }
-    pad.clearLog = () => { linesEl.textContent = ''; consoleEl.hidden = true }
+    pad.log = (level, text) => {
+      total++
+      queue.push([level, text])
+      if (queue.length > KEEP) queue.shift()
+      if (!drawing) { drawing = true; requestAnimationFrame(draw) }
+    }
+    pad.clearLog = () => { linesEl.textContent = ''; queue = []; total = 0; consoleEl.hidden = true }
     pad.refresh = () => {
       pad.err = null
       pad.clearLog()

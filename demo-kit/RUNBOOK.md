@@ -87,3 +87,4 @@ Things to expect:
 - **"Cannot set properties of null"**: the element wasn't found (wrong selector, or no `defer`). Fix It 1–3 practise this.
 - **The form reloads in the preview too**: that is on purpose (it behaves like a real page) until `preventDefault()`.
 - **Clicking Add to team toggles the card outline**: the button is inside #team, so its click bubbles there. Good moment to point at bubbling.
+- **An infinite loop freezes the whole deck** (the preview shares the deck's page). If you or a student types `while (true)` into a slide editor: close the tab, reopen the deck, press Shift+N on that slide. Type loops with their condition first.

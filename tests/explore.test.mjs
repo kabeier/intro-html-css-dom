@@ -133,3 +133,11 @@ test('the explorer can switch lessons, and lecture 1 lines in lecture 2 link bac
   assert.ok(await page.$('.ex-story a[href*="lesson=html-css"]'))
   await context.close()
 })
+
+test('the explorer shows the page console too', async () => {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+  const page = await context.newPage()
+  await page.goto(srv.url + '/explore.html?lesson=js-dom&at=f2')
+  await until(page, () => /NodeList\(3\)/.test(document.querySelector('.ex-console')?.textContent || ''))
+  await context.close()
+})

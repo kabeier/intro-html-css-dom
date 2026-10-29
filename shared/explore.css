@@ -60,3 +60,9 @@ code, pre { font-family: 'JetBrains Mono', ui-monospace, monospace; }
 .ex-lesson { font-weight: 700; color: var(--blue); text-decoration: none; border-left: 4px solid transparent; padding-left: 8px; }
 .ex-lesson.on { border-left-color: var(--ink); color: var(--ink); }
 @media (max-width: 1100px) { .ex-lessons { flex-direction: row; flex-wrap: wrap; width: 100%; } }
+.ex-console { background: #1f1f1f; color: #d4d4d4; border-radius: 4px; margin-top: 8px; max-height: 160px; overflow: auto; font: 14px/1.45 'JetBrains Mono', ui-monospace, monospace; }
+.ex-console[hidden] { display: none; }
+.ex-console-head { margin: 0; padding: 4px 12px; color: #9d9d9d; font: 600 14px system-ui, sans-serif; border-bottom: 1px solid #2b2b2b; }
+.ex-console-lines { padding: 4px 12px; }
+.ex-log { white-space: pre-wrap; border-bottom: 1px solid #2b2b2b; }
+.ex-log.err { color: #ff7b72; }

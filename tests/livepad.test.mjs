@@ -207,3 +207,72 @@ test('with preventDefault the page does not reload', async () => {
   assert.equal(await (await previewFrame(page)).inputValue('#t'), 'abc')
   await page.close()
 })
+
+const setFiles = (page, files) => page.evaluate((f) => {
+  const pad = window.Livepad.pads.find((p) => p.el.closest('.slide.active'))
+  pad.setFiles({ ...pad.files, ...f })
+}, files)
+const inPreview = (page, fn) => page.evaluate((src) => {
+  const f = document.querySelector('.slide.active .livepad iframe')
+  return new Function('doc', 'return (' + src + ')(doc)')(f.contentDocument)
+}, fn.toString())
+
+test('a deferred script that waits for DOMContentLoaded still runs', async () => {
+  const page = await openSlide2()
+  await setFiles(page, { 'index.html': '<head><script src="a.js" defer></script></head><body><h1 id="x"></h1></body>',
+    'a.js': 'document.addEventListener("DOMContentLoaded", () => { document.getElementById("x").textContent = "ok" })' })
+  await until(page, () => document.querySelector('.slide.active .livepad iframe').contentDocument.querySelector('#x')?.textContent === 'ok')
+  await page.close()
+})
+
+test('console shows events, dates, sets, text nodes and classList usefully', async () => {
+  const page = await openSlide2()
+  await setFiles(page, { 'index.html': '<body><p class="a b" id="p">hi</p><script>' +
+    'const p = document.getElementById("p");' +
+    'console.log(new MouseEvent("click"));' +
+    'console.log(new Date(0));' +
+    'console.log(new Set([1, 2]));' +
+    'console.log(p.firstChild);' +
+    'console.log(p.classList)</script></body>' })
+  await until(page, () => (document.querySelector('.slide.active .lp-console')?.textContent || '').includes('DOMTokenList'))
+  const t = await consoleText(page)
+  assert.match(t, /MouseEvent \{ type: 'click'/)
+  assert.match(t, /1970-01-01T00:00:00\.000Z/)
+  assert.match(t, /Set\(2\) \{ 1, 2 \}/)
+  assert.match(t, /#text "hi"/)
+  assert.match(t, /DOMTokenList\(2\) \[ 'a', 'b' \]/)
+  await page.close()
+})
+
+test('console.log never throws into the page', async () => {
+  const page = await openSlide2()
+  await setFiles(page, { 'index.html': '<body><script>console.log({ get x() { throw new Error("boom") } }); document.body.dataset.after = "yes"</script></body>' })
+  await until(page, () => document.querySelector('.slide.active .livepad iframe').contentDocument.body?.dataset.after === 'yes')
+  await page.close()
+})
+
+test('20,000 logs do not freeze the deck', async () => {
+  const page = await openSlide2()
+  const t0 = Date.now()
+  await setFiles(page, { 'index.html': '<body><script>for (let i = 0; i < 20000; i++) console.log("line", i)</script></body>' })
+  await until(page, () => /Console \(20000\)/.test(document.querySelector('.slide.active .lp-console-head')?.textContent || ''), null, 8000)
+  assert.ok(Date.now() - t0 < 3000, 'took ' + (Date.now() - t0) + ' ms')
+  assert.ok(await page.evaluate(() => document.querySelectorAll('.slide.active .lp-log').length) <= 200)
+  await page.close()
+})
+
+test('stopPropagation in a submit handler, or preventDefault on window, still means no reload', async () => {
+  for (const js of ['document.querySelector("form").addEventListener("submit", (e) => { e.stopPropagation(); e.preventDefault() })',
+    'window.addEventListener("submit", (e) => e.preventDefault())']) {
+    const page = await openSlide2()
+    await setPage(page, '<body><form><input id="t"><button>Go</button></form><script>' + js + '</script></body>')
+    await page.keyboard.press('a')
+    await page.waitForTimeout(500)
+    const f = await previewFrame(page)
+    await f.fill('#t', 'abc')
+    await f.click('button')
+    await page.waitForTimeout(800)
+    assert.equal(await (await previewFrame(page)).inputValue('#t'), 'abc', js)
+    await page.close()
+  }
+})
