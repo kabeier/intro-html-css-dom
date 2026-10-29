@@ -11,12 +11,15 @@ const require = createRequire(import.meta.url)
 const Course = require('../shared/course.js')
 globalThis.Course = Course
 await import('../shared/course/html-css.js')
-const lesson = Course.get('html-css')
-const DECK = 'lecture-1-html-css/slides.html'
+await import('../shared/course/js-dom.js')
+
+for (const [DECK, lessonId] of [['lecture-1-html-css/slides.html', 'html-css'], ['lecture-2-js-dom/slides.html', 'js-dom']]) {
+const lesson = Course.get(lessonId)
 const html = readFileSync(path.join(ROOT, DECK), 'utf8')
 const slides = html.split('<section class="slide').slice(1)
+const test2 = (name, fn) => test(DECK + ': ' + name, fn)
 
-test('the deck has 14-17 slides, each with presenter notes and a start minute', () => {
+test2('the deck has 14-17 slides, each with presenter notes and a start minute', () => {
   assert.ok(slides.length >= 14 && slides.length <= 17, 'slides: ' + slides.length)
   let last = -1
   for (const [k, s] of slides.entries()) {
@@ -28,8 +31,8 @@ test('the deck has 14-17 slides, each with presenter notes and a start minute', 
   assert.ok(last <= 40, 'last slide starts by minute 40')
 })
 
-test('every feature is coded along once, starting where the previous one ended', () => {
-  const pads = [...html.matchAll(/<div class="livepad" data-lesson="html-css" data-start="([^"]*)" data-steps="([^"]*)"/g)]
+test2('every feature is coded along once, starting where the previous one ended', () => {
+  const pads = [...html.matchAll(new RegExp('<div class="livepad" data-lesson="' + lessonId + '" data-start="([^"]*)" data-steps="([^"]*)"', 'g'))]
   assert.equal(pads.length, lesson.features.length)
   pads.forEach(([, start, steps], k) => {
     const f = lesson.features[k]
@@ -39,18 +42,20 @@ test('every feature is coded along once, starting where the previous one ended',
   })
 })
 
-test('there is exactly one activity, and it opens the Fix it page', () => {
+test2('there is exactly one activity, and it opens the Fix it page', () => {
   const acts = slides.filter((s) => s.startsWith(' activity'))
   assert.equal(acts.length, 1)
-  assert.match(acts[0], /href="\.\.\/fixit\.html\?lesson=html-css"/)
+  assert.ok(acts[0].includes('href="../fixit.html?lesson=' + lessonId + '"'))
 })
 
-test('the step tables in the notes are generated from the lesson and up to date', () => {
+test2('the step tables in the notes are generated from the lesson and up to date', () => {
   execFileSync('node', [path.join(ROOT, 'tools/gen-notes.mjs'), '--check', DECK], { cwd: ROOT, stdio: 'pipe' })
 })
 
-test('no slide overflows the 1600x900 stage', () => {
+test2('no slide overflows the 1600x900 stage', () => {
   const shots = mkdtempSync(path.join(os.tmpdir(), 'shots-'))
   const out = execFileSync('node', [path.join(os.homedir(), '.claude/skills/cp-slide-and-lecture-builder/scripts/check-slides.mjs'), ROOT, DECK, shots], { encoding: 'utf8' })
   assert.doesNotMatch(out, /OVERFLOW/)
 })
+
+}
