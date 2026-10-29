@@ -26,3 +26,11 @@
 }
 .lp-line { display: inline-block; min-width: 100%; }
 .lp-new, .lp-new-m { background: rgba(80, 160, 80, 0.28); }
+.lp-btn {
+  background: #3a3a3a; color: #eee; border: 1px solid #5a5a5a; border-radius: 6px; padding: 6px 12px;
+  font: 600 15px/1 system-ui, sans-serif; cursor: pointer; white-space: nowrap;
+}
+.lp-btn.on { background: #f0a020; color: #111; border-color: #f0a020; }
+/* A: the live app slides in on the right */
+.livepad.split .lp-body { grid-template-columns: 1.15fr 1fr; }
+.livepad.split .lp-preview { position: static; width: auto; height: auto; border-left: 1px solid #3c3c3c; }

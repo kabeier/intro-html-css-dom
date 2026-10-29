@@ -8,6 +8,10 @@
 // On a page:  Livepad.mount(el, { files, editable: true, onChange(files) })
 (() => {
   const MONACO = 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/'
+  const POPOUT = new URL('popout.html', document.currentScript.src).href
+  const channel = new BroadcastChannel('livepad')
+  let splitOpen = false
+  let popWin = null, popOpen = false
   const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   const langOf = (f) => (f.endsWith('.css') ? 'css' : f.endsWith('.js') ? 'javascript' : f.endsWith('.html') ? 'html' : 'plaintext')
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
@@ -99,7 +103,8 @@
     }
     el.classList.add('livepad')
     el.innerHTML = `<div class="lp-bar"><div class="lp-tabs">${pad.tabs.map((f) => `<button type="button" class="lp-tab" data-file="${esc(f)}">${esc(f)}</button>`).join('')}</div>` +
-      `<span class="lp-status"></span></div><div class="lp-body"><div class="lp-editor"></div><div class="lp-preview"><iframe title="Live app"></iframe></div></div>`
+      `<span class="lp-status"></span><button type="button" class="lp-btn lp-app" title="Show the live app (A)">A · App</button>` +
+      `<button type="button" class="lp-btn lp-pop" title="Open the live app in its own window">⧉ Pop out</button></div><div class="lp-body"><div class="lp-editor"></div><div class="lp-preview"><iframe title="Live app"></iframe></div></div>`
     const statusEl = el.querySelector('.lp-status')
     const host = el.querySelector('.lp-editor')
     pad.iframe = el.querySelector('iframe')
@@ -109,6 +114,7 @@
       pad.err = null
       pad.setStatus('loading…')
       pad.iframe.srcdoc = Course.buildDoc(pad.files)
+      if (pad === active()) broadcast()
     }
     pad.iframe.addEventListener('load', () => {
       if (pad.err) pad.setStatus('✕ ' + pad.err, true)
@@ -174,6 +180,9 @@
     }
 
     el.querySelectorAll('.lp-tab').forEach((b) => (b.onclick = () => pad.showTab(b.dataset.file)))
+    el.querySelector('.lp-app').onclick = (e) => { e.currentTarget.blur(); toggleSplit() }
+    el.querySelector('.lp-pop').onclick = (e) => { e.currentTarget.blur(); popOut() }
+    paint(pad)
     pad.showTab(pad.tab)
     pad.refresh()
     loadMonaco().then((m) => {
@@ -192,16 +201,63 @@
     if (pad) { pad.err = e.data.message; pad.setStatus('✕ ' + e.data.message, true) }
   })
 
-  const active = () => pads.find((p) => p.lesson && p.el.closest('.slide.active')) || pads.find((p) => p.lesson && !p.el.closest('.slide'))
+  const active = () => pads.find((p) => p.el.closest('.slide.active')) || pads.find((p) => !p.el.closest('.slide'))
+
+  // ---------- Split (A) and pop-out window (⧉) ----------
+  function paint(pad) {
+    pad.el.classList.toggle('split', splitOpen && !popOpen)
+    pad.el.querySelector('.lp-app').classList.toggle('on', splitOpen && !popOpen)
+    pad.el.querySelector('.lp-pop').textContent = popOpen ? '⧉ open' : '⧉ Pop out'
+  }
+  const paintAll = () => pads.forEach(paint)
+  function toggleSplit() {
+    if (popOpen) return
+    splitOpen = !splitOpen
+    paintAll()
+  }
+  const slideNo = (pad) => {
+    const s = pad.el.closest('.slide')
+    return s ? [...document.querySelectorAll('.slide')].indexOf(s) + 1 : null
+  }
+  function broadcast() {
+    const pad = active()
+    if (!pad) return
+    channel.postMessage({ type: 'doc', lesson: pad.lesson && pad.lesson.id, slide: slideNo(pad), doc: Course.buildDoc(pad.files) })
+  }
+  const setPop = (open) => { popOpen = open; paintAll() }
+  function readGeom() {
+    try { return JSON.parse(localStorage.getItem('livepad-popout-geom') || 'null') } catch { return null }
+  }
+  function popOut() {
+    if (popWin && !popWin.closed) { popWin.focus(); return }
+    const g = readGeom() || { w: Math.round(screen.availWidth / 2), h: screen.availHeight, x: Math.round(screen.availWidth / 2), y: 0 }
+    popWin = window.open(POPOUT, 'livepad-popout', `popup=yes,width=${g.w},height=${g.h},left=${g.x},top=${g.y}`)
+    if (popWin) setPop(true)
+  }
+  channel.onmessage = (e) => {
+    const t = e.data && e.data.type
+    if (t === 'hello') { setPop(true); broadcast() }
+    else if (t === 'bye') { popWin = null; setPop(false) }
+  }
+  setInterval(() => { if (popWin && popWin.closed) { popWin = null; setPop(false) } }, 1000)
 
   addEventListener('keydown', (e) => {
     if (e.target.closest && e.target.closest('.monaco-editor, input, textarea, select, [contenteditable]')) return
     if (e.ctrlKey || e.metaKey || e.altKey) return
     const pad = active()
     if (!pad) return
-    if (e.key === 'n' && !e.shiftKey) { e.preventDefault(); pad.next() }
-    else if (e.key === 'N' && e.shiftKey) { e.preventDefault(); pad.reset() }
+    if (e.key === 'n' && !e.shiftKey && pad.lesson) { e.preventDefault(); pad.next() }
+    else if (e.key === 'N' && e.shiftKey && pad.lesson) { e.preventDefault(); pad.reset() }
+    else if (e.key === 'a' || e.key === 'A') { e.preventDefault(); toggleSplit() }
   })
+
+  // A slide change sends the new slide's app to the pop-out.
+  let shown = null
+  const slideWatch = new MutationObserver(() => {
+    const s = document.querySelector('.slide.active')
+    if (s !== shown) { shown = s; broadcast() }
+  })
+  document.querySelectorAll('.slide').forEach((s) => slideWatch.observe(s, { attributes: true, attributeFilter: ['class'] }))
 
   function fromMarkup(el) {
     const lesson = Course.get(el.dataset.lesson)
@@ -231,7 +287,8 @@
   }
 
   window.Livepad = { current, mount, pads }
-  const init = () => document.querySelectorAll('.livepad[data-lesson]').forEach(fromMarkup)
+  // A pop-out left open from before a reload answers this with "hello".
+  const init = () => { document.querySelectorAll('.livepad[data-lesson]').forEach(fromMarkup); channel.postMessage({ type: 'ping' }) }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init)
   else init()
 })()
