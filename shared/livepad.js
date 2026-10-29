@@ -120,14 +120,29 @@
     el.classList.add('livepad')
     el.innerHTML = `<div class="lp-bar"><div class="lp-tabs">${pad.tabs.map((f) => `<button type="button" class="lp-tab" data-file="${esc(f)}">${esc(f)}</button>`).join('')}</div>` +
       `<span class="lp-status"></span><button type="button" class="lp-btn lp-app" title="Show the live app (A)">A · App</button>` +
-      `<button type="button" class="lp-btn lp-pop" title="Open the live app in its own window">↗ Pop out</button></div><div class="lp-body"><div class="lp-editor"></div><div class="lp-preview"><iframe title="Live app"></iframe></div></div>`
+      `<button type="button" class="lp-btn lp-pop" title="Open the live app in its own window">↗ Pop out</button></div><div class="lp-body"><div class="lp-editor"></div><div class="lp-preview"><iframe title="Live app"></iframe></div></div>` +
+      `<div class="lp-console" hidden><div class="lp-console-head">Console</div><div class="lp-console-lines"></div></div>`
     const statusEl = el.querySelector('.lp-status')
     const host = el.querySelector('.lp-editor')
     pad.iframe = el.querySelector('iframe')
 
     pad.setStatus = (s, bad) => { pad.status = s; statusEl.textContent = s; statusEl.classList.toggle('bad', !!bad) }
+    const consoleEl = el.querySelector('.lp-console')
+    const linesEl = el.querySelector('.lp-console-lines')
+    pad.log = (level, text) => {
+      consoleEl.hidden = false
+      const row = document.createElement('div')
+      row.className = 'lp-log' + (level === 'error' ? ' err' : level === 'warn' ? ' warn' : '')
+      row.textContent = text
+      linesEl.append(row)
+      if (linesEl.children.length > 200) linesEl.firstChild.remove()
+      linesEl.scrollTop = linesEl.scrollHeight
+      consoleEl.querySelector('.lp-console-head').textContent = 'Console (' + linesEl.children.length + ')'
+    }
+    pad.clearLog = () => { linesEl.textContent = ''; consoleEl.hidden = true }
     pad.refresh = () => {
       pad.err = null
+      pad.clearLog()
       pad.setStatus('loading…')
       pad.iframe.srcdoc = Course.buildDoc(pad.files)
       if (pad === active()) broadcast()
@@ -214,9 +229,13 @@
 
   // Errors reported by a preview (see Course.buildDoc)
   addEventListener('message', (e) => {
-    if (!e.data || e.data.type !== 'livepad-error') return
+    const t = e.data && e.data.type
+    if (!t || !/^livepad-/.test(t)) return
     const pad = pads.find((p) => p.iframe.contentWindow === e.source)
-    if (pad) { pad.err = e.data.message; pad.setStatus('✕ ' + e.data.message, true) }
+    if (!pad) return
+    if (t === 'livepad-error') { pad.err = e.data.message; pad.setStatus('✕ ' + e.data.message, true) }
+    else if (t === 'livepad-console') pad.log(e.data.level, e.data.text)
+    else if (t === 'livepad-reload') pad.refresh() // a form was submitted: the page reloads, like a real browser
   })
 
   const active = () => pads.find((p) => p.el.closest('.slide.active')) || pads.find((p) => !p.el.closest('.slide'))

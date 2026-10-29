@@ -147,3 +147,63 @@ test('typing while N auto-types is ignored, so the step lands cleanly', async ()
   assert.deepEqual(s.files, Course.filesAt(lesson, 'f2s1'))
   await page.close()
 })
+
+const setPage = (page, html) => page.evaluate((h) => {
+  const pad = window.Livepad.pads.find((p) => p.el.closest('.slide.active'))
+  pad.setFiles({ ...pad.files, 'index.html': h })
+}, html)
+const consoleText = (page) => page.evaluate(() => document.querySelector('.slide.active .lp-console')?.textContent || '')
+
+test('console.log in the page shows in the console panel, Node style', async () => {
+  const page = await openSlide2()
+  await setPage(page, '<body><script>console.log("hi", [1, 2], { a: 1 })</script></body>')
+  await until(page, () => /hi \[ 1, 2 \] \{ a: 1 \}/.test(document.querySelector('.slide.active .lp-console')?.textContent || ''))
+  await page.close()
+})
+
+test('an uncaught error shows in red in the console panel', async () => {
+  const page = await openSlide2()
+  await setPage(page, '<body><script>nope()</script></body>')
+  await until(page, () => { const e = document.querySelector('.slide.active .lp-console .err'); return e && /nope is not defined/.test(e.textContent) })
+  await page.close()
+})
+
+test('the console panel clears when the page reloads', async () => {
+  const page = await openSlide2()
+  await setPage(page, '<body><script>console.log("first")</script></body>')
+  await until(page, () => /first/.test(document.querySelector('.slide.active .lp-console')?.textContent || ''))
+  await setPage(page, '<body><script>console.log("second")</script></body>')
+  await until(page, () => { const t = document.querySelector('.slide.active .lp-console')?.textContent || ''; return /second/.test(t) && !/first/.test(t) })
+  await page.close()
+})
+
+const previewFrame = async (page) => {
+  for (const f of page.frames()) { try { if (f !== page.mainFrame() && await f.$('form')) return f } catch {} }
+}
+
+test('a form submit without preventDefault reloads the page (typed text is gone)', async () => {
+  const page = await openSlide2()
+  await setPage(page, '<body><form><input id="t"><button>Go</button></form></body>')
+  await page.keyboard.press('a')
+  await page.waitForTimeout(500)
+  let f = await previewFrame(page)
+  await f.fill('#t', 'abc')
+  await f.click('button')
+  await page.waitForTimeout(800)
+  f = await previewFrame(page)
+  assert.equal(await f.inputValue('#t'), '')
+  await page.close()
+})
+
+test('with preventDefault the page does not reload', async () => {
+  const page = await openSlide2()
+  await setPage(page, '<body><form><input id="t"><button>Go</button></form><script>document.querySelector("form").addEventListener("submit", (e) => e.preventDefault())</script></body>')
+  await page.keyboard.press('a')
+  await page.waitForTimeout(500)
+  const f = await previewFrame(page)
+  await f.fill('#t', 'abc')
+  await f.click('button')
+  await page.waitForTimeout(800)
+  assert.equal(await (await previewFrame(page)).inputValue('#t'), 'abc')
+  await page.close()
+})

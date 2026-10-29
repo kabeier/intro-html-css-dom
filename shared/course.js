@@ -128,14 +128,57 @@
     return { note: null, ...base }
   }
 
-  // Injected into every preview: report errors, and keep link clicks and form
-  // submits inside the preview (a srcdoc page would otherwise load the site itself).
-  const REPORTER = '<script>window.onerror=function(m,s,l){var d={type:"livepad-error",message:String(m),line:l};' +
-    'try{parent.postMessage(d,"*")}catch(e){}try{if(opener)opener.postMessage(d,"*")}catch(e){}};' +
-    'document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[href]");if(!a)return;' +
-    'var h=a.getAttribute("href");e.preventDefault();if(h.charAt(0)==="#"){var t=document.getElementById(h.slice(1));if(t)t.scrollIntoView()}' +
-    'else if(/^https?:/.test(h))window.open(h,"_blank","noopener")},true);' +
-    'document.addEventListener("submit",function(e){e.preventDefault()},true)</script>'
+  // Injected into every preview (as source text, so it must be self-contained):
+  // - errors and console output go to the editor's console panel
+  // - #links scroll inside the preview, http links open a new tab
+  // - a form submit that nobody prevented reloads the page, like a real browser
+  function previewAgent() {
+    var post = function (d) {
+      try { parent.postMessage(d, '*') } catch (e) {}
+      try { if (opener) opener.postMessage(d, '*') } catch (e) {}
+    }
+    var fmt = function (v, d) {
+      d = d || 0
+      if (typeof v === 'string') return d ? "'" + v + "'" : v
+      if (v === null || (typeof v !== 'object' && typeof v !== 'function')) return String(v)
+      if (typeof v === 'function') return '[Function: ' + (v.name || '(anonymous)') + ']'
+      if (typeof Element !== 'undefined' && v instanceof Element) {
+        return '<' + v.tagName.toLowerCase() + (v.id ? ' id="' + v.id + '"' : '') + (v.className && typeof v.className === 'string' ? ' class="' + v.className + '"' : '') + '>'
+      }
+      if (v instanceof Error) return v.name + ': ' + v.message
+      if (d > 2) return Array.isArray(v) ? '[Array]' : '[Object]'
+      var list = function (xs) { return [].map.call(xs, function (x) { return fmt(x, d + 1) }).join(', ') }
+      if (Array.isArray(v)) return v.length ? '[ ' + list(v) + ' ]' : '[]'
+      if (typeof NodeList !== 'undefined' && (v instanceof NodeList || v instanceof HTMLCollection)) return v.constructor.name + '(' + v.length + ') [ ' + list(v) + ' ]'
+      var keys = Object.keys(v)
+      return keys.length ? '{ ' + keys.map(function (k) { return k + ': ' + fmt(v[k], d + 1) }).join(', ') + ' }' : '{}'
+    }
+    ;['log', 'info', 'warn', 'error'].forEach(function (k) {
+      var orig = console[k]
+      console[k] = function () {
+        post({ type: 'livepad-console', level: k, text: [].map.call(arguments, function (a) { return fmt(a) }).join(' ') })
+        return orig.apply(console, arguments)
+      }
+    })
+    window.onerror = function (m, s, l) {
+      post({ type: 'livepad-error', message: String(m), line: l })
+      post({ type: 'livepad-console', level: 'error', text: String(m) })
+    }
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href]')
+      if (!a) return
+      var h = a.getAttribute('href')
+      e.preventDefault()
+      if (h.charAt(0) === '#') { var t = document.getElementById(h.slice(1)); if (t) t.scrollIntoView() }
+      else if (/^https?:/.test(h)) window.open(h, '_blank', 'noopener')
+    }, true)
+    window.addEventListener('submit', function (e) {
+      if (e.defaultPrevented) return
+      e.preventDefault()
+      post({ type: 'livepad-reload' })
+    })
+  }
+  const REPORTER = '<script>(' + previewAgent.toString() + ')()</script>'
 
   // One HTML document for an iframe srcdoc: linked CSS/JS files are inlined.
   function buildDoc(files) {

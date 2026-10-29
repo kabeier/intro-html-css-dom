@@ -155,6 +155,11 @@
     if (popWin && !popWin.closed) return popWin.focus()
     popWin = window.open('shared/popout.html', 'livepad-popout', 'popup=yes,width=900,height=800')
   }
+  // A form submit nobody prevented: reload the preview, like a real browser.
+  addEventListener('message', (e) => {
+    const f = document.querySelector('.ex-preview iframe')
+    if (f && e.source === f.contentWindow && e.data && e.data.type === 'livepad-reload') { const d = f.srcdoc; f.removeAttribute('srcdoc'); f.srcdoc = d }
+  })
   // Answer the pop-out only while this tab is the one being used.
   channel.onmessage = (e) => { if (e.data && e.data.type === 'hello' && document.hasFocus()) send() }
   addEventListener('focus', send)

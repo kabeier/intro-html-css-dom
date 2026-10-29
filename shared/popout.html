@@ -38,6 +38,10 @@
     document.title = t || 'Live app'
   })
   channel.postMessage({ type: 'hello' })
+  // A form submit nobody prevented: reload, like a real browser.
+  addEventListener('message', (e) => {
+    if (e.source === frame.contentWindow && e.data && e.data.type === 'livepad-reload') { frame.removeAttribute('srcdoc'); frame.srcdoc = last }
+  })
   const save = () => {
     try { localStorage.setItem('livepad-popout-geom', JSON.stringify({ w: outerWidth, h: outerHeight, x: screenX, y: screenY })) } catch {}
   }

@@ -168,7 +168,7 @@ Course.register({
           say: 'The last section holds a form. A form wraps the inputs that are sent together.',
           notes: [
             { match: '<form>', what: 'Wraps the inputs that are sent together.', why: 'Pressing Enter or a submit button sends everything inside the form.',
-              api: { name: '<form>', does: 'Collects its inputs and sends them when submitted.', params: [['action', 'where the data goes (optional)', 'the server URL; leave it out to send to this same page'], ['method', 'how it is sent (optional)', '"get" (in the URL, the default) or "post" (in the request body, not in the URL; private data still needs HTTPS)']], mistakes: ['Expecting nothing to happen on Send: in your own browser the page reloads (the slide preview blocks that). In lecture 2 we stop it with JavaScript.'] } },
+              api: { name: '<form>', does: 'Collects its inputs and sends them when submitted.', params: [['action', 'where the data goes (optional)', 'the server URL; leave it out to send to this same page'], ['method', 'how it is sent (optional)', '"get" (in the URL, the default) or "post" (in the request body, not in the URL; private data still needs HTTPS)']], mistakes: ['Expecting nothing to happen on Send: the page reloads and what you typed is gone (the preview does it too). In lecture 2 we stop it with JavaScript.'] } },
           ],
         },
         {
