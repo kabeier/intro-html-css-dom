@@ -1,0 +1,141 @@
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
+import { createRequire } from 'node:module'
+
+const require = createRequire(import.meta.url)
+const Course = require('../shared/course.js')
+
+const lesson = {
+  id: 'demo',
+  title: 'Demo',
+  files: { 'index.html': '<p>start</p>', 'styles.css': '' },
+  features: [
+    {
+      id: 'f1', title: 'List', why: 'show a list',
+      steps: [
+        { id: 'f1s1', file: 'index.html', mode: 'append', code: '<ul>\n  <li>one</li>\n</ul>',
+          notes: [{ match: '<ul>', what: 'an unordered list', why: 'bullets' }, { match: '<li>', what: 'a list item', why: 'one row' }] },
+        { id: 'f1s2', file: 'styles.css', mode: 'append', code: 'ul {\n  color: red;\n}',
+          notes: [{ match: 'color', what: 'text colour', why: 'see it', api: { name: 'color', does: 'sets text colour', params: [['red', 'a colour', 'any named colour']] } }] },
+      ],
+    },
+    {
+      id: 'f2', title: 'Ordered', why: 'numbers',
+      steps: [
+        { id: 'f2s1', file: 'index.html', mode: 'replace', find: '<ul>', code: '<ol>' },
+        { id: 'f2s2', file: 'index.html', mode: 'replace', find: '</ul>', code: '</ol>' },
+        { id: 'f2s3', file: 'index.html', mode: 'insertAfter', find: '<li>one</li>', code: '  <li>two</li>',
+          notes: [{ match: '<li>', what: 'second item', why: 'more rows' }] },
+      ],
+    },
+  ],
+}
+Course.register(lesson)
+
+test('applyStep append adds a blank line before code on non-empty text', () => {
+  assert.equal(Course.applyStep('a', { mode: 'append', code: 'b' }), 'a\n\nb')
+})
+
+test('applyStep append on empty text is just the code', () => {
+  assert.equal(Course.applyStep('', { mode: 'append', code: 'b' }), 'b')
+})
+
+test('applyStep replace swaps the first match only', () => {
+  assert.equal(Course.applyStep('x y x', { mode: 'replace', find: 'x', code: 'z' }), 'z y x')
+})
+
+test('applyStep insertAfter adds a line after the line containing find', () => {
+  assert.equal(Course.applyStep('a\nb\nc', { mode: 'insertAfter', find: 'b', code: 'B' }), 'a\nb\nB\nc')
+})
+
+test('applyStep set replaces everything', () => {
+  assert.equal(Course.applyStep('old', { mode: 'set', code: 'new' }), 'new')
+})
+
+test('applyStep throws StepMismatch when find is missing', () => {
+  assert.throws(() => Course.applyStep('abc', { id: 's', mode: 'replace', find: 'zzz', code: 'q' }),
+    (e) => e instanceof Course.StepMismatch && e.step.id === 's')
+})
+
+test('get returns the registered lesson', () => {
+  assert.equal(Course.get('demo'), lesson)
+})
+
+test('filesAt null is the starting files', () => {
+  assert.deepEqual(Course.filesAt(lesson, null), { 'index.html': '<p>start</p>', 'styles.css': '' })
+})
+
+test('filesAt applies steps in order up to and including stepId', () => {
+  const f = Course.filesAt(lesson, 'f1s2')
+  assert.equal(f['index.html'], '<p>start</p>\n\n<ul>\n  <li>one</li>\n</ul>')
+  assert.equal(f['styles.css'], 'ul {\n  color: red;\n}')
+})
+
+test('checkpoint is filesAt the feature last step', () => {
+  assert.deepEqual(Course.checkpoint(lesson, 'f2'), Course.filesAt(lesson, 'f2s3'))
+  assert.equal(Course.checkpoint(lesson, 'f2')['index.html'], '<p>start</p>\n\n<ol>\n  <li>one</li>\n  <li>two</li>\n</ol>')
+})
+
+test('origins tags each line with the step that introduced it', () => {
+  const o = Course.origins(lesson, 'f1s2')
+  assert.deepEqual(o['index.html'].map((x) => x.stepId), [null, 'f1s1', 'f1s1', 'f1s1', 'f1s1'])
+  assert.deepEqual(o['styles.css'].map((x) => x.stepId), ['f1s2', 'f1s2', 'f1s2'])
+})
+
+test('origins: replace re-tags only the changed line', () => {
+  const o = Course.origins(lesson, 'f2s1')
+  assert.deepEqual(o['index.html'].map((x) => x.stepId), [null, 'f1s1', 'f2s1', 'f1s1', 'f1s1'])
+})
+
+test('noteFor returns the matching note and the introducing step', () => {
+  const r = Course.noteFor(lesson, 'f1s2', 'styles.css', 2)
+  assert.equal(r.note.what, 'text colour')
+  assert.equal(r.stepId, 'f1s2')
+  assert.equal(r.featureId, 'f1')
+})
+
+test('noteFor on a blank line returns null note', () => {
+  const r = Course.noteFor(lesson, 'f1s2', 'index.html', 2)
+  assert.equal(r.note, null)
+})
+
+test('noteFor on a closing tag returns the note of the step that opened it', () => {
+  const r = Course.noteFor(lesson, 'f1s1', 'index.html', 5) // "</ul>"
+  assert.equal(r.note.what, 'an unordered list')
+  assert.equal(r.stepId, 'f1s1')
+})
+
+test('noteFor uses the note of the step that introduced the line', () => {
+  const r = Course.noteFor(lesson, 'f2s3', 'index.html', 5) // "  <li>two</li>"
+  assert.equal(r.note.what, 'second item')
+  assert.equal(r.featureId, 'f2')
+})
+
+test('buildDoc inlines linked css and scripts and adds the error reporter', () => {
+  const doc = Course.buildDoc({
+    'index.html': '<head><link rel="stylesheet" href="styles.css"></head><body><script src="script.js"></script><img src="a.png"></body>',
+    'styles.css': 'p{color:red}',
+    'script.js': 'console.log(1)',
+  })
+  assert.match(doc, /<style>p\{color:red\}<\/style>/)
+  assert.match(doc, /<script>console\.log\(1\)<\/script>/)
+  assert.match(doc, /<img src="a\.png">/)
+  assert.match(doc, /livepad-error/)
+  assert.doesNotMatch(doc, /href="styles\.css"/)
+})
+
+test('buildDoc keeps defer meaning: a deferred script runs after the page is parsed', () => {
+  const doc = Course.buildDoc({ 'index.html': '<head><script src="script.js" defer></script></head><body></body>', 'script.js': 'go()' })
+  assert.match(doc, /DOMContentLoaded/)
+  assert.match(doc, /go\(\)/)
+})
+
+test('buildDoc also inlines ./styles.css', () => {
+  const doc = Course.buildDoc({ 'index.html': '<link rel="stylesheet" href="./styles.css">', 'styles.css': 'b{}' })
+  assert.match(doc, /<style>b\{\}<\/style>/)
+})
+
+test('buildDoc leaves a link without rel=stylesheet alone', () => {
+  const doc = Course.buildDoc({ 'index.html': '<link href="styles.css">', 'styles.css': 'b{}' })
+  assert.match(doc, /<link href="styles\.css">/)
+})
