@@ -57,3 +57,23 @@ test('every note says what and why', () => {
     for (const n of s.notes || []) assert.ok(n.what && n.why, s.id + ' ' + n.match)
   }
 })
+
+test('the lesson real-origin stories at the end: body {, the h1 id, list items, </main>', () => {
+  const at = 'f7s3'
+  const css = Course.checkpoint(lesson, 'f7')['styles.css'].split('\n')
+  const html = Course.checkpoint(lesson, 'f7')['index.html'].split('\n')
+  const body = Course.noteFor(lesson, at, 'styles.css', css.indexOf('body {') + 1)
+  assert.equal(body.stepId, 'f5s5')
+  const h1 = Course.noteFor(lesson, at, 'index.html', html.findIndex((l) => l.includes('<h1 id')) + 1)
+  assert.match(h1.note.what, /id/)
+  const li = Course.noteFor(lesson, at, 'index.html', html.findIndex((l) => l.includes('<li>Pikachu')) + 1)
+  assert.ok(li.note && /list item/i.test(li.note.what), 'li story')
+  const main = Course.noteFor(lesson, at, 'index.html', html.indexOf('  </main>') + 1)
+  assert.match(main.note.what, /main content/)
+})
+
+test('content facts: alt matches the sprite, post is not called private', () => {
+  const all = JSON.stringify(lesson)
+  assert.doesNotMatch(all, /Pikachu waving/)
+  assert.doesNotMatch(all, /for anything private/)
+})

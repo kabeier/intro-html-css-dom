@@ -139,3 +139,31 @@ test('buildDoc leaves a link without rel=stylesheet alone', () => {
   const doc = Course.buildDoc({ 'index.html': '<link href="styles.css">', 'styles.css': 'b{}' })
   assert.match(doc, /<link href="styles\.css">/)
 })
+
+test('replace keeps the origin of lines it does not change', () => {
+  const l = { id: 'keep', files: { 'a.css': '' }, features: [
+    { id: 'f1', title: 't', why: 'w', steps: [{ id: 's1', file: 'a.css', mode: 'append', code: 'body {\n  margin: 0;\n}' }] },
+    { id: 'f2', title: 't', why: 'w', steps: [{ id: 's2', file: 'a.css', mode: 'replace', find: 'body {', code: '* {\n  box-sizing: border-box;\n}\n\nbody {' }] },
+  ] }
+  assert.deepEqual(Course.origins(l, 's2')['a.css'].map((x) => x.stepId), ['s2', 's2', 's2', 's2', 's1', 's1', 's1'])
+})
+
+test('noteFor falls back to the earlier step whose note matches the line', () => {
+  const l = { id: 'fb', files: { 'i.html': '' }, features: [
+    { id: 'f1', title: 't', why: 'w', steps: [{ id: 's1', file: 'i.html', mode: 'append', code: '<h1 id="t">Hi</h1>', notes: [{ match: 'id="t"', what: 'an id', why: 'w' }] }] },
+    { id: 'f2', title: 't', why: 'w', steps: [
+      { id: 's2', file: 'i.html', mode: 'replace', find: '<h1 id="t">', code: '<h1 id="t" style="x">' },
+      { id: 's3', file: 'i.html', mode: 'replace', find: ' style="x"', code: '' },
+    ] },
+  ] }
+  const r = Course.noteFor(l, 's3', 'i.html', 1)
+  assert.equal(r.note.what, 'an id')
+  assert.equal(r.stepId, 's1')
+  assert.equal(r.featureId, 'f1')
+})
+
+test('buildDoc keeps link clicks and form submits inside the preview', () => {
+  const doc = Course.buildDoc({ 'index.html': '<head></head><body></body>' })
+  assert.match(doc, /preventDefault/)
+  assert.match(doc, /scrollIntoView/)
+})

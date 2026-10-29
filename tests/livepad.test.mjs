@@ -109,3 +109,28 @@ test('a JS error in the page shows in the status line', async () => {
   await until(page, () => /nope/.test(window.Livepad.current().status), null, 3000)
   await page.close()
 })
+
+test('clicking a link in the preview scrolls the preview; the deck stays on its slide', async () => {
+  const page = await browser.newPage({ viewport: { width: 1600, height: 900 } })
+  await page.goto(srv.url + '/lecture-1-html-css/slides.html#5')
+  await until(page, () => window.Livepad && window.Livepad.current() && window.Livepad.current().ready, null, 20000)
+  for (let k = 0; k < 5; k++) { await page.keyboard.press('n'); await until(page, () => !window.Livepad.current().busy) }
+  await page.keyboard.press('a')
+  const frame = page.frames().find((f) => f.url() === 'about:srcdoc' && f.parentFrame() === page.mainFrame())
+  await page.waitForTimeout(500)
+  const fr = page.frames().filter((f) => f.parentFrame() === page.mainFrame())
+  const live = await (async () => { for (const f of fr) { try { if (await f.$('nav a[href="#about"]')) return f } catch {} } })()
+  await live.click('nav a[href="#about"]')
+  await page.waitForTimeout(800)
+  assert.match(page.url(), /#5$/)
+  assert.equal(live.url(), 'about:srcdoc')
+  assert.ok(await live.$('#about'), 'still our page in the preview')
+  await page.close()
+})
+
+test('a clicked file tab does not keep focus, so Enter/Space act once (deck only)', async () => {
+  const page = await openSlide2()
+  await page.click('.slide.active .lp-tab[data-file="styles.css"]')
+  assert.equal(await page.evaluate(() => !!document.activeElement.closest('.lp-tab')), false)
+  await page.close()
+})

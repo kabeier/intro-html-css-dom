@@ -75,6 +75,22 @@
     }
   }
 
+  // Offline on a page where students must type (Fix It): a plain textarea.
+  function textEditor(host, pad) {
+    const ta = document.createElement('textarea')
+    ta.className = 'lp-fallback'
+    ta.spellcheck = false
+    ta.value = pad.files[pad.tab] || ''
+    ta.addEventListener('input', () => pad.edited(pad.tab, ta.value))
+    host.append(ta)
+    return {
+      get value() { return ta.value },
+      set(file, text) { if (file === pad.tab && ta.value !== text) ta.value = text },
+      show(file) { ta.value = pad.files[file] || '' },
+      flash() {},
+    }
+  }
+
   function preEditor(host, pad) {
     const pre = document.createElement('pre')
     pre.className = 'lp-fallback'
@@ -98,7 +114,7 @@
     const pad = {
       el, lesson: opts.lesson || null, steps: opts.steps || [], idx: 0, start: opts.start ?? null,
       files: { ...opts.files }, tabs: opts.tabs, tab: opts.tabs[0], editable: opts.editable !== false,
-      fontSize: opts.fontSize || 18, onChange: opts.onChange || null,
+      fontSize: opts.fontSize || 18, onChange: opts.onChange || null, typeable: !!opts.typeable,
       busy: false, ready: false, applying: false, status: '', err: null, editor: null, timer: null,
     }
     el.classList.add('livepad')
@@ -179,14 +195,14 @@
       if (pad.editor) pad.editor.flash([])
     }
 
-    el.querySelectorAll('.lp-tab').forEach((b) => (b.onclick = () => pad.showTab(b.dataset.file)))
+    el.querySelectorAll('.lp-tab').forEach((b) => (b.onclick = () => { b.blur(); pad.showTab(b.dataset.file) }))
     el.querySelector('.lp-app').onclick = (e) => { e.currentTarget.blur(); toggleSplit() }
     el.querySelector('.lp-pop').onclick = (e) => { e.currentTarget.blur(); popOut() }
     paint(pad)
     pad.showTab(pad.tab)
     pad.refresh()
     loadMonaco().then((m) => {
-      pad.editor = m ? monacoEditor(m, host, pad) : preEditor(host, pad)
+      pad.editor = m ? monacoEditor(m, host, pad) : pad.typeable ? textEditor(host, pad) : preEditor(host, pad)
       pad.showTab(pad.tab)
       pad.ready = true
     })
@@ -282,7 +298,7 @@
 
   function mount(el, opts) {
     const tabs = opts.tabs || Object.keys(opts.files)
-    const pad = createPad(el, { files: opts.files, tabs, editable: opts.editable, onChange: opts.onChange, fontSize: opts.fontSize || 16 })
+    const pad = createPad(el, { files: opts.files, tabs, editable: opts.editable, typeable: opts.editable !== false, onChange: opts.onChange, fontSize: opts.fontSize || 16 })
     return { setFiles: pad.setFiles, getFiles: () => ({ ...pad.files }), preview: pad.iframe, pad }
   }
 

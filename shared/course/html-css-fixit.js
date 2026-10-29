@@ -20,7 +20,7 @@
     {
       id: 'img', title: 'Pikachu is missing', base: 'f7',
       symptom: 'A broken-image icon where Pikachu should be, and a screen reader says nothing useful about it.',
-      breaks: [{ file: 'index.html', mode: 'replace', find: '<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="Pikachu waving">', code: '<img src="pokemon/25.png">' }],
+      breaks: [{ file: 'index.html', mode: 'replace', find: '<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="Pikachu">', code: '<img src="pokemon/25.png">' }],
       checks: [
         { name: 'the image loads', run: (doc) => { const i = doc.querySelector('#about img'); return !!i && i.complete && i.naturalWidth > 0 } },
         { name: 'the image has alt text', run: (doc) => { const i = doc.querySelector('#about img'); return !!i && i.alt.trim().length > 0 } },
@@ -30,7 +30,7 @@
     },
     {
       id: 'list', title: 'The team has no numbers', base: 'f7',
-      symptom: 'Pikachu, Bulbasaur and Charmander show with no numbers or bullets.',
+      symptom: 'Pikachu, Bulbasaur and Charmander have bullets instead of numbers, and they stick out past the text.',
       breaks: [
         { file: 'index.html', mode: 'replace', find: '      <ol>\n', code: '' },
         { file: 'index.html', mode: 'replace', find: '      </ol>\n', code: '' },

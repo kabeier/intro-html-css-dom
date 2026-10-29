@@ -86,7 +86,7 @@ Course.register({
         },
         {
           id: 'f2s4', file: 'index.html', mode: 'insertAfter', find: '<h2>About me</h2>',
-          code: '      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="Pikachu waving">\n      <p>I am learning to build web pages, <strong>one tag at a time</strong>.</p>',
+          code: '      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="Pikachu">\n      <p>I am learning to build web pages, <strong>one tag at a time</strong>.</p>',
           say: 'An image and a paragraph. <img> has no closing tag: it is a "void" element.',
           notes: [
             { match: '<img', what: 'An image. A void element: no content, no closing tag.', why: 'Pictures make the page friendly; alt keeps it usable for people who cannot see them.',
@@ -168,7 +168,7 @@ Course.register({
           say: 'The last section holds a form. A form wraps the inputs that are sent together.',
           notes: [
             { match: '<form>', what: 'Wraps the inputs that are sent together.', why: 'Pressing Enter or a submit button sends everything inside the form.',
-              api: { name: '<form>', does: 'Collects its inputs and sends them when submitted.', params: [['action', 'where the data goes (optional)', 'the server URL; leave it out to send to this same page'], ['method', 'how it is sent (optional)', '"get" (in the URL, the default) or "post" (hidden in the request, for anything private)']], mistakes: ['Expecting nothing to happen on Send: by default the page reloads. In lecture 2 we stop that with JavaScript.'] } },
+              api: { name: '<form>', does: 'Collects its inputs and sends them when submitted.', params: [['action', 'where the data goes (optional)', 'the server URL; leave it out to send to this same page'], ['method', 'how it is sent (optional)', '"get" (in the URL, the default) or "post" (in the request body, not in the URL; private data still needs HTTPS)']], mistakes: ['Expecting nothing to happen on Send: in your own browser the page reloads (the slide preview blocks that). In lecture 2 we stop it with JavaScript.'] } },
           ],
         },
         {

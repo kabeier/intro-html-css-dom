@@ -48,9 +48,22 @@
       const next = text.slice(0, idx) + step.code + text.slice(idx + step.find.length)
       const nextLines = split(next)
       const newLast = first + count(step.code, '\n')
+      // Lines inside the replaced block that did not change keep where they came from.
+      const oldBlock = lines.slice(first, last + 1)
+      const newBlock = nextLines.slice(first, newLast + 1)
+      let lead = 0
+      while (lead < oldBlock.length && lead < newBlock.length && oldBlock[lead].text === newBlock[lead]) lead++
+      let trail = 0
+      while (trail < oldBlock.length - lead && trail < newBlock.length - lead &&
+        oldBlock[oldBlock.length - 1 - trail].text === newBlock[newBlock.length - 1 - trail]) trail++
       return nextLines.map((t, i) => {
         if (i < first) return { text: t, stepId: lines[i].stepId }
-        if (i <= newLast) return { text: t, stepId: id }
+        if (i <= newLast) {
+          const k = i - first
+          if (k < lead) return { text: t, stepId: oldBlock[k].stepId }
+          if (k >= newBlock.length - trail) return { text: t, stepId: oldBlock[oldBlock.length - (newBlock.length - k)].stepId }
+          return { text: t, stepId: id }
+        }
         return { text: t, stepId: lines[i - newLast + last].stepId }
       })
     }
@@ -104,11 +117,23 @@
         if (n) return { note: n, ...base }
       }
     }
+    // The line was edited later (e.g. an attribute removed): use the latest earlier note that fits it.
+    const upto = steps.slice(0, steps.findIndex((s) => s.id === stepId) + 1).reverse()
+    for (const s of upto) {
+      const n = (s.notes || []).find((x) => line.text.includes(x.match))
+      if (n) return { note: n, stepId: s.id, featureId: s.featureId }
+    }
     return { note: null, ...base }
   }
 
+  // Injected into every preview: report errors, and keep link clicks and form
+  // submits inside the preview (a srcdoc page would otherwise load the site itself).
   const REPORTER = '<script>window.onerror=function(m,s,l){var d={type:"livepad-error",message:String(m),line:l};' +
-    'try{parent.postMessage(d,"*")}catch(e){}try{if(opener)opener.postMessage(d,"*")}catch(e){}}</script>'
+    'try{parent.postMessage(d,"*")}catch(e){}try{if(opener)opener.postMessage(d,"*")}catch(e){}};' +
+    'document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[href]");if(!a)return;' +
+    'var h=a.getAttribute("href");e.preventDefault();if(h.charAt(0)==="#"){var t=document.getElementById(h.slice(1));if(t)t.scrollIntoView()}' +
+    'else if(/^https?:/.test(h))window.open(h,"_blank","noopener")},true);' +
+    'document.addEventListener("submit",function(e){e.preventDefault()},true)</script>'
 
   // One HTML document for an iframe srcdoc: linked CSS/JS files are inlined.
   function buildDoc(files) {

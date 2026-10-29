@@ -97,3 +97,17 @@ test('Hint shows the hint; Reset brings the broken code back', async () => {
   assert.deepEqual(await page.evaluate(() => window.FixIt.getFiles()), broken)
   await context.close()
 })
+
+test('offline (no Monaco) the code can still be edited and fixed', async () => {
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+  await context.route('**/monaco-editor@*/**', (r) => r.abort())
+  const page = await context.newPage()
+  await page.goto(srv.url + '/fixit.html?lesson=html-css&p=dot')
+  await until(page, () => window.FixIt && window.FixIt.ready && document.querySelector('.lp-fallback'))
+  await page.click('.fx-pad .lp-tab[data-file="styles.css"]')
+  const box = page.locator('.fx-pad textarea.lp-fallback')
+  const text = await box.inputValue()
+  await box.fill(text.replace('card {', '.card {'))
+  assert.match(await press(page), /Fixed!/)
+  await context.close()
+})
