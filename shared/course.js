@@ -198,7 +198,10 @@
       var keys = Object.keys(v)
       var cn = nameOf(v)
       var pre = cn && cn !== 'Object' ? cn + ' ' : ''
-      return keys.length ? pre + '{ ' + keys.map(function (k) { return k + ': ' + fmt(v[k], d + 1) }).join(', ') + ' }' : pre + '{}'
+      // A big object inside a log (a whole PokeAPI answer) is cut short so the console stays readable.
+      var shown = d >= 1 && keys.length > 6 ? keys.slice(0, 4) : keys
+      var more = keys.length - shown.length
+      return keys.length ? pre + '{ ' + shown.map(function (k) { return k + ': ' + fmt(v[k], d + 1) }).join(', ') + (more ? ', … ' + more + ' more' : '') + ' }' : pre + '{}'
     }
     var safe = function (a) { try { return fmt(a) } catch (e) { return '[unprintable]' } }
     // console.log("a %s b %d", x, y): fill the placeholders like DevTools does.
@@ -225,18 +228,78 @@
         return orig.apply(console, arguments)
       }
     })
-    window.onerror = function (m, s, l) {
+    // cy.intercept: answer matching requests (fetch and XHR, which axios uses) with the stub.
+    var routes = window.__CY_ROUTES || []
+    var globRe = function (p) { return new RegExp('^' + p.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*\*/g, '\u0000').replace(/\*/g, '[^/]*').replace(/\u0000/g, '.*') + '$') }
+    var match = function (method, url) {
+      for (var i = 0; i < routes.length; i++) {
+        var r = routes[i]
+        if (r.method && String(r.method).toUpperCase() !== String(method || 'GET').toUpperCase()) continue
+        if (r.url === url || (r.url.indexOf('*') >= 0 && globRe(r.url).test(url))) return r
+      }
+      return null
+    }
+    var tell = function (r, url) { post({ type: 'cy-intercepted', alias: r.alias, url: url }) }
+    // After the page has handled the stubbed response (what cy.wait waits for).
+    var done = function (r, url) { setTimeout(function () { post({ type: 'cy-responded', alias: r.alias, url: url }) }, 0) }
+    if (routes.length) {
+      var realFetch = window.fetch
+      window.fetch = function (input, init) {
+        var url = typeof input === 'string' ? input : input.url
+        var r = match((init && init.method) || (input && input.method) || 'GET', new URL(url, location.href).href)
+        if (!r) return realFetch.apply(this, arguments)
+        tell(r, url)
+        done(r, url)
+        return Promise.resolve(new Response(JSON.stringify(r.body), { status: r.status, headers: { 'Content-Type': 'application/json' } }))
+      }
+      var open = XMLHttpRequest.prototype.open, send = XMLHttpRequest.prototype.send
+      XMLHttpRequest.prototype.open = function (method, url) { this.__lp = { method: method, url: new URL(url, location.href).href }; return open.apply(this, arguments) }
+      XMLHttpRequest.prototype.send = function () {
+        var r = this.__lp && match(this.__lp.method, this.__lp.url)
+        if (!r) return send.apply(this, arguments)
+        var x = this, text = JSON.stringify(r.body), url = this.__lp.url
+        tell(r, url)
+        setTimeout(function () {
+          var json = x.responseType === 'json'
+          var props = { readyState: 4, status: r.status, statusText: r.status === 200 ? 'OK' : '', responseURL: url, responseText: json ? '' : text, response: json ? r.body : text }
+          Object.keys(props).forEach(function (k) { Object.defineProperty(x, k, { configurable: true, value: props[k] }) })
+          x.getAllResponseHeaders = function () { return 'content-type: application/json\r\n' }
+          x.getResponseHeader = function (h) { return /content-type/i.test(h) ? 'application/json' : null }
+          ;['readystatechange', 'load', 'loadend'].forEach(function (t) { x.dispatchEvent(new ProgressEvent(t)) })
+          done(r, url)
+        }, 10)
+      }
+    }
+    window.onerror = function (m, s, l, c, err) {
       post({ type: 'livepad-error', message: String(m), line: l })
       post({ type: 'livepad-console', level: 'error', text: String(m) })
+      // For the Cypress runner: an uncaught app error fails the running test.
+      post({ type: 'cy-app-error', message: err && err.message ? err.message : String(m).replace(/^Uncaught (\w*Error: )?/, '') })
     }
+    // A rejected promise nobody caught (an axios error without .catch): the browser logs it like this.
+    window.addEventListener('unhandledrejection', function (e) {
+      var r = e.reason
+      var text = r && r.message ? (r.name || 'Error') + ': ' + r.message : String(r)
+      post({ type: 'livepad-console', level: 'error', text: 'Uncaught (in promise) ' + text })
+      post({ type: 'cy-app-error', message: r && r.message ? r.message : String(r), rejection: true })
+    })
     document.addEventListener('click', function (e) {
       var a = e.target.closest && e.target.closest('a[href]')
       if (!a) return
       var h = a.getAttribute('href')
-      e.preventDefault()
-      if (h.charAt(0) === '#') { var t = document.getElementById(h.slice(1)); if (t) t.scrollIntoView() }
-      else if (/^https?:/.test(h)) window.open(h, '_blank', 'noopener')
+      if (h.charAt(0) === '#' && !window.__ROUTER) { e.preventDefault(); var t = document.getElementById(h.slice(1)); if (t) t.scrollIntoView() }
+      else if (/^https?:/.test(h)) { e.preventDefault(); window.open(h, '_blank', 'noopener') }
     }, true)
+    // A plain <a href="/about"> that nothing handled (a router <Link> calls preventDefault):
+    // the browser would load that page from scratch. Ask the pad to reload at that path.
+    window.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href]')
+      if (!a || e.defaultPrevented) return
+      var h = a.getAttribute('href')
+      if (/^(https?:|#|mailto:|tel:)/.test(h)) return
+      e.preventDefault()
+      post({ type: 'livepad-navigate', path: h.charAt(0) === '/' ? h : '/' + h })
+    })
     // Always stop the real navigation (it would load the site into the preview), and
     // after every listener has run, reload only if the page itself never called preventDefault().
     var realPrevent = Event.prototype.preventDefault
@@ -263,13 +326,48 @@
     'react-dom/client': 'https://esm.sh/react-dom@19.3.1/client?dev&' + DEPS,
     axios: 'https://esm.sh/axios@1.20.0',
   }
+  // CSS from packages (import 'bootstrap/dist/css/bootstrap.min.css'), served by jsDelivr.
+  const CSS_PINS = { bootstrap: '5.3.8' }
+  const TAILWIND = 'https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3/dist/index.global.js'
+  // import Card from 'react-bootstrap/Card': esm.sh can't always build the subpath, so re-export it from the main bundle.
+  const importsFor = (files) => {
+    const map = { ...IMPORTS }
+    // react-bootstrap is served from the site (shared/vendor, built with React external) so the
+    // library uses the page's one copy of React; esm.sh fails to build it too often.
+    map['react-bootstrap'] = ROOT ? new URL('shared/vendor/react-bootstrap-2.10.10.mjs', ROOT).href : 'https://esm.sh/react-bootstrap@2.10.10?dev&external=react,react-dom'
+    // react-router (self-hosted). The page runs in an iframe srcdoc where the history API cannot
+    // change the path, so createBrowserRouter/createHashRouter become a memory router that starts
+    // at the preview's path and reports every navigation (the slide code itself is unchanged).
+    if (ROOT && Object.values(files).some((c) => typeof c === 'string' && /from\s+['"]react-router(\/dom)?['"]/.test(c))) {
+      const RR = new URL('shared/vendor/react-router-8.5.1/', ROOT).href
+      map['react-router/dom'] = RR + 'rr-dom.js'
+      map['react-router'] = 'data:text/javascript,' + encodeURIComponent(
+        `import { createMemoryRouter } from '${RR}rr.js'\n` +
+        `export * from '${RR}rr.js'\n` +
+        `const preview = (routes, opts = {}) => {\n` +
+        `  const router = createMemoryRouter(routes, { ...opts, initialEntries: [window.__PREVIEW_PATH || '/'] })\n` +
+        `  window.__ROUTER = router\n` +
+        `  router.subscribe((s) => parent.postMessage({ type: 'livepad-path', path: s.location.pathname + s.location.search + s.location.hash }, '*'))\n` +
+        `  return router\n` +
+        `}\n` +
+        `export const createBrowserRouter = preview\n` +
+        `export const createHashRouter = preview\n`)
+    }
+    for (const code of Object.values(files)) {
+      if (typeof code !== 'string') continue
+      for (const m of code.matchAll(/from\s+['"]react-bootstrap\/(\w+)['"]/g)) {
+        map['react-bootstrap/' + m[1]] = 'data:text/javascript,' + encodeURIComponent(`export { ${m[1]} as default } from 'react-bootstrap'`)
+      }
+    }
+    return map
+  }
   const BABEL = 'https://cdn.jsdelivr.net/npm/@babel/standalone@7.28.4/babel.min.js'
   // Site root (for lesson assets): the folder above shared/.
   const ROOT = typeof document !== 'undefined' && document.currentScript ? new URL('..', document.currentScript.src).href : ''
 
   // Runs inside the preview (as source text, so it must be self-contained): turn the
   // project's files into ES modules the browser can load, like Vite does on your laptop.
-  function reactRunner(FILES, ASSETS, ENTRY) {
+  function reactRunner(FILES, ASSETS, ENTRY, PKG) {
     if (typeof Babel === 'undefined') {
       console.error("Can't load React tools from the internet (offline, or the CDN is blocked). The live preview needs a connection.")
       document.body.insertAdjacentHTML('afterbegin', '<p style="font:16px system-ui;padding:12px;background:#fde2e1;margin:0">Offline? The live preview needs the internet to load React.</p>')
@@ -314,15 +412,57 @@
       var code = Babel.transform(FILES[path], { presets: [['react', { runtime: 'automatic', development: true }]], filename: '/' + path, sourceType: 'module', comments: false, retainLines: true }).code
       var target = function (spec) {
         var t = find(path, spec)
-        if (!t) throw new Error('/' + path + ': cannot find "' + spec + '"')
+        if (!t) throw new Error('[plugin:vite:import-analysis] Failed to resolve import "' + spec + '" from "' + path + '". Does the file exist?')
         return t
       }
+      // A package the project doesn't have: say it the way Vite does. One it has but the preview
+      // can't load: say that plainly.
+      var deps = {}
+      try { var pj = JSON.parse(FILES['package.json'] || '{}'); deps = Object.assign({}, pj.dependencies, pj.devDependencies) } catch (e) {}
+      code.replace(/\b(?:import|export)\s+(?:[^'";]*?\s+from\s+)?(['"])([^'".\/][^'"]*)\1/g, function (m, q, spec) {
+        if (/\.css$/.test(spec) || /^(https?|data|blob):/.test(spec) || PKG.known.indexOf(spec) >= 0) return m
+        var name = spec.charAt(0) === '@' ? spec.split('/').slice(0, 2).join('/') : spec.split('/')[0]
+        if (deps[name]) throw new Error('The live preview cannot load "' + spec + '" (it only knows react, react-dom, axios, react-router, react-bootstrap and CSS packages). Run the project with npm run dev to use it.')
+        throw new Error('[plugin:vite:import-analysis] Failed to resolve import "' + spec + '" from "' + path + '". Does the file exist?')
+      })
+      // import 'bootstrap/dist/css/bootstrap.min.css': a package's CSS, as a <link> in import order.
+      code = code.replace(/\bimport\s+(['"])((?:@[\w.-]+\/)?[a-zA-Z][\w.-]*)\/([^'"]+\.css)\1;?/g, function (m, q, pkg, rest) {
+        var href = 'https://cdn.jsdelivr.net/npm/' + pkg + (PKG.css[pkg] ? '@' + PKG.css[pkg] : '') + '/' + rest
+        if (!cssDone[href]) { cssDone[href] = 1; var ln = document.createElement('link'); ln.rel = 'stylesheet'; ln.href = href; ln.setAttribute('data-file', pkg + '/' + rest); document.head.append(ln) }
+        return ''
+      })
       // import … from './x'  |  import './x'  (CSS, assets, modules)
       code = code.replace(/\bimport\s+((?:[\w$]+\s*,?\s*)?(?:\{[^}]*\}|\*\s+as\s+[\w$]+)?)\s*(?:from\s+)?(['"])(\.{1,2}\/[^'"]+)\2;?/g, function (m, clause, q, spec) {
         var t = target(spec)
         if (/\.css$/i.test(t)) {
-          if (!cssDone[t]) { cssDone[t] = 1; var st = document.createElement('style'); st.setAttribute('data-file', t); st.textContent = cssOf(t); document.head.append(st) }
-          return ''
+          // CSS Modules (*.module.css): every class gets a unique name, like Vite's _heading_1x2y3.
+          var names = null, css = cssOf(t)
+          if (/\.module\.css$/i.test(t)) {
+            names = {}
+            var h = 0
+            for (var k = 0; k < t.length; k++) h = (h * 31 + t.charCodeAt(k)) >>> 0
+            var tag = h.toString(36).slice(0, 5)
+            css = css.replace(/([^{}]+)\{/g, function (m, sel) {
+              return sel.replace(/\.(-?[_a-zA-Z][\w-]*)/g, function (x, n) { names[n] = '_' + n + '_' + tag; return '.' + names[n] }) + '{'
+            })
+          }
+          if (!cssDone[t]) {
+            cssDone[t] = 1
+            var st = document.createElement('style')
+            st.setAttribute('data-file', t)
+            // @import "tailwindcss": Tailwind's browser build compiles it in the page, like @tailwindcss/vite does.
+            // Without tailwindcss() in vite.config.js, Vite leaves the @import alone and nothing is styled.
+            var twPlugin = FILES['vite.config.js'] == null || /tailwindcss\(\s*\)/.test(FILES['vite.config.js'])
+            if (!twPlugin) css = css.replace(/@import\s+["']tailwindcss["'][^;]*;/g, '')
+            else if (/@import\s+["']tailwindcss["']/.test(css)) {
+              st.type = 'text/tailwindcss'
+              if (!document.querySelector('script[data-tailwind]')) { var tw = document.createElement('script'); tw.src = PKG.tailwind; tw.setAttribute('data-tailwind', ''); document.head.append(tw) }
+            }
+            st.textContent = css
+            document.head.append(st)
+          }
+          var name = names && (clause.match(/^\s*([\w$]+)/) || [])[1]
+          return name ? 'const ' + name + ' = ' + JSON.stringify(names) + ';' : ''
         }
         if (ASSET.test(t)) {
           var def = (clause.match(/^\s*([\w$]+)/) || [])[1]
@@ -342,29 +482,33 @@
       return mods[path]
     }
     try {
-      import(load(ENTRY, ENTRY)).catch(function (e) { console.error(String(e && e.message || e)) })
+      // Module errors name blob: URLs; show the file path instead, like Vite does.
+      var named = function (msg) { Object.keys(mods).forEach(function (p) { msg = msg.split(mods[p]).join('/' + p) }); return msg }
+      import(load(ENTRY, ENTRY)).catch(function (e) { console.error(named(String(e && e.message || e))) })
     } catch (e) { console.error(e.message) }
   }
 
   const viteEntry = (html) => { const m = html.match(/<script\b[^>]*type\s*=\s*["']module["'][^>]*\bsrc\s*=\s*["']\/?(src\/[^"']+\.jsx?)["'][^>]*>\s*<\/script>/i); return m && m[1] }
   const safeJson = (v) => JSON.stringify(v).replace(/</g, '\\u003c')
 
-  function buildReactDoc(files, assets, entry) {
+  const routesScript = (routes) => (routes && routes.length ? '<script>window.__CY_ROUTES=' + safeJson(routes) + '</script>' : '')
+
+  function buildReactDoc(files, assets, entry, routes, path) {
     const abs = {}
     for (const [k, v] of Object.entries(assets || {})) abs[k] = ROOT ? new URL(v, ROOT).href : v
     let doc = files['index.html'].replace(/<script\b[^>]*type\s*=\s*["']module["'][^>]*\bsrc\s*=\s*["']\/?src\/[^"']+["'][^>]*>\s*<\/script>/i, '')
     doc = doc.replace(/<link\b[^>]*rel\s*=\s*["']icon["'][^>]*>/i, '')
-    const head = REPORTER + '<script type="importmap">' + JSON.stringify({ imports: IMPORTS }) + '</script><script src="' + BABEL + '"></script>'
-    const run = '<script>(' + reactRunner.toString() + ')(' + safeJson(files) + ',' + safeJson(abs) + ',' + JSON.stringify(entry) + ')</script>'
+    const head = '<script>window.__PREVIEW_PATH=' + safeJson(path || '/') + '</script>' + routesScript(routes) + REPORTER + '<script type="importmap">' + JSON.stringify({ imports: importsFor(files) }) + '</script><script src="' + BABEL + '"></script>'
+    const run = '<script>(' + reactRunner.toString() + ')(' + safeJson(files) + ',' + safeJson(abs) + ',' + JSON.stringify(entry) + ',' + JSON.stringify({ css: CSS_PINS, tailwind: TAILWIND, known: Object.keys(importsFor(files)) }) + ')</script>'
     doc = /<head[^>]*>/i.test(doc) ? doc.replace(/<head[^>]*>/i, (h) => h + head) : head + doc
     return /<\/body>/i.test(doc) ? doc.replace(/<\/body>/i, run + '</body>') : doc + run
   }
 
   // One HTML document for an iframe srcdoc: linked CSS/JS files are inlined.
-  function buildDoc(files, assets) {
+  function buildDoc(files, assets, opts = {}) {
     const html = files['index.html'] || ''
     const entry = viteEntry(html)
-    if (entry && files[entry] != null) return buildReactDoc(files, assets, entry)
+    if (entry && files[entry] != null) return buildReactDoc(files, assets, entry, opts.routes, opts.path)
     const local = (ref) => files[ref.replace(/^\.\//, '')]
     let doc = html.replace(/<link\b[^>]*>/gi, (tag) => {
       if (!/\brel\s*=\s*["']?stylesheet/i.test(tag)) return tag
@@ -384,7 +528,8 @@
       return `<script>${js}</script>`
     })
     if (later.length) doc = /<\/body>/i.test(doc) ? doc.replace(/<\/body>/i, later.join('') + '</body>') : doc + later.join('')
-    return /<head[^>]*>/i.test(doc) ? doc.replace(/<head[^>]*>/i, (h) => h + REPORTER) : REPORTER + doc
+    const agent = routesScript(opts.routes) + REPORTER
+    return /<head[^>]*>/i.test(doc) ? doc.replace(/<head[^>]*>/i, (h) => h + agent) : agent + doc
   }
 
   return { register, get, all, assetsOf, tabOrder, applyStep, filesAt, checkpoint, origins, noteFor, buildDoc, StepMismatch }
