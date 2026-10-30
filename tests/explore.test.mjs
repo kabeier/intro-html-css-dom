@@ -62,12 +62,14 @@ test('clicking the <img> line tells its story, with the alt argument explained',
   await context.close()
 })
 
-test('clicking a blank line says there is nothing to explain', async () => {
+test('clicking a blank line explains what blank lines are for', async () => {
   const { context, page } = await open('?lesson=html-css&at=f6')
   await page.click('.ex-tab[data-file="styles.css"]')
   const blank = Course.checkpoint(lesson, 'f6')['styles.css'].split('\n').findIndex((l) => l.trim() === '') + 1
   assert.ok(blank > 0, 'the stylesheet has a blank line')
-  assert.match(await clickLine(page, blank), /Nothing to explain on this line/)
+  const story = await clickLine(page, blank)
+  assert.match(story, /Blank line/)
+  assert.doesNotMatch(story, /Nothing to explain/)
   await context.close()
 })
 
