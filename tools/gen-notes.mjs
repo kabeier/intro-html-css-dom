@@ -4,7 +4,7 @@
 //   node tools/gen-notes.mjs lecture-1-html-css/slides.html          rewrite in place
 //   node tools/gen-notes.mjs --check lecture-1-html-css/slides.html  exit 1 if out of date
 // In the deck: <!-- steps:html-css:f2 --><!-- /steps -->
-import { readFileSync, writeFileSync, readdirSync } from 'node:fs'
+import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -13,7 +13,10 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const require = createRequire(import.meta.url)
 const Course = require(path.join(ROOT, 'shared/course.js'))
 globalThis.Course = Course
-for (const f of readdirSync(path.join(ROOT, 'shared/course'))) if (f.endsWith('.js')) await import(path.join(ROOT, 'shared/course', f))
+// Lessons load in manifest.json order when there is one (a lesson can build on another).
+const manifest = path.join(ROOT, 'shared/course/manifest.json')
+const order = existsSync(manifest) ? JSON.parse(readFileSync(manifest, 'utf8')) : readdirSync(path.join(ROOT, 'shared/course')).filter((f) => f.endsWith('.js')).sort()
+for (const f of order) await import(path.join(ROOT, 'shared/course', f))
 
 const args = process.argv.slice(2)
 const check = args[0] === '--check'
@@ -27,7 +30,11 @@ function table(lessonId, featureId) {
   const rows = f.steps.map((s, k) => {
     const first = s.code ? s.code.split('\n').find((l) => l.trim()) .trim() : '(deletes code)'
     const short = first.length > 46 ? first.slice(0, 44) + '…' : first
-    return `<tr><td ${td}><b>N ${k + 1}</b></td><td ${td}><code>${esc(s.file)}</code></td><td ${td}><code>${esc(short)}</code></td><td ${td}>${esc(s.say || '')}</td></tr>`
+    // Code we replace later, and the steps that replace it, are marked so the instructor says so.
+    const ref = (r) => { const [lid, sid] = r.includes(':') ? r.split(':') : [lessonId, r]; return Course.get(lid).features.flatMap((x) => x.steps).find((x) => x.id === sid) }
+    const flag = s.later ? `<br><b>⚠ For now (not the final way):</b> ${esc(s.later.how)} Fixed in: ${esc(s.later.where)}.`
+      : s.fixes ? `<br><b>✓ The right way:</b> replaces ${s.fixes.map((r) => { const x = ref(r); return x && x.later ? esc(x.later.how) : esc(r) }).join(' / ')}` : ''
+    return `<tr><td ${td}><b>N ${k + 1}</b></td><td ${td}><code>${esc(s.file)}</code></td><td ${td}><code>${esc(short)}</code></td><td ${td}>${esc(s.say || '')}${flag}</td></tr>`
   })
   return `<table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th ${td}>Press</th><th ${td}>File</th><th ${td}>Types</th><th ${td}>Say</th></tr>\n${rows.join('\n')}\n</table>`
 }
