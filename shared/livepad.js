@@ -113,7 +113,7 @@
   function createPad(el, opts) {
     const pad = {
       el, lesson: opts.lesson || null, steps: opts.steps || [], idx: 0, start: opts.start ?? null,
-      files: { ...opts.files }, tabs: opts.tabs, tab: opts.tabs[0], editable: opts.editable !== false,
+      files: { ...opts.files }, assets: opts.assets || {}, tabs: opts.tabs, tab: opts.tabs[0], editable: opts.editable !== false,
       fontSize: opts.fontSize || 18, onChange: opts.onChange || null, typeable: !!opts.typeable,
       busy: false, ready: false, applying: false, status: '', err: null, editor: null, timer: null,
     }
@@ -160,13 +160,18 @@
       pad.err = null
       pad.clearLog()
       pad.setStatus('loading…')
-      pad.iframe.srcdoc = Course.buildDoc(pad.files)
+      pad.iframe.srcdoc = Course.buildDoc(pad.files, pad.assets)
       if (pad === active()) broadcast()
     }
     pad.iframe.addEventListener('load', () => {
       if (pad.err) pad.setStatus('✕ ' + pad.err, true)
       else pad.setStatus('app ✓ up to date')
     })
+    // A file that a step deleted hides its tab (Shift+N brings it back).
+    pad.syncTabs = () => {
+      el.querySelectorAll('.lp-tab').forEach((b) => (b.hidden = !(b.dataset.file in pad.files)))
+      if (!(pad.tab in pad.files)) { const first = pad.tabs.find((f) => f in pad.files); if (first) pad.showTab(first) }
+    }
     pad.showTab = (f) => {
       pad.tab = f
       el.querySelectorAll('.lp-tab').forEach((b) => b.classList.toggle('on', b.dataset.file === f))
@@ -175,7 +180,9 @@
     pad.edited = (f, text) => {
       pad.files[f] = text
       clearTimeout(pad.timer)
-      pad.timer = setTimeout(() => { pad.refresh(); if (pad.onChange) pad.onChange({ ...pad.files }) }, 300)
+      // A React project reloads the whole preview (Babel + React), so wait a bit longer after typing.
+      const wait = pad.files['src/main.jsx'] != null ? 700 : 300
+      pad.timer = setTimeout(() => { pad.refresh(); if (pad.onChange) pad.onChange({ ...pad.files }) }, wait)
     }
     pad.setFile = (f, text) => {
       pad.files[f] = text
@@ -183,6 +190,7 @@
     }
     pad.setFiles = (files) => {
       pad.files = { ...files }
+      pad.syncTabs()
       for (const f of pad.tabs) pad.setFile(f, pad.files[f] || '')
       if (pad.editor) pad.editor.show(pad.tab)
       pad.refresh()
@@ -191,6 +199,13 @@
     pad.next = async () => {
       if (pad.busy || pad.idx >= pad.steps.length) return
       const step = pad.steps[pad.idx]
+      if (step.mode === 'delete') {
+        delete pad.files[step.file]
+        pad.syncTabs()
+        pad.idx++
+        pad.refresh()
+        return
+      }
       const old = pad.files[step.file] || ''
       let text
       try { text = Course.applyStep(old, step) } catch (e) {
@@ -200,6 +215,7 @@
         throw e
       }
       pad.busy = true
+      if (!(step.file in pad.files)) { pad.files[step.file] = ''; pad.syncTabs() }
       pad.showTab(step.file)
       // Type only the part that changes, a few characters per frame.
       let p = 0
@@ -276,7 +292,7 @@
     const pad = active()
     if (!pad) return
     lastSent = Date.now()
-    channel.postMessage({ type: 'doc', lesson: pad.lesson && pad.lesson.id, slide: slideNo(pad), doc: Course.buildDoc(pad.files) })
+    channel.postMessage({ type: 'doc', lesson: pad.lesson && pad.lesson.id, slide: slideNo(pad), doc: Course.buildDoc(pad.files, pad.assets) })
   }
   const setPop = (open) => { popOpen = open; paintAll() }
   function readGeom() {
@@ -332,22 +348,22 @@
     const steps = (el.dataset.steps || '').split(/\s+/).filter(Boolean).map((id) => all.find((s) => s.id === id))
     const files = Course.filesAt(lesson, start)
     const tabs = (el.dataset.files || Object.keys(files).join(' ')).split(/\s+/).filter(Boolean)
-    createPad(el, { lesson, start, steps, files, tabs, fontSize: Number(el.dataset.font || 18) })
+    createPad(el, { lesson, start, steps, files, assets: Course.assetsOf(lesson), tabs, fontSize: Number(el.dataset.font || 18) })
   }
 
   function current() {
     const pad = active()
     if (!pad) return null
     return {
-      lesson: pad.lesson && pad.lesson.id, files: { ...pad.files }, doc: Course.buildDoc(pad.files),
+      lesson: pad.lesson && pad.lesson.id, files: { ...pad.files }, doc: Course.buildDoc(pad.files, pad.assets),
       status: pad.status, busy: pad.busy, ready: pad.ready, tab: pad.tab,
       editorValue: pad.editor ? pad.editor.value : null, step: pad.idx,
     }
   }
 
   function mount(el, opts) {
-    const tabs = opts.tabs || Object.keys(opts.files)
-    const pad = createPad(el, { files: opts.files, tabs, editable: opts.editable, typeable: opts.editable !== false, onChange: opts.onChange, fontSize: opts.fontSize || 16 })
+    const tabs = opts.tabs || Course.tabOrder(Object.keys(opts.files))
+    const pad = createPad(el, { files: opts.files, assets: opts.assets, tabs, editable: opts.editable, typeable: opts.editable !== false, onChange: opts.onChange, fontSize: opts.fontSize || 16 })
     return { setFiles: pad.setFiles, getFiles: () => ({ ...pad.files }), preview: pad.iframe, pad }
   }
 

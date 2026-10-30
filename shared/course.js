@@ -21,6 +21,12 @@
   const register = (lesson) => { lessons[lesson.id] = lesson; return lesson }
   const get = (id) => lessons[id]
   const all = () => Object.values(lessons)
+  // Binary files (images) of a lesson and the lessons it is built on.
+  const assetsOf = (lesson) => ({ ...(lesson.base && get(lesson.base.lesson) ? assetsOf(get(lesson.base.lesson)) : {}), ...(lesson.assets || {}) })
+  // Most useful files first: the components, their CSS, then the page and config.
+  const rank = (f) => (f === 'src/App.jsx' ? 0 : /^src\/.*\.jsx?$/.test(f) ? 1 : /^src\/.*\.css$/.test(f) ? 2 : f.startsWith('src/') ? 3
+    : f === 'index.html' ? 4 : /\.(js|css)$/.test(f) && !f.includes('/') ? 5 : f === 'package.json' ? 6 : 7)
+  const tabOrder = (names) => [...names].sort((a, b) => rank(a) - rank(b))
 
   const split = (text) => (text === '' ? [] : text.split('\n'))
   const tagged = (text, stepId) => split(text).map((t) => ({ text: t, stepId }))
@@ -93,7 +99,10 @@
     const steps = allSteps(lesson)
     const stop = steps.findIndex((s) => s.id === stepId)
     if (stop < 0) throw new Error(`No step ${stepId} in lesson ${lesson.id}`)
-    for (const step of steps.slice(0, stop + 1)) files[step.file] = applyLines(files[step.file] || [], step)
+    for (const step of steps.slice(0, stop + 1)) {
+      if (step.mode === 'delete') delete files[step.file]
+      else files[step.file] = applyLines(files[step.file] || [], step)
+    }
     return files
   }
 
@@ -192,10 +201,27 @@
       return keys.length ? pre + '{ ' + keys.map(function (k) { return k + ': ' + fmt(v[k], d + 1) }).join(', ') + ' }' : pre + '{}'
     }
     var safe = function (a) { try { return fmt(a) } catch (e) { return '[unprintable]' } }
+    // console.log("a %s b %d", x, y): fill the placeholders like DevTools does.
+    var printf = function (args) {
+      if (typeof args[0] === 'string' && /%[sdifoOc%]/.test(args[0])) {
+        var rest = args.slice(1)
+        var head = args[0].replace(/%([sdifoOc%])/g, function (m, t) {
+          if (t === '%') return '%'
+          if (!rest.length) return ''
+          var v = rest.shift()
+          if (t === 'c') return ''
+          if (t === 'd' || t === 'i') return String(parseInt(v, 10))
+          if (t === 'f') return String(Number(v))
+          return typeof v === 'string' ? v : safe(v)
+        })
+        return [head].concat(rest.map(safe)).join(' ').replace(/\s+$/, '')
+      }
+      return args.map(safe).join(' ')
+    }
     ;['log', 'info', 'warn', 'error'].forEach(function (k) {
       var orig = console[k]
       console[k] = function () {
-        try { post({ type: 'livepad-console', level: k, text: [].map.call(arguments, safe).join(' ') }) } catch (e) {}
+        try { post({ type: 'livepad-console', level: k, text: printf([].slice.call(arguments)) }) } catch (e) {}
         return orig.apply(console, arguments)
       }
     })
@@ -225,9 +251,120 @@
   }
   const REPORTER = '<script>(' + previewAgent.toString() + ')()</script>'
 
+  // ---------- React / Vite projects ----------
+  // Pinned packages the preview may import (an import map; esm.sh keeps a single React).
+  // Development builds (?dev), so React's warnings read like they do with Vite on a laptop.
+  const DEPS = 'deps=react@19.3.1,scheduler@0.28.0'
+  const IMPORTS = {
+    react: 'https://esm.sh/react@19.3.1?dev',
+    'react/jsx-runtime': 'https://esm.sh/react@19.3.1/jsx-runtime?dev',
+    'react/jsx-dev-runtime': 'https://esm.sh/react@19.3.1/jsx-dev-runtime?dev',
+    'react-dom': 'https://esm.sh/react-dom@19.3.1?dev&' + DEPS,
+    'react-dom/client': 'https://esm.sh/react-dom@19.3.1/client?dev&' + DEPS,
+    axios: 'https://esm.sh/axios@1.20.0',
+  }
+  const BABEL = 'https://cdn.jsdelivr.net/npm/@babel/standalone@7.28.4/babel.min.js'
+  // Site root (for lesson assets): the folder above shared/.
+  const ROOT = typeof document !== 'undefined' && document.currentScript ? new URL('..', document.currentScript.src).href : ''
+
+  // Runs inside the preview (as source text, so it must be self-contained): turn the
+  // project's files into ES modules the browser can load, like Vite does on your laptop.
+  function reactRunner(FILES, ASSETS, ENTRY) {
+    if (typeof Babel === 'undefined') {
+      console.error("Can't load React tools from the internet (offline, or the CDN is blocked). The live preview needs a connection.")
+      document.body.insertAdjacentHTML('afterbegin', '<p style="font:16px system-ui;padding:12px;background:#fde2e1;margin:0">Offline? The live preview needs the internet to load React.</p>')
+      return
+    }
+    var norm = function (p) { var out = []; p.split('/').forEach(function (s) { if (!s || s === '.') return; if (s === '..') out.pop(); else out.push(s) }); return out.join('/') }
+    var dirOf = function (p) { return p.split('/').slice(0, -1).join('/') }
+    var blobUrl = function (text, type) { return URL.createObjectURL(new Blob([text], { type: type })) }
+    var ASSET = /\.(svg|png|jpe?g|gif|webp|ico)$/i
+    var publicUrls = {}
+    Object.keys(FILES).forEach(function (p) { if (p.indexOf('public/') === 0) publicUrls['/' + p.slice(7)] = blobUrl(FILES[p], /\.svg$/.test(p) ? 'image/svg+xml' : 'text/plain') })
+    Object.keys(ASSETS).forEach(function (p) { if (p.indexOf('public/') === 0) publicUrls['/' + p.slice(7)] = ASSETS[p] })
+    var withPublic = function (code) {
+      Object.keys(publicUrls).forEach(function (k) { code = code.split('"' + k).join('"' + publicUrls[k]).split("'" + k).join("'" + publicUrls[k]) })
+      return code
+    }
+    var find = function (from, spec) {
+      var base = norm(dirOf(from) + '/' + spec)
+      var tries = [base, base + '.jsx', base + '.js', base + '/index.jsx', base + '/index.js']
+      for (var i = 0; i < tries.length; i++) if (FILES[tries[i]] != null || ASSETS[tries[i]] != null) return tries[i]
+      return null
+    }
+    var assetUrl = function (path) {
+      if (ASSETS[path] != null) return ASSETS[path]
+      return blobUrl(FILES[path], /\.svg$/i.test(path) ? 'image/svg+xml' : 'application/octet-stream')
+    }
+    // CSS: inline @import of local files, and point url(./x) at the asset.
+    var cssOf = function (path, seen) {
+      seen = seen || {}
+      if (seen[path]) return ''
+      seen[path] = 1
+      return String(FILES[path] || '')
+        .replace(/@import\s+(?:url\()?\s*['"]?(\.{1,2}\/[^'")]+)['"]?\s*\)?\s*;/g, function (m, spec) { var t = find(path, spec); return t ? cssOf(t, seen) : m })
+        .replace(/url\(\s*['"]?(\.{1,2}\/[^'")]+)['"]?\s*\)/g, function (m, spec) { var t = find(path, spec); return t && ASSET.test(t) ? 'url("' + assetUrl(t) + '")' : m })
+    }
+    var cssDone = {}, mods = {}, loading = {}
+    var ENV = 'if (!import.meta.env) import.meta.env = { MODE: "development", DEV: true, PROD: false, SSR: false, BASE_URL: "/" };\n'
+    var load = function (path, from) {
+      if (mods[path]) return mods[path]
+      if (loading[path]) throw new Error('/' + from + ' and /' + path + ' import each other. The preview cannot run import cycles: move the shared code into its own file.')
+      loading[path] = 1
+      var code = Babel.transform(FILES[path], { presets: [['react', { runtime: 'automatic', development: true }]], filename: '/' + path, sourceType: 'module', comments: false, retainLines: true }).code
+      var target = function (spec) {
+        var t = find(path, spec)
+        if (!t) throw new Error('/' + path + ': cannot find "' + spec + '"')
+        return t
+      }
+      // import … from './x'  |  import './x'  (CSS, assets, modules)
+      code = code.replace(/\bimport\s+((?:[\w$]+\s*,?\s*)?(?:\{[^}]*\}|\*\s+as\s+[\w$]+)?)\s*(?:from\s+)?(['"])(\.{1,2}\/[^'"]+)\2;?/g, function (m, clause, q, spec) {
+        var t = target(spec)
+        if (/\.css$/i.test(t)) {
+          if (!cssDone[t]) { cssDone[t] = 1; var st = document.createElement('style'); st.setAttribute('data-file', t); st.textContent = cssOf(t); document.head.append(st) }
+          return ''
+        }
+        if (ASSET.test(t)) {
+          var def = (clause.match(/^\s*([\w$]+)/) || [])[1]
+          return def ? 'const ' + def + ' = ' + JSON.stringify(assetUrl(t)) + ';' : ''
+        }
+        return m.replace(q + spec + q, q + load(t, path) + q)
+      })
+      // export … from './x'
+      code = code.replace(/\bexport\s+(\*(?:\s+as\s+[\w$]+)?|\{[^}]*\})\s*from\s*(['"])(\.{1,2}\/[^'"]+)\2/g, function (m, what, q, spec) {
+        return m.replace(q + spec + q, q + load(target(spec), path) + q)
+      })
+      // import('./x')
+      code = code.replace(/\bimport\(\s*(['"])(\.{1,2}\/[^'"]+)\1\s*\)/g, function (m, q, spec) { return 'import(' + q + load(target(spec), path) + q + ')' })
+      if (/import\.meta\.env/.test(code)) code = ENV + code
+      delete loading[path]
+      mods[path] = blobUrl(withPublic(code), 'text/javascript')
+      return mods[path]
+    }
+    try {
+      import(load(ENTRY, ENTRY)).catch(function (e) { console.error(String(e && e.message || e)) })
+    } catch (e) { console.error(e.message) }
+  }
+
+  const viteEntry = (html) => { const m = html.match(/<script\b[^>]*type\s*=\s*["']module["'][^>]*\bsrc\s*=\s*["']\/?(src\/[^"']+\.jsx?)["'][^>]*>\s*<\/script>/i); return m && m[1] }
+  const safeJson = (v) => JSON.stringify(v).replace(/</g, '\\u003c')
+
+  function buildReactDoc(files, assets, entry) {
+    const abs = {}
+    for (const [k, v] of Object.entries(assets || {})) abs[k] = ROOT ? new URL(v, ROOT).href : v
+    let doc = files['index.html'].replace(/<script\b[^>]*type\s*=\s*["']module["'][^>]*\bsrc\s*=\s*["']\/?src\/[^"']+["'][^>]*>\s*<\/script>/i, '')
+    doc = doc.replace(/<link\b[^>]*rel\s*=\s*["']icon["'][^>]*>/i, '')
+    const head = REPORTER + '<script type="importmap">' + JSON.stringify({ imports: IMPORTS }) + '</script><script src="' + BABEL + '"></script>'
+    const run = '<script>(' + reactRunner.toString() + ')(' + safeJson(files) + ',' + safeJson(abs) + ',' + JSON.stringify(entry) + ')</script>'
+    doc = /<head[^>]*>/i.test(doc) ? doc.replace(/<head[^>]*>/i, (h) => h + head) : head + doc
+    return /<\/body>/i.test(doc) ? doc.replace(/<\/body>/i, run + '</body>') : doc + run
+  }
+
   // One HTML document for an iframe srcdoc: linked CSS/JS files are inlined.
-  function buildDoc(files) {
+  function buildDoc(files, assets) {
     const html = files['index.html'] || ''
+    const entry = viteEntry(html)
+    if (entry && files[entry] != null) return buildReactDoc(files, assets, entry)
     const local = (ref) => files[ref.replace(/^\.\//, '')]
     let doc = html.replace(/<link\b[^>]*>/gi, (tag) => {
       if (!/\brel\s*=\s*["']?stylesheet/i.test(tag)) return tag
@@ -250,5 +387,5 @@
     return /<head[^>]*>/i.test(doc) ? doc.replace(/<head[^>]*>/i, (h) => h + REPORTER) : REPORTER + doc
   }
 
-  return { register, get, all, applyStep, filesAt, checkpoint, origins, noteFor, buildDoc, StepMismatch }
+  return { register, get, all, assetsOf, tabOrder, applyStep, filesAt, checkpoint, origins, noteFor, buildDoc, StepMismatch }
 })

@@ -28,7 +28,7 @@
   function renderList() {
     const lessons = Course.all().filter((l) => (window.FIXIT || {})[l.id])
     listEl.innerHTML = `<div class="fx-lessons">${lessons.map((l, k) =>
-      `<a class="fx-lesson${l === lesson ? ' on' : ''}" href="?lesson=${l.id}">Lecture ${Course.all().indexOf(l) + 1}: ${esc(l.title)}</a>`).join('')}</div>` +
+      `<a class="fx-lesson${l === lesson ? ' on' : ''}" href="?lesson=${l.id}">${esc(l.label || 'Lecture ' + (Course.all().indexOf(l) + 1))}: ${esc(l.title)}</a>`).join('')}</div>` +
       '<h2>Problems</h2>' + problems.map((p, k) =>
       `<button type="button" class="fx-item${p === current ? ' on' : ''}" data-id="${p.id}"><span class="fx-mark">${solved.has(p.id) ? '✅' : k + 1}</span> ${esc(p.title)}</button>`).join('')
     listEl.querySelectorAll('.fx-item').forEach((b) => (b.onclick = () => show(problems.find((p) => p.id === b.dataset.id))))
@@ -54,7 +54,7 @@
         <p class="fx-hint-text" hidden></p>
         <div class="fx-answer" hidden></div>
       </section>`
-    editor = Livepad.mount(mainEl.querySelector('.fx-pad'), { files: brokenFiles(p), editable: true })
+    editor = Livepad.mount(mainEl.querySelector('.fx-pad'), { files: brokenFiles(p), assets: Course.assetsOf(lesson), editable: true })
     mainEl.querySelector('.fx-fix').onclick = check
     mainEl.querySelector('.fx-hint').onclick = () => { const h = mainEl.querySelector('.fx-hint-text'); h.hidden = false; h.textContent = '💡 ' + p.hint }
     mainEl.querySelector('.fx-solution').onclick = showSolution
@@ -74,7 +74,13 @@
       const d = checker.srcdoc; checker.removeAttribute('srcdoc'); checker.srcdoc = d
     }
   })
-  function settle(doc) {
+  // Pop-ups in the checked page are recorded, not shown (checks read ctx.alerts).
+  let alerts = []
+  checker.addEventListener('load', () => { try { checker.contentWindow.alert = (m) => { alerts.push(String(m)) } } catch {} })
+  async function settle(doc) {
+    // A React app renders after its modules load: wait for #root to fill (or give up after 8 s).
+    const rootEl = doc.getElementById('root')
+    for (let t = 0; rootEl && !rootEl.childElementCount && t < 8000; t += 100) await new Promise((r) => setTimeout(r, 100))
     const imgs = [...doc.images].filter((i) => !i.complete)
     return Promise.race([
       Promise.all(imgs.map((i) => new Promise((r) => { i.addEventListener('load', r); i.addEventListener('error', r) }))),
@@ -92,11 +98,12 @@
     const out = mainEl.querySelector('.fx-result')
     out.className = 'fx-result'
     out.textContent = 'Checking…'
-    const html = Course.buildDoc(editor.getFiles())
+    const html = Course.buildDoc(editor.getFiles(), Course.assetsOf(lesson))
     await new Promise((resolve) => { checker.onload = resolve; checker.srcdoc = html })
     const doc = checker.contentDocument, win = checker.contentWindow
     await settle(doc)
-    const ctx = { wait: (ms) => new Promise((r) => setTimeout(r, ms)), doc: () => checker.contentDocument,
+    alerts = []
+    const ctx = { wait: (ms) => new Promise((r) => setTimeout(r, ms)), doc: () => checker.contentDocument, get alerts() { return alerts },
       settled: async () => { if (reloading) { await reloading; await settle(checker.contentDocument) } } }
     const results = []
     for (const c of p.checks) {
