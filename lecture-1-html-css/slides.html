@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="../shared/livepad.css?v=4">
 <style>
   .precedence td, .precedence th { padding: 8px 12px; font-size: 21px; }
+  .rank { margin-top: 18px; padding: 12px 20px; }
+  .rank p { font-size: 23px; margin: 4px 0; max-width: none; }
   .slide.code { padding: 60px 64px 36px; }
   .slide.code h2 { font-size: 44px; margin: 0; display: flex; align-items: baseline; gap: 18px; }
   .slide.code h2 .say { font: 500 22px var(--mono); color: var(--muted); }
@@ -326,6 +328,10 @@
       <tr><td><b>4</b></td><td class="pk">A tie: the one <b>later in the page</b></td></tr>
     </table>
   </div>
+  <div class="card blue rank">
+    <p><b>On a usual page</b> (<code>&lt;link&gt;</code> first, then <code>&lt;style&gt;</code>), same selector: <b>Inline</b> wins, then <b>Internal</b>, then <b>External</b></p>
+    <p><b>Then order matters:</b> swap <code>&lt;link&gt;</code> and <code>&lt;style&gt;</code> and External beats Internal</p>
+  </div>
   <p class="bottomline">On a tie, the later rule wins, wherever it lives.</p>
   <aside class="notes">
     <p><b>About 2 minutes.</b> Say: "We'll do all three in the next code-along, then keep only the last."</p>
@@ -337,7 +343,7 @@
       <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><b>Line 3</b>, specific</td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">This is checked <b>before</b> order. <code>#page-title</code> in styles.css beats <code>h1</code> in a <code>&lt;style&gt;</code> below it, even though the h1 rule comes later.</td></tr>
       <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><b>Line 4</b>, a tie</td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">Same selector: the later rule wins. Where it lives doesn't matter, only the order. <code>&lt;link&gt;</code> then <code>&lt;style&gt;</code>: the style wins. <code>&lt;style&gt;</code> then <code>&lt;link&gt;</code>: the file wins. Two rules in one file work the same way.</td></tr>
       <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><b>Line 1</b>, <code>!important</code></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><code>color: red !important;</code> beats even inline. Say: "You'll see it online. It's a last resort: it starts a fight that only another !important can win."</td></tr>
-      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><b>Bottom line</b></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">Internal is <b>not</b> stronger than external. Many people say "inline, then internal, then external". The first part is true. The second only looks true because <code>&lt;style&gt;</code> usually comes after <code>&lt;link&gt;</code> in the head.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><b>Blue box</b></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">Say: "On a normal page: inline wins, then internal, then external." That holds because <code>&lt;link&gt;</code> comes first in the head and <code>&lt;style&gt;</code> after it: same selector, the later one wins. "Then ordering matters: put the <code>&lt;link&gt;</code> <b>below</b> the <code>&lt;style&gt;</code> and external wins." Internal has no extra power of its own: it's only later.</td></tr>
     </table>
     <p>The selectors slide comes back to line 3 with a live demo: the red title.</p>
   </aside>

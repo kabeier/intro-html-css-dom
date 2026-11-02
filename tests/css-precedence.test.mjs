@@ -37,3 +37,14 @@ test('a more specific selector beats a later rule', async () => {
 test('!important beats inline', async () => {
   assert.equal(await colour(link('h1 { color: red !important }'), inline), red)
 })
+
+test('on a usual page (link, then style) the same selector ranks inline, internal, external', async () => {
+  const head = link('h1 { color: red }') + style('h1 { color: green }')
+  assert.equal(await colour(head, inline), purple, 'inline wins')
+  assert.equal(await colour(head, h1), green, 'internal beats external')
+  assert.equal(await colour(link('h1 { color: red }'), h1), red, 'external alone')
+})
+
+test('swap link and style and external beats internal: order matters', async () => {
+  assert.equal(await colour(style('h1 { color: green }') + link('h1 { color: red }'), h1), red)
+})

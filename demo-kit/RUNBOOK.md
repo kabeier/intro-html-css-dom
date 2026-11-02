@@ -38,7 +38,7 @@ If you typed in the editor and **N** says "can't apply": press **Shift+N**.
 | 9 | 28 | — | form tags; action, method, name |
 | 10 | 30 | **N ×10**, A open; press Send after N 8, 9, 10 (table in notes) | GET: password in the URL. POST: in the body |
 | 11 | 39 | click the timer (6:00) | Fix It, problems 1–6 |
-| 12 | 45 | — | inline / internal / external; who wins: !important, inline, specific, then later in the page |
+| 12 | 45 | — | inline / internal / external; who wins: usual page = inline, internal, external; then order matters |
 | 13 | 47 | **N ×6**, A open the whole time | selector { property: value; } |
 | 14 | 50 | **N ×4** | ID > class > element: red wins; span gets a look; labels stack |
 | 15 | 54 | (DevTools on the pop-out if time) | content, padding, border, margin |
