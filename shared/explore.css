@@ -114,3 +114,6 @@ code, pre { font-family: 'JetBrains Mono', ui-monospace, monospace; }
 .ex-cmd .ex-api { margin-top: 8px; }
 .ex-cmd .ex-api code { overflow-wrap: anywhere; }
 .ex-cmd .ex-api td:first-child { width: 30%; }
+.ex-tree-box { margin: 0 0 12px; border: 2px solid var(--ink); border-radius: 4px; }
+.ex-tree-box summary { padding: 7px 10px; font-weight: 700; cursor: pointer; }
+.ex-tree { padding: 0 0 6px; max-height: 420px; overflow: auto; }
