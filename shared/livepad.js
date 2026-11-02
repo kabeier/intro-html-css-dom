@@ -66,6 +66,7 @@
       pad.edited(f, models[f].getValue())
     })
     const fold = () => {
+      if (!ed.getModel()) return // a step can work on a file with no tab
       const areas = [], last = ed.getModel().getLineCount(), wins = pad.snippet && pad.windows && pad.windows[pad.tab]
       let from = 1
       for (const [a, b] of wins || []) { if (a > from) areas.push(new m.Range(from, 1, a - 1, 1)); from = b + 1 }
