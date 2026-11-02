@@ -29,36 +29,38 @@ If you typed in the editor and **N** says "can't apply": press **Shift+N**.
 |---|---|---|---|
 | 1 | 0 | T (clock) | "HTML is what's on the page. CSS is how it looks." |
 | 2 | 1 | students make `trainer-profile/index.html` + `styles.css` | markup language, not programming; keys N / A / Pop out |
-| 3 | 3 | **N ×3**, A after N 2 | the four skeleton tags (table in notes) |
-| 4 | 7 | — | the frame; everything that can live in the head (only the body is drawn) |
-| 5 | 9 | — | start tag · attribute · content · end tag; void elements |
-| 6 | 11 | **N ×6**, A after N 2, click About; click Pokédex after N 5 | id = one, class = group; #id stays, https:// leaves |
-| 7 | 17 | — | semantic tags table |
-| 8 | 18 | **N ×7**, A open | em, br, span, div, h3–h6, article, aside |
-| 9 | 25 | **N ×6**, A before N 3 | ul → ol; tables are for data; dl = term + meaning |
-| 10 | 30 | — | tags at a glance: a look-back, don't read it out |
-| 11 | 31 | — | form tags; action, method, name |
-| 12 | 33 | **N ×10**, A open; press Send after N 8, 9, 10 (table in notes) | GET: password in the URL. POST: in the body |
-| 13 | 42 | click the timer (6:00) | Fix It, problems 1–6 |
-| 14 | 48 | — | inline / internal / external; who wins: usual page = inline, internal, external; then order matters |
-| 15 | 50 | **N ×6**, A open the whole time | selector { property: value; } |
-| 16 | 53 | — | one colour, many ways: name, hex, short hex, rgb, hsl, see-through |
-| 17 | 55 | **N ×4** | ID > class > element: red wins; span gets a look; labels stack |
-| 18 | 59 | (DevTools on the pop-out if time) | content, padding, border, margin |
-| 19 | 60 | — | px, rem, %, flex, media query |
-| 20 | 61 | **N ×6**, then Pop out + narrow window | rem, %, flex; media query: links stack |
-| 21 | 67 | in the playground: border-radius, display, justify-content, type `tomatoo` | the rule shape; flex goes on the parent; wrong values are skipped silently |
-| 22 | 69 | paste the page into the validator, delete a `</section>`, check again | fix the first error first |
-| 23 | 71 | — | MDN, Code Explorer, CSS Playground |
-| 24 | 72 | — | Homework Part I, top to bottom |
+| 3 | 3 | students install Live Server with you | Extensions → live server → the one by Ritwick Dey → Install |
+| 4 | 5 | File → Open Folder, Go Live; save a change; click Port : 5500 | Go Live starts it, Port : 5500 stops it; 127.0.0.1 = this computer |
+| 5 | 6 | **N ×3**, A after N 2 | the four skeleton tags (table in notes) |
+| 6 | 10 | — | the frame; everything that can live in the head (only the body is drawn) |
+| 7 | 12 | — | start tag · attribute · content · end tag; void elements |
+| 8 | 14 | **N ×6**, A after N 2, click About; click Pokédex after N 5 | id = one, class = group; #id stays, https:// leaves |
+| 9 | 20 | — | semantic tags table |
+| 10 | 21 | **N ×7**, A open | em, br, span, div, h3–h6, article, aside |
+| 11 | 28 | **N ×6**, A before N 3 | ul → ol; tables are for data; dl = term + meaning |
+| 12 | 33 | — | tags at a glance: a look-back, don't read it out |
+| 13 | 34 | — | form tags; action, method, name |
+| 14 | 36 | **N ×10**, A open; press Send after N 8, 9, 10 (table in notes) | GET: password in the URL. POST: in the body |
+| 15 | 45 | click the timer (6:00) | Fix It, problems 1–6 |
+| 16 | 51 | — | inline / internal / external; who wins: usual page = inline, internal, external; then order matters |
+| 17 | 53 | **N ×6**, A open the whole time | selector { property: value; } |
+| 18 | 56 | — | one colour, many ways: name, hex, short hex, rgb, hsl, see-through |
+| 19 | 58 | **N ×4** | ID > class > element: red wins; span gets a look; labels stack |
+| 20 | 62 | (DevTools on the pop-out if time) | content, padding, border, margin |
+| 21 | 63 | — | px, rem, %, flex, media query |
+| 22 | 64 | **N ×6**, then Pop out + narrow window | rem, %, flex; media query: links stack |
+| 23 | 70 | in the playground: border-radius, display, justify-content, type `tomatoo` | the rule shape; flex goes on the parent; wrong values are skipped silently |
+| 24 | 72 | paste the page into the validator, delete a `</section>`, check again | fix the first error first |
+| 25 | 74 | — | MDN, Code Explorer, CSS Playground |
+| 26 | 75 | — | Homework Part I, top to bottom |
 
 ## Time checks
 
 | At slide | Should be | If late |
 |---|---|---|
-| 8 (text tags) | min 18 | press N through it, say one line per tag |
-| 13 (activity) | min 42 | shorten the activity to 4 minutes (problems 1–4) |
-| 18 | min 59 | skip DevTools; say the four layers |
+| 10 (text tags) | min 21 | press N through it, say one line per tag |
+| 15 (activity) | min 45 | shorten the activity to 4 minutes (problems 1–4) |
+| 20 | min 62 | skip DevTools; say the four layers |
 
 ## Things to expect
 

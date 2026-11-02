@@ -14,6 +14,8 @@
   .colours .sw { display: block; width: 76px; height: 38px; border-radius: 4px; }
   .frame td, .frame th { padding: 6px 10px; font-size: 19px; }
   .frame code { font-size: 0.86em; }
+  img.shot { display: block; width: 100%; max-width: 1150px; border-radius: 6px; margin-bottom: 12px; }
+  .shots img { display: block; width: 100%; border-radius: 6px; margin-bottom: 12px; }
   .rank { margin-top: 18px; padding: 12px 20px; }
   .rank p { font-size: 23px; margin: 4px 0; max-width: none; }
   .slide.code { padding: 60px 64px 36px; }
@@ -31,7 +33,7 @@
   .keys td:first-child { font: 700 26px var(--mono); white-space: nowrap; }
 </style>
 </head>
-<body data-minutes="73">
+<body data-minutes="76">
 <div class="stage">
 
 <!-- ============ OPEN (0–3) ============ -->
@@ -61,13 +63,66 @@
   <aside class="notes">
     <p>Say: "HTML answers <b>what</b>. CSS answers <b>how it looks</b>. Today we keep them apart on purpose."</p>
     <p>Say: "HTML is not a programming language. It's a <b>markup language</b>: no logic, just tags that describe the content. The browser reads them and draws the page."</p>
-    <p><b>Students:</b> new folder <code>trainer-profile</code>, files <code>index.html</code> + <code>styles.css</code>, open with Live Server (or just double-click index.html and refresh).</p>
+    <p><b>Students:</b> new folder <code>trainer-profile</code>, files <code>index.html</code> + <code>styles.css</code>. The next two slides set up Live Server, so they see the page as they type.</p>
     <p>Lost later? The <b>Code Explorer</b> on the class site has the code after every feature, with a <b>Download</b> button.</p>
   </aside>
 </section>
 
-<!-- ============ HTML (3–42) ============ -->
-<section class="slide code" data-seg="Code along: skeleton" data-at="3">
+<section class="slide" data-seg="Open" data-at="3">
+  <h2>Install Live Server in VS Code</h2>
+  <img class="shot" src="../diagrams/HC1-01-live-server-install.png" alt="The VS Code Extensions panel with four numbered marks. 1: the Extensions icon in the left bar. 2: the search box with live server typed in it. 3: the result called Live Server by Ritwick Dey. 4: the button area on its page, where Install appears; this screenshot shows Disable and Uninstall because it is already installed.">
+  <ol class="steps small">
+    <li>Click <b>Extensions</b> in the left bar (Ctrl+Shift+X)</li>
+    <li>Search <b>live server</b></li>
+    <li>Pick the one by <b>Ritwick Dey</b>: the others have similar names</li>
+    <li>Click <b>Install</b></li>
+  </ol>
+  <aside class="notes">
+    <p><b>** LIVE, about 2 minutes. **</b> Students do this with you. Once per laptop.</p>
+    <table style="border-collapse:collapse;font-size:17px;margin:8px 0">
+      <tr><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">Point at</th><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">How it works</th></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><b>1</b>, the Extensions icon</td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">Four squares with one lifting off. On a Mac the shortcut is Cmd+Shift+X.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><b>3</b>, Ritwick Dey</td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">Many extensions are called Live Server. Check the author name and the download count: this one has over 84 million.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><b>4</b>, the buttons</td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">Students see <b>Install</b> here. The screenshot shows Disable and Uninstall because it's already installed.</td></tr>
+    </table>
+    <p>Say: "An extension adds a feature to VS Code. This one runs a small web server on your laptop and reloads the page every time you save."</p>
+  </aside>
+</section>
+
+<section class="slide" data-seg="Open" data-at="5">
+  <h2>Start it, see it, stop it</h2>
+  <div class="cols" style="grid-template-columns:1.08fr 1fr;gap:24px;align-items:start">
+    <div class="shots">
+      <img src="../diagrams/HC1-02-go-live.png" alt="The blue status bar at the bottom right of VS Code. An arrow points to Go Live, with the label: Not running, click Go Live to start.">
+      <img src="../diagrams/HC1-03-port-5500.png" alt="The same status bar while the server runs. An arrow points to Port : 5500, with the label: Running, click Port : 5500 to stop.">
+    </div>
+    <table class="dbt small frame">
+      <tr><td><b>Start</b></td><td>open the <b>folder</b>, then click <b>Go Live</b></td></tr>
+      <tr><td><b>See</b></td><td>the browser opens <code>127.0.0.1:5500/index.html</code></td></tr>
+      <tr><td><b>Change</b></td><td>save (Ctrl+S): the page reloads itself</td></tr>
+      <tr><td><b>Stop</b></td><td>click <b>Port : 5500</b> in the same spot</td></tr>
+    </table>
+  </div>
+  <p class="bottomline">Bottom right of VS Code: Go Live starts it, Port : 5500 stops it.</p>
+  <aside class="notes">
+    <p><b>** LIVE, about 1 minute. **</b> Students: File → Open Folder → <code>trainer-profile</code>, then Go Live.</p>
+    <table style="border-collapse:collapse;font-size:17px;margin:8px 0">
+      <tr><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">Point at</th><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">How it works</th></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><b>Go Live</b></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">Bottom right, in the blue bar. Not there? VS Code may need a reload, or the bar is hidden. Other ways to start: right-click <code>index.html</code> → <b>Open with Live Server</b>, or Alt+L then Alt+O (Cmd+L Cmd+O on a Mac).</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><b>Open the folder</b></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">It needs a folder, not a single file. With no folder open it says: "Open a folder or workspace… (File -&gt; Open Folder)".</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><code>127.0.0.1:5500</code></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><code>127.0.0.1</code> means "this computer": <code>localhost</code> is the same thing, so <code>localhost:5500</code> works too. <b>5500</b> is the port: a numbered door on your laptop, and each server uses its own.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><b>Port : 5500</b></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">The same spot in the bar changes while it runs. Click it to stop; it goes back to Go Live. Other ways: right-click → <b>Stop Live Server</b>, or Alt+L then Alt+C (Cmd+L Cmd+C).</td></tr>
+    </table>
+    <ul>
+      <li>Say: "Only your computer can see this address. It isn't on the internet."</li>
+      <li>After you stop it, refreshing the tab gives a "can't reach this site" page. That's expected: nothing is answering on that door now.</li>
+      <li>Page not updating? The file isn't saved: a dot on the tab means unsaved.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ============ HTML (6–45) ============ -->
+<section class="slide code" data-seg="Code along: skeleton" data-at="6">
   <h2>The skeleton every page has <span class="say">index.html</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="null" data-steps="f1s1 f1s2 f1s3" data-files="index.html styles.css"></div>
   <aside class="notes">
@@ -94,7 +149,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="HTML" data-at="7">
+<section class="slide" data-seg="HTML" data-at="10">
   <h2>The frame, and what goes in the head</h2>
   <div class="cols" style="grid-template-columns:0.72fr 1.28fr;gap:24px;align-items:start">
     <table class="dbt small frame">
@@ -131,7 +186,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="HTML" data-at="9">
+<section class="slide" data-seg="HTML" data-at="12">
   <h2>Anatomy of an element</h2>
   <div class="anatomy">&lt;<span class="t">a</span> <span class="a">href</span>=<span class="s">"#team"</span>&gt;Team&lt;/<span class="t">a</span>&gt;</div>
   <table class="dbt small">
@@ -153,7 +208,7 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: content" data-at="11">
+<section class="slide code" data-seg="Code along: content" data-at="14">
   <h2>Content with meaning <span class="say">index.html</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f1s3" data-steps="f2s1 f2s2 f2s3 f2s4 f2s5 f2s6" data-files="index.html styles.css"></div>
   <aside class="notes">
@@ -183,7 +238,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="HTML" data-at="17">
+<section class="slide" data-seg="HTML" data-at="20">
   <h2>Semantic tags say what a part of the page is</h2>
   <table class="dbt small">
     <tr><th>Tag</th><th>Means</th><th>On our page</th></tr>
@@ -201,7 +256,7 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: text + boxes" data-at="18">
+<section class="slide code" data-seg="Code along: text + boxes" data-at="21">
   <h2>Small tags and plain boxes <span class="say">index.html</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f2s6" data-steps="f8s1 f8s2 f8s3 f8s4 f8s5 f8s6 f8s7" data-files="index.html styles.css"></div>
   <aside class="notes">
@@ -233,7 +288,7 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: lists + table" data-at="25">
+<section class="slide code" data-seg="Code along: lists + table" data-at="28">
   <h2>Three lists and a table <span class="say">index.html</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f8s7" data-steps="f3s1 f3s2 f3s3 f3s4 f3s5 f3s6" data-files="index.html styles.css"></div>
   <aside class="notes">
@@ -262,7 +317,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="HTML" data-at="30">
+<section class="slide" data-seg="HTML" data-at="33">
   <h2>Tags at a glance</h2>
   <div class="cols" style="grid-template-columns:1fr 1fr;gap:24px;align-items:start">
     <table class="dbt small frame">
@@ -298,7 +353,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="Forms" data-at="31">
+<section class="slide" data-seg="Forms" data-at="34">
   <h2>A form sends named data somewhere</h2>
   <div class="cols" style="align-items:start">
     <table class="dbt small">
@@ -325,7 +380,7 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: form" data-at="33">
+<section class="slide code" data-seg="Code along: form" data-at="36">
   <h2>A form, and where it sends the data <span class="say">index.html</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f3s6" data-steps="f4s1 f4s2 f4s3 f4s4 f4s5 f4s6 f4s7 f4s8 f4s9 f4s10" data-files="index.html styles.css"></div>
   <aside class="notes">
@@ -371,8 +426,8 @@
   </aside>
 </section>
 
-<!-- ============ ACTIVITY (42–48) ============ -->
-<section class="slide activity" data-seg="Activity: Fix it" data-at="42">
+<!-- ============ ACTIVITY (45–51) ============ -->
+<section class="slide activity" data-seg="Activity: Fix it" data-at="45">
   <h2>Activity: Fix it</h2>
   <div class="countdown" data-sec="360"></div>
   <ol class="steps">
@@ -389,8 +444,8 @@
   </aside>
 </section>
 
-<!-- ============ CSS (48–69) ============ -->
-<section class="slide" data-seg="CSS" data-at="48">
+<!-- ============ CSS (51–72) ============ -->
+<section class="slide" data-seg="CSS" data-at="51">
   <h2>Three places CSS can live, and which one wins</h2>
   <div class="cols" style="grid-template-columns:1.1fr 1fr;gap:28px;align-items:start">
     <table class="dbt small precedence">
@@ -428,7 +483,7 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: CSS" data-at="50">
+<section class="slide code" data-seg="Code along: CSS" data-at="53">
   <h2>Inline, internal, external <span class="say">index.html · styles.css</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f4s10" data-steps="f5s1 f5s2 f5s3 f5s4 f5s5 f5s6" data-files="index.html styles.css"></div>
   <aside class="notes">
@@ -456,7 +511,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="CSS" data-at="53">
+<section class="slide" data-seg="CSS" data-at="56">
   <h2>One colour, many ways to write it</h2>
   <table class="dbt small colours">
     <tr><th>Way</th><th>Looks like</th><th></th><th>Good for</th></tr>
@@ -485,7 +540,7 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: selectors" data-at="55">
+<section class="slide code" data-seg="Code along: selectors" data-at="58">
   <h2>Element, .class, #id: the most specific wins <span class="say">styles.css</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f5s6" data-steps="f6s1 f6s2 f6s3 f6s4" data-files="styles.css index.html"></div>
   <aside class="notes">
@@ -512,7 +567,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="CSS" data-at="59">
+<section class="slide" data-seg="CSS" data-at="62">
   <h2>Every element is a box</h2>
   <div class="cols">
     <div class="boxm"><div class="m">margin: outside, see-through<div class="b"><div class="p">padding: inside, takes the background<div class="c">content</div></div></div></div></div>
@@ -530,7 +585,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="CSS" data-at="60">
+<section class="slide" data-seg="CSS" data-at="63">
   <h2>One page, every screen</h2>
   <table class="dbt small">
     <tr><th>Tool</th><th>Example</th><th>Why it flexes</th></tr>
@@ -547,7 +602,7 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: box + responsive" data-at="61">
+<section class="slide code" data-seg="Code along: box + responsive" data-at="64">
   <h2>Box model and responsive design <span class="say">styles.css</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f6s4" data-steps="f7s1 f7s2 f7s3 f7s4 f7s5 f7s6" data-files="styles.css index.html"></div>
   <aside class="notes">
@@ -577,8 +632,8 @@
   </aside>
 </section>
 
-<!-- ============ WRAP (69–73) ============ -->
-<section class="slide" data-seg="CSS" data-at="67">
+<!-- ============ WRAP (72–76) ============ -->
+<section class="slide" data-seg="CSS" data-at="70">
   <h2>CSS Playground: try any property</h2>
   <iframe class="playground" src="css-playground/?embed=1" title="CSS Playground" loading="lazy"></iframe>
   <aside class="notes">
@@ -595,7 +650,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="Wrap up" data-at="69">
+<section class="slide" data-seg="Wrap up" data-at="72">
   <h2>Let the W3C validator check your HTML</h2>
   <ol class="steps">
     <li>Open <a href="https://validator.w3.org/nu/#textarea" target="_blank" rel="noopener">validator.w3.org/nu</a> → <b>Text input</b></li>
@@ -615,7 +670,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="Wrap up" data-at="71">
+<section class="slide" data-seg="Wrap up" data-at="74">
   <h2>Habits, and where to look later</h2>
   <div class="cols">
     <div class="card blue"><h3>HTML</h3><p>Semantic tags · accessible markup: alt on every image, a label for every input · check it at <b>validator.w3.org</b></p></div>
@@ -629,7 +684,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="Wrap up" data-at="72">
+<section class="slide" data-seg="Wrap up" data-at="75">
   <h2>Homework, Part I</h2>
   <ol class="steps small">
     <li><b>To-Do List I</b></li>

@@ -57,6 +57,7 @@
   footer { margin-top: 56px; color: var(--muted); font-size: 16px; }
   a:focus-visible, summary:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
   @media (prefers-reduced-motion: reduce) { a.slides { transition: none; } }
+  .lsimg { display: block; width: 100%; max-width: 760px; border-radius: 4px; margin: 6px 0 14px; }
 </style>
 </head>
 <body>
@@ -69,7 +70,7 @@
     <section>
       <div class="num">1</div>
       <h2>HTML &amp; CSS</h2>
-      <p>The page skeleton, text tags and semantic tags, three kinds of list, a table, and a full form sent to a real server; then CSS three ways, selectors, specificity, the box model and responsive design. About 73 minutes.</p>
+      <p>The page skeleton, text tags and semantic tags, three kinds of list, a table, and a full form sent to a real server; then CSS three ways, selectors, specificity, the box model and responsive design. About 76 minutes.</p>
       <a class="slides" href="lecture-1-html-css/slides.html" target="_blank" rel="noopener"><b>Open the slides</b>Arrow keys to move, F for fullscreen, N to type the next step, A to show the live page</a>
       <ol>
         <li><a href="fixit.html?lesson=html-css" target="_blank" rel="noopener"><b>Activity: Fix It</b><span>Ten broken pages. Fix the code, press Fix, get a ✅. Problems 1–6 first.</span></a></li>
@@ -90,6 +91,32 @@
       </ol>
     </section>
   </div>
+
+  <h3 id="live-server">Set up Live Server (do this before lecture 1)</h3>
+  <section class="install">
+    <p>Live Server shows your page in the browser and reloads it every time you save.</p>
+    <h4>1 · Install it (once per laptop)</h4>
+    <ol class="steps">
+      <li>In VS Code, click <b>Extensions</b> in the left bar (Ctrl+Shift+X, Cmd+Shift+X on a Mac).</li>
+      <li>Search <b>live server</b>. Pick the one by <b>Ritwick Dey</b>: others have similar names.</li>
+      <li>Click <b>Install</b>.</li>
+    </ol>
+    <a href="diagrams/HC1-01-live-server-install.png" target="_blank" rel="noopener"><img class="lsimg" src="diagrams/HC1-01-live-server-install.png" alt="The VS Code Extensions panel: 1 the Extensions icon, 2 the search box with live server typed in it, 3 Live Server by Ritwick Dey, 4 where the Install button appears." loading="lazy"></a>
+    <h4>2 · Start it</h4>
+    <ol class="steps">
+      <li>Open your <b>folder</b> in VS Code (File → Open Folder), not a single file.</li>
+      <li>Click <b>Go Live</b> at the bottom right. Or right-click <code>index.html</code> → <b>Open with Live Server</b>.</li>
+      <li>Your browser opens <code>http://127.0.0.1:5500/index.html</code>. <code>127.0.0.1</code> means this computer, so <code>localhost:5500</code> works too. Only you can see it.</li>
+      <li>Change your code and save (Ctrl+S): the page reloads by itself.</li>
+    </ol>
+    <a href="diagrams/HC1-02-go-live.png" target="_blank" rel="noopener"><img class="lsimg" src="diagrams/HC1-02-go-live.png" alt="The status bar at the bottom right of VS Code, with an arrow to Go Live." loading="lazy"></a>
+    <h4>3 · Stop it</h4>
+    <ol class="steps">
+      <li>Click <b>Port : 5500</b> in the same spot. It goes back to <b>Go Live</b>.</li>
+    </ol>
+    <a href="diagrams/HC1-03-port-5500.png" target="_blank" rel="noopener"><img class="lsimg" src="diagrams/HC1-03-port-5500.png" alt="The status bar while the server runs, with an arrow to Port : 5500." loading="lazy"></a>
+    <p class="fail"><b>If this breaks:</b> "Open a folder or workspace" = you opened one file: use File → Open Folder. Page not updating? The file isn't saved: a dot on the tab means unsaved. No Go Live button? Right-click <code>index.html</code> → Open with Live Server.</p>
+  </section>
 
   <h3 id="homework">Homework Part I: HTML &amp; CSS</h3>
   <section class="install">
