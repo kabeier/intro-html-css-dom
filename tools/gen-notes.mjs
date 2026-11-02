@@ -34,7 +34,7 @@ function table(lessonId, featureId) {
     const ref = (r) => { const [lid, sid] = r.includes(':') ? r.split(':') : [lessonId, r]; return Course.get(lid).features.flatMap((x) => x.steps).find((x) => x.id === sid) }
     const flag = s.later ? `<br><b>⚠ For now (not the final way):</b> ${esc(s.later.how)} Fixed in: ${esc(s.later.where)}.`
       : s.fixes ? `<br><b>✓ The right way:</b> replaces ${s.fixes.map((r) => { const x = ref(r); return x && x.later ? esc(x.later.how) : esc(r) }).join(' / ')}` : ''
-    return `<tr><td ${td}><b>N ${k + 1}</b></td><td ${td}><code>${esc(s.file)}</code></td><td ${td}><code>${esc(short)}</code></td><td ${td}>${esc(s.say || '')}${flag}</td></tr>`
+    return `<tr><td ${td}><b>N ${k + 1}</b></td><td ${td}><code>${esc(s.file)}</code></td><td ${td}><code>${esc(short)}</code></td><td ${td}>${esc(s.say || '')}${flag}</td></tr>${s.point ? `\n<tr><td ${td}></td><td colspan="3" ${td.replace('style="', 'style="font-size:18px;line-height:1.45;')}><b>Point at:</b> ${esc(s.point)}</td></tr>` : ''}`
   })
   return `<table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th ${td}>Press</th><th ${td}>File</th><th ${td}>Types</th><th ${td}>Say</th></tr>\n${rows.join('\n')}\n</table>`
 }

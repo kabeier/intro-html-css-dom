@@ -5,12 +5,12 @@ Lecture site for Code Platoon Phase II, Front-End unit 1 (Vanilla Development). 
 | Path | What |
 |---|---|
 | `index.html` | Landing page: lectures, Fix It, Code Explorer, homework |
-| `lecture-1-html-css/slides.html` | Lecture 1 deck (16 slides, ~40 min) |
+| `lecture-1-html-css/slides.html` | Lecture 1 deck (20 slides, ~65 min: the whole curriculum page) |
 | `lecture-2-js-dom/slides.html` | Lecture 2 deck (16 slides, ~40 min) |
 | `explore.html?lesson=html-css&at=f3` | Code Explorer: the page after any feature, the changes, the story of every line, zip download |
 | `fixit.html?lesson=html-css` | Fix It: 10 broken pages with behaviour checks (lecture 1's activity) |
 | `shared/course.js` | Lesson data model: steps → checkpoints, line origins, notes, `buildDoc` |
-| `shared/course/html-css.js` | Lecture 1's page as data (7 features). **Edit code here**: slides, explorer and Fix It all read it |
+| `shared/course/html-css.js` | Lecture 1's page as data (8 features). **Edit code here**: slides, explorer and Fix It all read it |
 | `shared/course/html-css-fixit.js` | Lecture 1's Fix It problems |
 | `shared/course/js-dom.js`, `js-dom-fixit.js` | Lecture 2: starts from lecture 1's page (`base`), adds script.js; its Fix It problems (async checks) |
 | `shared/livepad.js`, `.css`, `popout.html` | The editor + live preview in the slides |

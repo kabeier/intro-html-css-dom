@@ -19,8 +19,20 @@
     <section id="about" class="card">
       <h2>About me</h2>
       <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png" alt="Pikachu">
-      <p>I am learning to build web pages, <strong>one tag at a time</strong>.</p>
+      <p>I am <em>learning</em> to build web pages, <strong>one tag at a time</strong>.</p>
       <p>Read about Pikachu on the <a href="https://www.pokemon.com/us/pokedex/pikachu" target="_blank">Pokédex</a>.</p>
+      <p>Pallet Town<br>Kanto region</p>
+      <p>Favorite type: <span class="type">Electric</span></p>
+      <h3>Stats</h3>
+      <div class="stats">
+        <p>Badges: 8</p>
+        <p>Wins: 12</p>
+      </div>
+      <article>
+        <h3>Latest battle</h3>
+        <p>Pikachu beat Onix in three turns.</p>
+      </article>
+      <aside>Tip: electric moves do nothing to ground types.</aside>
     </section>
     <section id="team" class="card">
       <h2>My team</h2>
@@ -38,17 +50,30 @@
           <tr><td>Bulbasaur</td><td>Grass</td><td>9</td></tr>
         </tbody>
       </table>
+      <h3>Type guide</h3>
+      <dl>
+        <dt>Electric</dt>
+        <dd>Strong against water and flying types.</dd>
+      </dl>
     </section>
     <section id="contact" class="card">
       <h2>Battle request</h2>
       <form>
         <label for="trainer">Your name</label>
         <input type="text" id="trainer" name="trainer">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password">
         <label for="favorite">Favorite type</label>
         <select id="favorite" name="favorite">
           <option>Fire</option>
           <option>Water</option>
         </select>
+        <fieldset>
+          <legend>Battle style</legend>
+          <label><input type="radio" name="style" value="single"> Single</label>
+          <label><input type="radio" name="style" value="double"> Double</label>
+        </fieldset>
+        <label><input type="checkbox" name="rules" value="agree"> I accept the rules</label>
         <label for="message">Message</label>
         <textarea id="message" name="message"></textarea>
         <button type="submit">Send</button>

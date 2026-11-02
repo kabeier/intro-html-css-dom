@@ -59,7 +59,7 @@
       breaks: [{ file: 'index.html', mode: 'replace', find: '<label for="trainer">', code: '<label for="name">' }],
       checks: [
         { name: 'every label is linked to an input', run: (doc) => [...doc.querySelectorAll('label')].every((l) => l.control) },
-        { name: 'there are 3 labels', run: (doc) => doc.querySelectorAll('label').length === 3 },
+        { name: 'there are 7 labels', run: (doc) => doc.querySelectorAll('label').length === 7 },
       ],
       hint: 'Compare the label\'s for="…" with the input\'s id="…". They must be the same word.',
       why: 'A label is linked to the input whose id equals its for. Then clicking the label focuses the input, and screen readers read the label.',

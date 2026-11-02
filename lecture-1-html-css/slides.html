@@ -22,7 +22,7 @@
   .keys td:first-child { font: 700 26px var(--mono); white-space: nowrap; }
 </style>
 </head>
-<body data-minutes="40">
+<body data-minutes="65">
 <div class="stage">
 
 <!-- ============ OPEN (0–3) ============ -->
@@ -51,12 +51,13 @@
   <p class="bottomline">Type along in VS Code: index.html and styles.css.</p>
   <aside class="notes">
     <p>Say: "HTML answers <b>what</b>. CSS answers <b>how it looks</b>. Today we keep them apart on purpose."</p>
+    <p>Say: "HTML is not a programming language. It's a <b>markup language</b>: no logic, just tags that describe the content. The browser reads them and draws the page."</p>
     <p><b>Students:</b> new folder <code>trainer-profile</code>, files <code>index.html</code> + <code>styles.css</code>, open with Live Server (or just double-click index.html and refresh).</p>
     <p>Lost later? The <b>Code Explorer</b> on the class site has the code after every feature, with a <b>Download</b> button.</p>
   </aside>
 </section>
 
-<!-- ============ HTML (3–21) ============ -->
+<!-- ============ HTML (3–39) ============ -->
 <section class="slide code" data-seg="Code along: skeleton" data-at="3">
   <h2>The skeleton every page has <span class="say">index.html</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="null" data-steps="f1s1 f1s2 f1s3" data-files="index.html styles.css"></div>
@@ -65,8 +66,11 @@
 <!-- steps:html-css:f1 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;!DOCTYPE html&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Line 1 tells the browser "modern HTML". Everything else lives inside &lt;html&gt;.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Line 1: &lt;!DOCTYPE html&gt; is not a tag, it tells the browser to use modern rules. Line 2: lang="en" tells screen readers which language to read. The &lt;/html&gt; on the last line: everything else goes between these two.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;head&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">The head is for the browser, not the page. Watch the tab title change.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The title of the pop-out window: it now says My Trainer Profile, which comes from &lt;title&gt;. Nothing new appears on the page, because the head never draws. charset="UTF-8" lets letters like é display. viewport makes phones use their real width; the media query at the end needs it.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;body&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">The body is everything you see. First thing on the page: the main heading.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The live page: Trainer Profile finally appears, because only the body draws. It is big and bold with no CSS at all: browsers have default styles for headings.</td></tr>
 </table>
 <!-- /steps -->
     <table style="border-collapse:collapse;font-size:15px;margin:6px 0">
@@ -111,15 +115,21 @@
 <!-- steps:html-css:f2 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;header&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Wrap the top of the page in &lt;header&gt;. The h1 gets an id: a unique name we can point at later.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> id="page-title" on the h1. Then the live page: it looks exactly the same, because &lt;header&gt; adds meaning, not looks. An id must be unique on the page; links and CSS use it to find this one element.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;nav&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Links! href="#about" jumps to the element with id="about". Those sections come next.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The three links on the page: blue and underlined is the browser default. In the code, the # in href means "a spot on this page". Click About: nothing happens yet, because nothing has id="about".</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;main&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">One &lt;main&gt; per page: the real content. Each part of it is a &lt;section&gt; with its own &lt;h2&gt;.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> id="about" in the code next to href="#about" in the nav: same word, one with # and one without. The link has a target now, but the page is too short to scroll, so nothing visibly moves yet: warn them, and click it again after the team section. class="card" has no look yet: it is a group name that the CSS uses later.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;img src="https://raw.githubusercontent.com/…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">An image and a paragraph. &lt;img&gt; has no closing tag: it is a "void" element.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> src: the address the browser downloads the picture from. alt: the text shown if the picture fails, and what a screen reader says. Notice there is no &lt;/img&gt;. Then the bold words: that is &lt;strong&gt;.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 5</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;p&gt;Read about Pikachu on the &lt;a href="https:…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A real hyperlink. Same &lt;a&gt; tag as the menu, but href is a full address, so it leaves our page. target="_blank" opens it in a new tab.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Click Pokédex: a new tab opens. Compare the two href values in the code: #about stays on this page, https://… leaves it. Delete target="_blank" and the link would replace our page instead.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 6</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;footer&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">The footer closes the page. Now we have header, main and footer: the classic page shape.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> In the code: header, main and footer sit side by side inside body. On the page the footer looks like plain text: semantic tags change the meaning, not the look.</td></tr>
 </table>
 <!-- /steps -->
     <ul>
-      <li>After N 2: press <b>A</b>, click <b>About</b>: nothing happens yet (no id="about"). After N 3 it jumps.</li>
+      <li>After N 2: press <b>A</b>, click <b>About</b>: nothing happens (no id="about" yet). After N 3 the link has a target, but the page is too short to scroll, so it still looks like nothing happened.</li>
       <li>Say: "<b>id</b> = one element. <b>class</b> = a group."</li>
       <li>After N 5: click <b>Pokédex</b>: a new tab opens. Say: "Same <code>&lt;a&gt;</code> tag. <code>#about</code> stays on this page; <code>https://…</code> leaves it."</li>
       <li>Watch for: a missing <code>"</code> in src: the image breaks and the rest of the line turns odd colours.</li>
@@ -127,7 +137,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="HTML" data-at="14">
+<section class="slide" data-seg="HTML" data-at="15">
   <h2>Semantic tags say what a part of the page is</h2>
   <table class="dbt small">
     <tr><th>Tag</th><th>Means</th><th>On our page</th></tr>
@@ -135,7 +145,7 @@
     <tr><td><code>&lt;nav&gt;</code></td><td>the menu</td><td>About · Team · Contact</td></tr>
     <tr><td><code>&lt;main&gt;</code></td><td>the main content (one per page)</td><td>the three cards</td></tr>
     <tr><td><code>&lt;section&gt;</code></td><td>one topic, with a heading</td><td>About me, My team, Battle request</td></tr>
-    <tr><td><code>&lt;article&gt;</code> / <code>&lt;aside&gt;</code></td><td>stands alone / side note</td><td>(not used today)</td></tr>
+    <tr><td><code>&lt;article&gt;</code> / <code>&lt;aside&gt;</code></td><td>stands alone / side note</td><td>Latest battle / the type tip</td></tr>
     <tr><td><code>&lt;footer&gt;</code></td><td>the bottom</td><td>"Made with HTML and CSS"</td></tr>
   </table>
   <p class="bottomline">Looks like a &lt;div&gt;. Means more: accessibility, search, the next developer.</p>
@@ -145,53 +155,142 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: lists + table" data-at="15">
-  <h2>Lists and a table <span class="say">index.html</span></h2>
-  <div class="livepad" data-lesson="html-css" data-start="f2s6" data-steps="f3s1 f3s2 f3s3 f3s4 f3s5" data-files="index.html styles.css"></div>
+<section class="slide code" data-seg="Code along: text + boxes" data-at="16">
+  <h2>Small tags and plain boxes <span class="say">index.html</span></h2>
+  <div class="livepad" data-lesson="html-css" data-start="f2s6" data-steps="f8s1 f8s2 f8s3 f8s4 f8s5 f8s6 f8s7" data-files="index.html styles.css"></div>
   <aside class="notes">
-    <p><b>** CODE ALONG, about 3 minutes. **</b></p>
+    <p><b>** CODE ALONG, about 7 minutes. **</b> Keep the page open beside the code (<b>A</b>).</p>
+<!-- steps:html-css:f8 -->
+<table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>I am &lt;em&gt;learning&lt;/em&gt; to build</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">&lt;em&gt; is emphasis: browsers show it in italics. &lt;strong&gt; means importance, &lt;em&gt; means stress, the way you would say it out loud.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The word learning is now italic, and the words at the end of that line are bold. Say what each means: &lt;strong&gt; = this matters, &lt;em&gt; = stress this word. If you only want the look, that is a CSS job.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;p&gt;Pallet Town&lt;br&gt;Kanto region&lt;/p&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">&lt;br&gt; is a line break inside one paragraph. Good for addresses and poems. It is a void element: no closing tag.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Pallet Town and Kanto region are on two lines but in one &lt;p&gt;: there is no gap between them like there is between paragraphs. &lt;br&gt; has no closing tag. Do not use a pile of &lt;br&gt; tags to make space: that is what margin is for.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;p&gt;Favorite type: &lt;span class="type"&gt;Electri…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">&lt;span&gt; is an inline box with no meaning. It stays in the line and does nothing yet: it is a hook for CSS.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The page looks like one plain line: Electric looks like every other word. That is the point of span: it has no look and no meaning until CSS gives it one (in the selectors slide). It did not start a new line: span is inline.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;div class="stats"&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">&lt;div&gt; is a block box with no meaning: it starts a new line and groups things. Check for a semantic tag first; use div when none fits.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Badges and Wins are each on their own line: a div is block, so it starts a new line and takes the full width. Compare with the span one line above, which stayed in the sentence. The flex slide later puts these two side by side.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 5</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;h3&gt;Heading 3&lt;/h3&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Headings go down to h6. They are levels in an outline, not font sizes: one h1, then h2 for sections, and do not skip levels.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The four headings get smaller on the page. Say it clearly: pick a heading for its place in the outline, never for its size; CSS sets the size. One h1 per page, and do not jump from h2 to h4. We delete these on the next press.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 6</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;h3&gt;Stats&lt;/h3&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">We only needed to see them. Our page keeps one h3: Stats sits under About me.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The test headings are gone and one h3, Stats, is left. It sits under the h2 About me, so the outline goes h1, h2, h3 with no gap.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 7</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;article&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">The last two semantic tags. &lt;article&gt; makes sense on its own, like a blog post. &lt;aside&gt; is a side note.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> On the page these look like plain text: again, meaning only. Test for article: could you paste it on another site and it still makes sense? Then it is an article. The aside is a side note: you could remove it and the main story still works.</td></tr>
+</table>
+<!-- /steps -->
+    <ul>
+      <li>Say: "<b>strong</b> = this matters. <b>em</b> = stress it when you say it. Both are about meaning, not looks."</li>
+      <li>Say: "<b>span</b> stays in the line. <b>div</b> starts a new line. Neither means anything."</li>
+      <li>After N 4: "Try a semantic tag first. Use div or span when nothing fits."</li>
+      <li>After N 5: "Those sizes are not why you pick a heading. They are levels in an outline."</li>
+    </ul>
+  </aside>
+</section>
+
+<section class="slide code" data-seg="Code along: lists + table" data-at="23">
+  <h2>Three lists and a table <span class="say">index.html</span></h2>
+  <div class="livepad" data-lesson="html-css" data-start="f8s7" data-steps="f3s1 f3s2 f3s3 f3s4 f3s5 f3s6" data-files="index.html styles.css"></div>
+  <aside class="notes">
+    <p><b>** CODE ALONG, about 5 minutes. **</b></p>
 <!-- steps:html-css:f3 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;section id="team" class="card"&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A second section, with a list. &lt;ul&gt; = unordered: bullets.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The bullets on the page: the browser adds them because of &lt;ul&gt;. &lt;ul&gt; wraps the list and each item is an &lt;li&gt;. id="team" gives the Team link its target. If the page is long enough to scroll now, click About and Team to see the jump. class="card" is the second card.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;li&gt;Bulbasaur&lt;/li&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Two more items. Same tag, new text.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Two more bullets appear. The list does the bullets for you: you never type a bullet character.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;ol&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Change ul to ol and the bullets become numbers. Order matters now: this is my battle order.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Keep your eye on the page: bullets become 1, 2, 3. In the code only the opening and closing tag changed; the &lt;li&gt; lines did not. Browsers do the counting: move an item and the numbers follow.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;table&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A table is for data in rows and columns. First the header row.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The header row on the page: bold and centred, from &lt;th&gt;. Read the nesting aloud: table, then thead, then tr (a row), then th (a cell). There are three cells, so the table has three columns.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 5</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;tbody&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">The body of the table: one &lt;tr&gt; per Pokémon, one &lt;td&gt; per value.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Each &lt;tr&gt; is one row and each &lt;td&gt; one value. Every row has three cells to match the three headers: leave one out and the columns slip. Say: tables are for data, never for page layout.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 6</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;h3&gt;Type guide&lt;/h3&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">The third kind of list: a definition list. Pairs of a term and what it means, like a glossary.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The term Electric sits on the left and its meaning is indented on the next line: no bullets, no numbers. Sum up the three lists: ul = order does not matter, ol = order matters, dl = a term and what it means.</td></tr>
 </table>
 <!-- /steps -->
     <ul>
       <li>N 3 changes ul → ol: press <b>A</b> first so they <b>see</b> bullets turn into numbers.</li>
       <li>Say: "Tables are for <b>data</b>, never for page layout."</li>
-      <li>Curriculum also lists <code>&lt;dl&gt;</code>/<code>&lt;dt&gt;</code>/<code>&lt;dd&gt;</code> (definition lists): mention, don't type.</li>
+      <li>N 6: three kinds of list. <code>ul</code> = no order, <code>ol</code> = order matters, <code>dl</code> = a term and what it means.</li>
     </ul>
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: form" data-at="18">
-  <h2>A form: label + input pairs <span class="say">index.html</span></h2>
-  <div class="livepad" data-lesson="html-css" data-start="f3s5" data-steps="f4s1 f4s2 f4s3 f4s4" data-files="index.html styles.css"></div>
-  <aside class="notes">
-    <p><b>** CODE ALONG, about 3 minutes. **</b></p>
-<!-- steps:html-css:f4 -->
-<table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;section id="contact" class="card"&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">The last section holds a form. A form wraps the inputs that are sent together.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;label for="trainer"&gt;Your name&lt;/label&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Label + input are a pair: label for="trainer" points at the input with id="trainer". Click the label and see the cursor jump.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;label for="favorite"&gt;Favorite type&lt;/label&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A dropdown: &lt;select&gt; with &lt;option&gt;s inside.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;label for="message"&gt;Message&lt;/label&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A big text box and the button that sends the form.</td></tr>
-</table>
-<!-- /steps -->
-    <table style="border-collapse:collapse;font-size:15px;margin:6px 0">
-      <tr><th style="padding:4px 10px;border-bottom:1px solid #34405a">Attribute</th><th style="padding:4px 10px;border-bottom:1px solid #34405a">For</th></tr>
-      <tr><td style="padding:4px 10px"><code>for</code> / <code>id</code></td><td style="padding:4px 10px">people: the label names the input</td></tr>
-      <tr><td style="padding:4px 10px"><code>name</code></td><td style="padding:4px 10px">the data: the key it is sent under</td></tr>
-      <tr><td style="padding:4px 10px"><code>action</code> / <code>method</code></td><td style="padding:4px 10px">where and how it is sent (not today)</td></tr>
+<section class="slide" data-seg="Forms" data-at="28">
+  <h2>A form sends named data somewhere</h2>
+  <div class="cols" style="align-items:start">
+    <table class="dbt small">
+      <tr><th>Tag</th><th>The user…</th></tr>
+      <tr><td><code>&lt;input type="text"&gt;</code></td><td>types one line</td></tr>
+      <tr><td><code>type="password"</code></td><td>types, sees dots</td></tr>
+      <tr><td><code>type="radio"</code></td><td>picks one of a group</td></tr>
+      <tr><td><code>type="checkbox"</code></td><td>ticks yes or no</td></tr>
+      <tr><td><code>&lt;select&gt;</code></td><td>picks from a dropdown</td></tr>
+      <tr><td><code>&lt;textarea&gt;</code></td><td>types many lines</td></tr>
+      <tr><td><code>&lt;button&gt;</code></td><td>sends it</td></tr>
     </table>
-    <p>Pressing <b>Send</b> reloads the page: that is normal. Lecture 2 stops it with JavaScript.</p>
+    <table class="dbt small">
+      <tr><th>On</th><th>Attribute</th><th>Means</th></tr>
+      <tr><td>form</td><td class="pk"><code>action</code></td><td>where it goes</td></tr>
+      <tr><td>form</td><td class="pk"><code>method</code></td><td>how: GET or POST</td></tr>
+      <tr><td>field</td><td class="pk"><code>name</code></td><td>the key in the data</td></tr>
+    </table>
+  </div>
+  <p class="bottomline">No name, no data: a field without a name is not sent.</p>
+  <aside class="notes">
+    <p><b>About 2 minutes.</b> Say: "One tag, input, does most of the work. Its type decides what it is."</p>
+    <p>Say: "A form sends <b>name = value</b> pairs. Next we build one, and send it to a real server."</p>
   </aside>
 </section>
 
-<!-- ============ ACTIVITY (21–27) ============ -->
-<section class="slide activity" data-seg="Activity: Fix it" data-at="21">
+<section class="slide code" data-seg="Code along: form" data-at="30">
+  <h2>A form, and where it sends the data <span class="say">index.html</span></h2>
+  <div class="livepad" data-lesson="html-css" data-start="f3s6" data-steps="f4s1 f4s2 f4s3 f4s4 f4s5 f4s6 f4s7 f4s8 f4s9 f4s10" data-files="index.html styles.css"></div>
+  <aside class="notes">
+    <p><b>** CODE ALONG, about 9 minutes. **</b> Keep the page open beside the code (<b>A</b>).</p>
+<!-- steps:html-css:f4 -->
+<table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;section id="contact" class="card"&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">The last section holds a form. A form wraps the inputs that are sent together.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The page shows only the heading: a &lt;form&gt; draws nothing by itself, it is an invisible wrapper. id="contact" makes the Contact link work. This is the third card.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;label for="trainer"&gt;Your name&lt;/label&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Label + input are a pair: label for="trainer" points at the input with id="trainer". Click the label and see the cursor jump.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Click the words Your name: the cursor jumps into the box. That works because for="trainer" matches id="trainer". Point at the three uses of the word trainer: for and id link label to box (for people), name is the key the data is sent under.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;label for="password"&gt;Password&lt;/label&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Same tag, new type. type="password" hides what you type on screen. Only on screen: remember that for the end of this slide.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Type in the Password box: you see dots. In the code it is the same &lt;input&gt;; only type changed. The dots are on screen only: the real text is still sent as it is, and you prove that at N 8.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;label for="favorite"&gt;Favorite type&lt;/label&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A dropdown: &lt;select&gt; with &lt;option&gt;s inside.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Click the dropdown: Fire and Water. &lt;select&gt; is the box and each &lt;option&gt; is one line. An option with no value sends its own text. The first option is picked until the user changes it.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 5</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;fieldset&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Radio buttons: pick one. The shared name makes them one group. value is what gets sent. fieldset and legend name the group.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Click Single, then Double: the first one clears. That happens only because both have name="style": same name = one group. value is what gets sent. The border and the Battle style title are the fieldset and legend. The input is inside the label, so clicking the word works with no for or id.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 6</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;label&gt;&lt;input type="checkbox" name="rules" v…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A checkbox: on or off. Radios pick one from a group; checkboxes are each their own yes or no.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Tick and untick it, by clicking the words too. Compare with radios: radios pick one from a group, a checkbox is its own yes or no. An unticked box sends nothing at all: you can show that at N 8.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 7</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;label for="message"&gt;Message&lt;/label&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A big text box and the button that sends the form.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Drag the bottom-right corner of the Message box: textarea resizes. The button has type="submit". Fill in the name and press Send: the page reloads and the box empties, because with no action a form sends to this same page.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 8</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;form action="https://httpbin.org/get" metho…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">action = where the data goes. method = how. httpbin.org is a test server that shows what it received. Fill it in, press Send: your password is in the URL.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Read the address bar in the new tab. After the ? is the data: name=value pairs joined by &amp;. Each key is a name="…" from our form, and there is password=… in plain text. The page itself shows the same pairs under "args". httpbin only echoes what it received.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 9</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>action="https://httpbin.org/post" method="po…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">POST sends the data in the body of the request. Send again: the URL is clean and the data is under "form".</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The address bar ends at /post, with no ? and no data. Find "form" on the page: the same pairs, now sent in the body of the request. Say: POST hides it from the URL, it does not encrypt it. HTTPS does that.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 10</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;form&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">We have no server of our own yet, so action goes away. Now Send reloads this page. Lecture 2 takes over from there with JavaScript.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The form line is back to plain &lt;form&gt;. Press Send: the page reloads and the fields empty. Say: that reload is the default behaviour, and stopping it is how lecture 2 starts.</td></tr>
+</table>
+<!-- /steps -->
+    <p><b>The send demo</b> (real server, opens a new tab):</p>
+    <table style="border-collapse:collapse;font-size:15px;margin:6px 0">
+      <tr><th style="padding:4px 10px;border-bottom:1px solid #34405a">After</th><th style="padding:4px 10px;border-bottom:1px solid #34405a">Do</th><th style="padding:4px 10px;border-bottom:1px solid #34405a">Say</th></tr>
+      <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a"><b>N 8</b> (get)</td><td style="padding:4px 10px;border-bottom:1px solid #34405a">Type a name and a password, pick a style, press <b>Send</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a">"Look at the address bar: <b>my password is in the URL</b>." The page shows it under <code>args</code>.</td></tr>
+      <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a"><b>N 9</b> (post)</td><td style="padding:4px 10px;border-bottom:1px solid #34405a">Fill it in again, press <b>Send</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a">"The URL is clean. The data went in the <b>body</b>: it's under <code>form</code>."</td></tr>
+      <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a"><b>N 10</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a">Press <b>Send</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a">"No action: it sends to this page, so the page reloads. Lecture 2 stops that with JavaScript."</td></tr>
+    </table>
+    <ul>
+      <li>Say: "POST is not encryption. <b>HTTPS</b> is what protects the password."</li>
+      <li>Untick the checkbox and send: <code>rules</code> disappears from the data. Only ticked boxes are sent.</li>
+      <li>The fields clear after each N: the page reloads when the code changes.</li>
+      <li><b>Clicked in the page?</b> The N key then goes to the page. Use the presenter's green button, or click the slide first.</li>
+      <li><b>httpbin.org down?</b> Open <code>https://postman-echo.com/get?trainer=Ash&amp;password=pika</code> in a tab to show the same thing.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ============ ACTIVITY (39–45) ============ -->
+<section class="slide activity" data-seg="Activity: Fix it" data-at="39">
   <h2>Activity: Fix it</h2>
   <div class="countdown" data-sec="360"></div>
   <ol class="steps">
@@ -208,8 +307,8 @@
   </aside>
 </section>
 
-<!-- ============ CSS (27–38) ============ -->
-<section class="slide" data-seg="CSS" data-at="27">
+<!-- ============ CSS (45–63) ============ -->
+<section class="slide" data-seg="CSS" data-at="45">
   <h2>Three places CSS can live</h2>
   <table class="dbt small">
     <tr><th>Way</th><th>Looks like</th><th>Use it?</th></tr>
@@ -224,19 +323,25 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: CSS" data-at="28">
+<section class="slide code" data-seg="Code along: CSS" data-at="46">
   <h2>Inline, internal, external <span class="say">index.html · styles.css</span></h2>
-  <div class="livepad" data-lesson="html-css" data-start="f4s4" data-steps="f5s1 f5s2 f5s3 f5s4 f5s5 f5s6" data-files="index.html styles.css"></div>
+  <div class="livepad" data-lesson="html-css" data-start="f4s10" data-steps="f5s1 f5s2 f5s3 f5s4 f5s5 f5s6" data-files="index.html styles.css"></div>
   <aside class="notes">
     <p><b>** CODE ALONG, about 4 minutes. **</b> Keep the live page open (<b>A</b>) the whole time.</p>
 <!-- steps:html-css:f5 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;h1 id="page-title" style="color: purple;"&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Way 1, inline: a style attribute on one element. Quick, but it styles only this one tag.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The title turns purple. In the code the CSS is sitting inside the HTML tag. It styles this one tag only: a second heading would need its own style attribute.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>(deletes code)</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Delete it again. We do not want CSS scattered through the HTML.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The title goes back to black, and the style attribute is gone from the line. Next, the same idea in a better place.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;style&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Way 2, internal: a &lt;style&gt; tag in the head. Works for this page only.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The title turns green, and this time the CSS is in the head, not on the tag. It styles every h1 on this page, but no other page can use it.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;link rel="stylesheet" href="styles.css"&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Way 3, external: one line links a CSS file. The heading goes back to black: styles.css is still empty.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The title goes back to black: not broken, styles.css is empty. href="styles.css" must match the file name exactly and sit in the same folder. rel="stylesheet" tells the browser what kind of file it is.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 5</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>body {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Now in styles.css. A rule = selector + { property: value; }. This one styles the whole body.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Three changes on the page: the font, the grey background, and the page now touches the window edges (margin 0 removes the browser default of 8px). Read one line as property: value; and note the semicolon. The font reaches everything inside body: that is inheritance, text styles pass down to the tags inside.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 6</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>h1 {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Every h1 turns blue. One rule, every page that links this file.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The title turns blue. #2a75bb is a hex colour: three pairs of digits for red, green and blue. Every page that links this file gets the same rule from one place.</td></tr>
 </table>
 <!-- /steps -->
     <ul>
@@ -246,15 +351,21 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: selectors" data-at="31">
+<section class="slide code" data-seg="Code along: selectors" data-at="49">
   <h2>Element, .class, #id: the most specific wins <span class="say">styles.css</span></h2>
-  <div class="livepad" data-lesson="html-css" data-start="f5s6" data-steps="f6s1 f6s2" data-files="styles.css index.html"></div>
+  <div class="livepad" data-lesson="html-css" data-start="f5s6" data-steps="f6s1 f6s2 f6s3 f6s4" data-files="styles.css index.html"></div>
   <aside class="notes">
     <p><b>** CODE ALONG, about 3 minutes. **</b></p>
 <!-- steps:html-css:f6 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>.card {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A class selector starts with a dot. All three sections have class="card", so all three go white.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> All three sections turn white from one rule, because all three have class="card" in the HTML. In the CSS the dot means class; in the HTML there is no dot. Add class="card" to anything else and it goes white too.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>#page-title {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">An id selector starts with #. Now two rules set the h1 colour: h1 says blue, #page-title says red. Red wins: id beats element.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The title turns red, though h1 still says blue. Open the CSS: both rules are there. # means id. Say: id beats class, class beats element, and it does not matter which rule comes first in the file. In DevTools the losing color is crossed out.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>.type {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Remember the span? A class gives it a look. It stays inline: only the word gets the colour.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Only the word Electric gets a yellow background: the span stayed inline, so the colour hugs the word. On a div the colour would fill the whole line. This is the job of a span: a hook for styling a few words.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>label {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">An element selector for the form: each label starts its own line, and the form stops looking squashed.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Look at the form: every label is on its own line now. Labels are inline by default, which is why the form looked squashed. label with no dot or # is an element selector, so it hits every label at once, the radios included.</td></tr>
 </table>
 <!-- /steps -->
     <table style="border-collapse:collapse;font-size:15px;margin:6px 0">
@@ -267,7 +378,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="CSS" data-at="34">
+<section class="slide" data-seg="CSS" data-at="53">
   <h2>Every element is a box</h2>
   <div class="cols">
     <div class="boxm"><div class="m">margin: outside, see-through<div class="b"><div class="p">padding: inside, takes the background<div class="c">content</div></div></div></div></div>
@@ -281,32 +392,79 @@
   <p class="bottomline">DevTools → hover an element → you see these four layers.</p>
   <aside class="notes">
     <p>Say: "Inside out: content, padding, border, margin."</p>
-    <p>Show DevTools on the live page (↗ pop out → right-click → Inspect) if time allows.</p>
+    <p><b>DevTools, if time allows:</b> press ↗, right-click a card → <b>Inspect</b>. In the <b>Elements</b> panel, hover the <code>&lt;section&gt;</code> line: the page colours the layers. In <b>Computed</b>, the box diagram shows the four numbers.</p>
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: box + responsive" data-at="35">
-  <h2>Box model and one responsive rule <span class="say">styles.css</span></h2>
-  <div class="livepad" data-lesson="html-css" data-start="f6s2" data-steps="f7s1 f7s2 f7s3" data-files="styles.css index.html"></div>
+<section class="slide" data-seg="CSS" data-at="54">
+  <h2>One page, every screen</h2>
+  <table class="dbt small">
+    <tr><th>Tool</th><th>Example</th><th>Why it flexes</th></tr>
+    <tr><td><b>px</b></td><td><code>16px</code></td><td>it doesn't: fixed size</td></tr>
+    <tr><td><b>rem</b></td><td><code>2.5rem</code></td><td>follows the browser's text size</td></tr>
+    <tr><td><b>%</b></td><td><code>90%</code></td><td>follows the parent box</td></tr>
+    <tr><td><b>Flexible layout</b></td><td><code>display: flex</code></td><td>children share the space</td></tr>
+    <tr><td><b>Media query</b></td><td><code>@media (max-width: 600px)</code></td><td>different rules on small screens</td></tr>
+  </table>
+  <p class="bottomline">Mobile, tablet, desktop: one HTML file, and the CSS adapts.</p>
   <aside class="notes">
-    <p><b>** CODE ALONG, about 3 minutes. **</b></p>
+    <p><b>About 1 minute.</b> Say: "Responsive design means one page that works on a phone, a tablet and a desktop. We use all of these in the next code-along."</p>
+    <p>Media queries come back in depth in a future lecture, with Tailwind.</p>
+  </aside>
+</section>
+
+<section class="slide code" data-seg="Code along: box + responsive" data-at="55">
+  <h2>Box model and responsive design <span class="say">styles.css</span></h2>
+  <div class="livepad" data-lesson="html-css" data-start="f6s4" data-steps="f7s1 f7s2 f7s3 f7s4 f7s5 f7s6" data-files="styles.css index.html"></div>
+  <aside class="notes">
+    <p><b>** CODE ALONG, about 6 minutes. **</b></p>
 <!-- steps:html-css:f7 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>padding: 16px;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">The box model, from the inside out: content, padding, border, margin. Open DevTools and hover a card to see the layers.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The cards get a yellow line, space inside it and gaps between them. Name them from the inside out: content, padding (inside the line, takes the white background), border, margin (outside, see-through). Right-click a card → Inspect, and hover: DevTools colours each layer.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>* {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">One fix almost every site uses: width includes padding and border. * means every element.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>@media (max-width: 600px) {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A media query: these rules only apply on screens 600px wide or less. Pop out the app and make the window narrow: the links stack.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Nothing changes on the page, so say why: no card has a width yet. Give a card width: 300px and without this rule it is really 336px wide (300 + 16 + 16 padding + 2 + 2 border). With border-box, 300 means 300. * means every element.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>font-size: 2.5rem;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">rem is a relative unit: 2.5 times the browser default size. If someone sets bigger text in their browser, this grows with it. px does not.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The title gets a little bigger: 2.5rem is 40px by default. rem = times the browser text size, so someone who set bigger text gets a bigger title; px would ignore them. It is still red: the h1 and #page-title rules only fight over color. Only h1 sets font-size, so there is no fight and it applies.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>main {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">% is relative to the parent: main is never wider than 90% of the page, on any screen. margin 0 auto centres it.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Space appears left and right of the cards. Resize the pop-out: main stays 90% of the window. max-width means it can shrink but never pass that. margin: 0 auto reads as 0 top and bottom, auto left and right: the free space is shared, so the box is centred.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 5</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>.stats {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A flexible layout. display: flex puts the children of .stats side by side, with a gap. Our div finally has a job.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Badges and Wins jump onto one row: the div finally has a job. display: flex goes on the parent and moves its direct children. gap is the space between them.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 6</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>@media (max-width: 600px) {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A media query: these rules only apply on screens 600px wide or less. Pop out the app and make the window narrow: the links stack.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> Pop out, then make the window narrow: past 600px wide the links stack one under the other. Drag it wide: they go back. The side-by-side pane may show them stacked already: the media query measures that pane, not your monitor. Rules inside @media only apply while its condition is true.</td></tr>
 </table>
 <!-- /steps -->
     <ul>
-      <li>After N 3: press <b>↗</b>, make the window narrow: the menu links stack.</li>
+      <li>After N 5: Badges and Wins sit side by side (the flex row).</li>
+      <li>After N 6: press <b>↗</b>, make the window narrow: the menu links stack.</li>
       <li>Responsive design = flexible layouts, relative units, <b>media queries</b>. Tailwind (a future lecture) uses media queries for you.</li>
       <li>The viewport <code>&lt;meta&gt;</code> from feature 1 is what makes this work on a real phone.</li>
     </ul>
   </aside>
 </section>
 
-<!-- ============ WRAP (38–40) ============ -->
-<section class="slide" data-seg="Wrap up" data-at="38">
+<!-- ============ WRAP (63–65) ============ -->
+<section class="slide" data-seg="Wrap up" data-at="61">
+  <h2>Let a tool check your HTML</h2>
+  <ol class="steps">
+    <li>Open <a href="https://validator.w3.org/nu/#textarea" target="_blank" rel="noopener">validator.w3.org/nu</a> → <b>Text input</b></li>
+    <li>Paste your whole index.html, press <b>Check</b></li>
+    <li>Fix the <b>first</b> error, then check again</li>
+  </ol>
+  <p class="bottomline">One missing tag can cause many errors. Start at the top.</p>
+  <aside class="notes">
+    <p><b>** YOUR DEMO, about 2 minutes. **</b> Paste the finished page: <b>"No errors or warnings to show."</b></p>
+    <p>Delete one <code>&lt;/section&gt;</code> and check again. You get <b>2 errors</b>:</p>
+    <ul>
+      <li><code>End tag "main" seen, but there were open elements.</code></li>
+      <li><code>Unclosed element "section".</code></li>
+    </ul>
+    <p>Say: "The browser hides mistakes like this. The validator doesn't."</p>
+    <p>The whole page is in the <b>Code Explorer</b> (Copy file) if yours is out of date.</p>
+  </aside>
+</section>
+
+<section class="slide" data-seg="Wrap up" data-at="63">
   <h2>Habits, and where to look later</h2>
   <div class="cols">
     <div class="card blue"><h3>HTML</h3><p>Semantic tags · alt on every image · a label for every input · check it at <b>validator.w3.org</b></p></div>
@@ -320,7 +478,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="Wrap up" data-at="39">
+<section class="slide" data-seg="Wrap up" data-at="64">
   <h2>Homework, Part I</h2>
   <ol class="steps small">
     <li><b>To-Do List I</b></li>
@@ -337,8 +495,8 @@
 
 </div>
 <script src="../shared/deck.js?v=2"></script>
-<script src="../shared/course.js?v=7"></script>
-<script src="../shared/course/html-css.js?v=3"></script>
+<script src="../shared/course.js?v=8"></script>
+<script src="../shared/course/html-css.js?v=6"></script>
 <script src="../shared/livepad.js?v=6"></script>
 </body>
 </html>

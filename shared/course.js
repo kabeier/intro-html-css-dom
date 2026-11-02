@@ -339,6 +339,9 @@
       return realPrevent.call(this)
     }
     window.addEventListener('submit', function (e) {
+      // A form that really goes to another site in a new tab: let the browser send it.
+      var form = e.target
+      if (/^https?:/.test(form.getAttribute('action') || '') && form.getAttribute('target') === '_blank') return
       realPrevent.call(e)
       setTimeout(function () { if (!e.__livepadPrevented) post({ type: 'livepad-reload' }) }, 0)
     }, true)

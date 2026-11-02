@@ -28,28 +28,33 @@ If you typed in the editor and **N** says "can't apply": press **Shift+N**.
 | # | Min | Do | Say |
 |---|---|---|---|
 | 1 | 0 | T (clock) | "HTML is what's on the page. CSS is how it looks." |
-| 2 | 1 | students make `trainer-profile/index.html` + `styles.css` | keys N / A / Pop out |
+| 2 | 1 | students make `trainer-profile/index.html` + `styles.css` | markup language, not programming; keys N / A / Pop out |
 | 3 | 3 | **N ×3**, A after N 2 | the four skeleton tags (table in notes) |
 | 4 | 7 | — | start tag · attribute · content · end tag; void elements |
 | 5 | 9 | **N ×6**, A after N 2, click About; click Pokédex after N 5 | id = one, class = group; #id stays, https:// leaves |
-| 6 | 14 | — | semantic tags table |
-| 7 | 15 | **N ×5**, A before N 3 | ul → ol; tables are for data |
-| 8 | 18 | **N ×4** | label for = input id; name = the data |
-| 9 | 21 | click the timer (6:00) | Fix It, problems 1–6 |
-| 10 | 27 | — | inline / internal / external |
-| 11 | 28 | **N ×6**, A open the whole time | selector { property: value; } |
-| 12 | 31 | **N ×2** | ID > class > element: red wins |
-| 13 | 34 | (DevTools on the pop-out if time) | content, padding, border, margin |
-| 14 | 35 | **N ×3**, then Pop out + narrow window | media query: links stack |
-| 15 | 38 | — | MDN, Code Explorer |
-| 16 | 39 | — | Homework Part I, top to bottom |
+| 6 | 15 | — | semantic tags table |
+| 7 | 16 | **N ×7**, A open | em, br, span, div, h3–h6, article, aside |
+| 8 | 23 | **N ×6**, A before N 3 | ul → ol; tables are for data; dl = term + meaning |
+| 9 | 28 | — | form tags; action, method, name |
+| 10 | 30 | **N ×10**, A open; press Send after N 8, 9, 10 (table in notes) | GET: password in the URL. POST: in the body |
+| 11 | 39 | click the timer (6:00) | Fix It, problems 1–6 |
+| 12 | 45 | — | inline / internal / external |
+| 13 | 46 | **N ×6**, A open the whole time | selector { property: value; } |
+| 14 | 49 | **N ×4** | ID > class > element: red wins; span gets a look; labels stack |
+| 15 | 53 | (DevTools on the pop-out if time) | content, padding, border, margin |
+| 16 | 54 | — | px, rem, %, flex, media query |
+| 17 | 55 | **N ×6**, then Pop out + narrow window | rem, %, flex; media query: links stack |
+| 18 | 61 | paste the page into the validator, delete a `</section>`, check again | fix the first error first |
+| 19 | 63 | — | MDN, Code Explorer |
+| 20 | 64 | — | Homework Part I, top to bottom |
 
 ## Time checks
 
 | At slide | Should be | If late |
 |---|---|---|
-| 9 (activity) | min 21 | shorten the activity to 4 minutes (problems 1–4) |
-| 13 | min 34 | skip DevTools; say the four layers |
+| 7 (text tags) | min 16 | press N through it, say one line per tag |
+| 11 (activity) | min 39 | shorten the activity to 4 minutes (problems 1–4) |
+| 15 | min 53 | skip DevTools; say the four layers |
 
 ## Things to expect
 

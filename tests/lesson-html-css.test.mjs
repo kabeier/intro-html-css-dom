@@ -13,7 +13,7 @@ await import('../shared/course/html-css.js')
 const lesson = Course.get('html-css')
 
 test('lesson html-css has features f1..f7, each with a why', () => {
-  assert.deepEqual(lesson.features.map((f) => f.id), ['f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7'])
+  assert.deepEqual(lesson.features.map((f) => f.id), ['f1', 'f2', 'f8', 'f3', 'f4', 'f5', 'f6', 'f7'])
   for (const f of lesson.features) assert.ok(f.why && f.why.length > 10, f.id + ' has a why')
 })
 
@@ -86,4 +86,34 @@ test('a real hyperlink: the About section links to another site, and the menu ke
   const link = lesson.features.find((f) => f.id === 'f2').steps[4]
   assert.ok(link.notes.some((n) => n.match.includes('target') && n.api === undefined) && link.notes.some((n) => n.api && n.api.params.length >= 2), 'href and target are explained')
   for (const a of page.match(/<nav>[\s\S]*<\/nav>/)[0].match(/href="[^"]+"/g)) assert.match(a, /href="#/)
+})
+
+test('everything on the curriculum page is demoed in code', () => {
+  const f = Course.checkpoint(lesson, 'f7')
+  const html = f['index.html'], css = f['styles.css']
+  for (const tag of ['h1', 'h2', 'h3', 'p', 'br', 'div', 'span', 'strong', 'em', 'a', 'form', 'input', 'textarea', 'select', 'button', 'ol', 'li', 'dl', 'dt', 'dd', 'img', 'table', 'tr', 'th', 'td', 'header', 'nav', 'main', 'section', 'article', 'aside', 'footer', 'meta', 'title', 'link']) assert.match(html, new RegExp('<' + tag + '[ >]'), '<' + tag + '> stays on the finished page')
+  for (const t of ['text', 'password', 'checkbox', 'radio']) assert.match(html, new RegExp('type="' + t + '"'), 'input type ' + t)
+  for (const a of ['id', 'class', 'src', 'href', 'alt', 'name']) assert.match(html, new RegExp(' ' + a + '="'), 'attribute ' + a)
+  const all = lesson.features.flatMap((x) => x.steps).map((s) => s.code).join('\n')
+  for (const t of ['<ul>', '<h4>', '<h5>', '<h6>', 'action="', 'method="get"', 'method="post"', 'style="', '<style>']) assert.ok(all.includes(t), t + ' is typed at some point')
+  for (const c of ['#', 'rem', '%', 'font-size:', 'display: flex', '@media', '.card', '#page-title']) assert.ok(css.includes(c), 'css ' + c)
+})
+
+test('the form ends with no action: lecture 2 starts from "the page reloads"', () => {
+  const html = Course.checkpoint(lesson, 'f7')['index.html']
+  assert.match(html, /^ +<form>$/m)
+  assert.doesNotMatch(html, /httpbin/)
+})
+
+test('every new tag has a note', () => {
+  const notes = lesson.features.flatMap((x) => x.steps).flatMap((s) => s.notes || [])
+  for (const n of ['em', 'br', 'span', 'div', 'h3', 'article', 'aside', 'dl', 'dt', 'dd', 'fieldset', 'legend']) assert.ok(notes.some((x) => x.match.includes('<' + n)), 'note for <' + n + '>')
+  for (const m of ['type="password"', 'type="radio"', 'type="checkbox"', 'action=', 'method="get"', 'method="post"', 'max-width:', 'gap:', 'font-size:']) assert.ok(notes.some((x) => x.match.includes(m)), 'note for ' + m)
+})
+
+test('every step tells the instructor exactly what to point at, and how it works', () => {
+  for (const s of lesson.features.flatMap((f) => f.steps)) {
+    assert.ok(s.point && s.point.length >= 60, s.id + ' has a point line')
+    assert.doesNotMatch(s.point, /point (this|it|that) out/i, s.id + ' says what, not "point this out"')
+  }
 })
