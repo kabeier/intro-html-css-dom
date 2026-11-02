@@ -15,6 +15,7 @@
 | Key | Does |
 |---|---|
 | **N** | types the next short chunk (also in the notes table) |
+| **Type next step** (presenter window) | same as N, from the notes window. Shows "Typed 2 of 6 steps". **N** works there too |
 | **Shift+N** | resets this slide to its start |
 | **A** | live page beside the code; A again hides it (stays open on later slides) |
 | **↗ Pop out** | live page in its own window, synced; resize it to show the media query |

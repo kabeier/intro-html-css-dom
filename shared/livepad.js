@@ -382,13 +382,29 @@
   addEventListener('focus', () => broadcast())
   document.addEventListener('visibilitychange', () => { if (!document.hidden) broadcast() })
 
+  // The presenter window shows the step count, and its button does what N does (deck.js).
+  function reportPad() {
+    const pad = active()
+    const on = pad && pad.lesson && pad.steps.length
+    dispatchEvent(new CustomEvent('deck-pad-status', { detail: on
+      ? { step: pad.idx, total: pad.steps.length, busy: !!pad.busy, error: /^✕ can't apply/.test(pad.status || '') ? pad.status : null }
+      : null }))
+  }
+  function nextStep(pad) {
+    const typed = pad.next()
+    reportPad() // busy while it types
+    return typed.finally(reportPad)
+  }
+  addEventListener('deck-pad-ask', reportPad)
+  addEventListener('deck-pad-next', () => { const pad = active(); if (pad && pad.lesson) nextStep(pad) })
+
   addEventListener('keydown', (e) => {
     if (e.target.closest && e.target.closest('.monaco-editor, input, textarea, select, [contenteditable]')) return
     if (e.ctrlKey || e.metaKey || e.altKey) return
     const pad = active()
     if (!pad) return
-    if (e.key === 'n' && !e.shiftKey && pad.lesson) { e.preventDefault(); pad.next() }
-    else if (e.key === 'N' && e.shiftKey && pad.lesson) { e.preventDefault(); pad.reset() }
+    if (e.key === 'n' && !e.shiftKey && pad.lesson) { e.preventDefault(); nextStep(pad) }
+    else if (e.key === 'N' && e.shiftKey && pad.lesson) { e.preventDefault(); pad.reset(); reportPad() }
     else if (e.key === 'a' || e.key === 'A') { e.preventDefault(); toggleSplit() }
   })
 
@@ -396,7 +412,7 @@
   let shown = null
   const slideWatch = new MutationObserver(() => {
     const s = document.querySelector('.slide.active')
-    if (s !== shown) { shown = s; broadcast() }
+    if (s !== shown) { shown = s; broadcast(); reportPad() }
   })
   document.querySelectorAll('.slide').forEach((s) => slideWatch.observe(s, { attributes: true, attributeFilter: ['class'] }))
 

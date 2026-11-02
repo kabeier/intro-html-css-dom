@@ -276,3 +276,59 @@ test('stopPropagation in a submit handler, or preventDefault on window, still me
     await page.close()
   }
 })
+
+// The presenter window drives the code slides: its button does what N does in the slides window.
+async function openWithPresenter(hash = '#2') {
+  const context = await browser.newContext({ viewport: { width: 1600, height: 900 } })
+  const page = await context.newPage()
+  await page.goto(srv.url + DECK + hash)
+  await until(page, () => window.Livepad && window.Livepad.current() && window.Livepad.current().ready)
+  const notes = await context.newPage()
+  await notes.goto(srv.url + DECK + '?presenter' + hash)
+  return { context, page, notes }
+}
+const stepCount = (page) => page.evaluate(() => window.Livepad.current().step)
+
+test('presenter: the button types the next step, like N, and shows the step count', async () => {
+  const { context, page, notes } = await openWithPresenter()
+  await notes.waitForSelector('#stepb:visible')
+  assert.match(await notes.textContent('#stepinfo'), /0 of 3/)
+  await notes.click('#stepb')
+  await until(page, () => window.Livepad.current().step === 1 && !window.Livepad.current().busy)
+  assert.match((await state(page)).files['index.html'], /intro/)
+  await until(notes, () => /1 of 3/.test(document.querySelector('#stepinfo').textContent))
+  await notes.keyboard.press('n')
+  await until(page, () => window.Livepad.current().step === 2 && !window.Livepad.current().busy)
+  await notes.click('#stepb')
+  await until(page, () => window.Livepad.current().step === 3 && !window.Livepad.current().busy)
+  await until(notes, () => document.querySelector('#stepb').disabled && /All 3 steps/.test(document.querySelector('#stepinfo').textContent))
+  await context.close()
+})
+
+test('presenter: N in the slides window updates the count; a slide without steps hides the button', async () => {
+  const { context, page, notes } = await openWithPresenter()
+  await notes.waitForSelector('#stepb:visible')
+  await page.keyboard.press('n')
+  await until(notes, () => /1 of 3/.test(document.querySelector('#stepinfo').textContent))
+  await notes.keyboard.press('ArrowRight')
+  await notes.waitForSelector('#stepb', { state: 'hidden' })
+  await notes.keyboard.press('ArrowLeft'); await notes.keyboard.press('ArrowLeft')
+  await until(notes, () => /Slide one/.test(document.querySelector('.now').textContent))
+  await notes.waitForSelector('#stepb', { state: 'hidden' })
+  await notes.keyboard.press('n')
+  await notes.waitForTimeout(200)
+  await notes.keyboard.press('ArrowRight')
+  await notes.waitForSelector('#stepb:visible')
+  assert.equal(await stepCount(page), 1, 'n on a slide with no pad does nothing')
+  await context.close()
+})
+
+test('presenter: a step that no longer fits says so in the presenter window', async () => {
+  const { context, page, notes } = await openWithPresenter()
+  await notes.waitForSelector('#stepb:visible')
+  await page.evaluate(() => { const p = window.Livepad.pads.find((x) => x.el.closest('.slide.active')); p.setFiles({ ...p.files, 'index.html': '<p>changed by hand</p>' }) })
+  await notes.click('#stepb')
+  await until(notes, () => /can't apply/.test(document.querySelector('#stepinfo').textContent))
+  assert.equal(await stepCount(page), 0)
+  await context.close()
+})
