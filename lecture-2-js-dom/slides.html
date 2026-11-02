@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lecture 2 · JavaScript DOM</title>
-<link rel="stylesheet" href="../shared/deck.css?v=1">
+<link rel="stylesheet" href="../shared/deck.css?v=2">
 <link rel="stylesheet" href="../shared/filetree.css?v=1">
 <link rel="stylesheet" href="../shared/livepad.css?v=5">
 <style>
@@ -33,6 +33,7 @@
   <h1>JavaScript makes the page react.</h1>
   <p class="sub">Same Trainer profile page, now with script.js: find elements, change them, answer clicks and forms.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> Same Trainer page as last time, and today we make it react: find elements, change them, answer clicks and forms.</p>
     <p><b>Before class</b>: open this deck, <b>Ctrl+Shift+R</b>, <b>F</b>, then <b>P</b>.</p>
     <p>Students start from <b>lecture 1's finished page</b>. Behind? Code Explorer → Lecture 1 → feature 7 → Download.</p>
     <p>Press <b>T</b> to start the clock.</p>
@@ -49,6 +50,7 @@
   </table>
   <p class="bottomline">In the browser, JavaScript can read the page, change it, and react to the user.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> The same JavaScript from fundamentals week, now running in the browser, where it can reach the page.</p>
     <p>Say: "You already know JavaScript. Today it gets a new superpower: <b>document</b>, the page itself."</p>
     <p>Our live preview has a <b>Console</b> panel under it: console.log shows up there (and in real DevTools in the pop-out).</p>
   </aside>
@@ -82,6 +84,7 @@
   </div>
   <p class="bottomline">DOM = Document Object Model: the page as objects JavaScript can change.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> How the browser turns our HTML into a tree of objects called the DOM. That tree is what JavaScript changes.</p>
     <p>Say: "The HTML file is text. The browser reads it and builds this tree. JavaScript works on the tree, not the file."</p>
     <p>Say: "Attributes like <code>id</code> and <code>class</code> are not nodes in the tree. They are stored on the element."</p>
     <p>Show it live: pop out the app → right-click → Inspect → Elements tab = this tree.</p>
@@ -92,6 +95,7 @@
   <h2>Connect script.js and change the page <span class="say">index.html · script.js</span></h2>
   <div class="livepad" data-lesson="js-dom" data-start="null" data-steps="f1s1 f1s2 f1s3" data-files="index.html script.js styles.css"></div>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> We connect script.js to the page, log our first message, and change the heading from JavaScript.</p>
     <p><b>** CODE ALONG, about 4 minutes. **</b> Students: create <code>script.js</code> next to index.html.</p>
 <!-- steps:js-dom:f1 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
@@ -122,6 +126,7 @@
   </table>
   <p class="bottomline">querySelector speaks CSS: tag, .class, #id, "parent child".</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> The five ways to find elements, and what each one gives back.</p>
     <p>Say: "Lecture 1's selectors come back: the same strings work in JavaScript."</p>
     <p>We mostly use the two <b>querySelector</b> ones. null = nothing matched: the next line usually crashes.</p>
   </aside>
@@ -131,6 +136,7 @@
   <h2>Select many, count them <span class="say">script.js</span></h2>
   <div class="livepad" data-lesson="js-dom" data-start="f1s3" data-steps="f2s1 f2s2 f2s3" data-files="script.js index.html"></div>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> We select all the cards, count them with JavaScript, and write the count on the page.</p>
     <p><b>** CODE ALONG, about 3 minutes. **</b> Press <b>A</b>: the Console panel shows the NodeList after N 2.</p>
 <!-- steps:js-dom:f2 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
@@ -170,6 +176,7 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
   </div>
   <p class="bottomline">Use for...of on either. For .map or .filter: Array.from(list) first.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> Why a list of elements isn't an array: HTMLCollection vs NodeList, and how to loop over each one.</p>
     <p><b>About 2 minutes.</b> Say: "Last slide's console said <b>NodeList</b>. It looks like an array, but it isn't one. There are two of these list types, and they don't do the same things."</p>
     <table style="border-collapse:collapse;font-size:17px;margin:8px 0">
       <tr><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">Point at</th><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">How it works</th></tr>
@@ -190,6 +197,7 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
   <h2>Create an element when the user clicks <span class="say">index.html · script.js</span></h2>
   <div class="livepad" data-lesson="js-dom" data-start="f2s3" data-steps="f3s1 f3s2 f3s3 f3s4 f3s5 f3s6" data-files="script.js index.html"></div>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> We build an Add Pokémon box: type a name, click Add, and a new list item appears in My team.</p>
     <p><b>** CODE ALONG, about 6 minutes. **</b> Keep the live page open (<b>A</b>). After N 4: type a name, click <b>Add to team</b>.</p>
 <!-- steps:js-dom:f3 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
@@ -221,6 +229,7 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
   </ol>
   <p class="muted small" style="margin-top:24px">Page: <a href="../fixit.html?lesson=js-dom" target="_blank" rel="noopener">fixit.html?lesson=js-dom</a> · stuck 2 minutes? <b>Hint</b>, then <b>Show solution</b></p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> Students fix broken scripts on their own. Six minutes, problems 1 to 6.</p>
     <p>Click the timer (6 minutes). Then go over 2 or 3 in chat.</p>
     <p>Problems 1–2 show the most common error of the week: <b>Cannot set properties of null</b> = the element was not found.</p>
     <p>Answers: teacher guide, and behind <b>Show solution</b>.</p>
@@ -249,6 +258,7 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
   </div>
   <p class="bottomline">target = where it happened. currentTarget = who is listening.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> Every listener gets an event object. What's in it, and which events we use most.</p>
     <p>Say: "The browser hands your function a report of what happened: the event object."</p>
     <p>The curriculum's mousemove example uses <code>evt.target</code> on a div with no children. Our card has children, so we need <code>currentTarget</code>: the next code-along shows why.</p>
   </aside>
@@ -258,6 +268,7 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
   <h2>target vs currentTarget <span class="say">script.js</span></h2>
   <div class="livepad" data-lesson="js-dom" data-start="f3s6" data-steps="f4s1 f4s2" data-files="script.js index.html"></div>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> We watch target and currentTarget change: move the mouse over the About card, and it changes colour by which side the mouse is on.</p>
     <p><b>** CODE ALONG, about 3 minutes. **</b> After N 1: <b>A</b>, move the mouse over About me, watch the Console: SECTION, H2, P, IMG.</p>
 <!-- steps:js-dom:f4 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
@@ -278,6 +289,7 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
   </table>
   <p class="bottomline">preventDefault = "browser, don't". stopPropagation = "parents, don't hear this".</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> Two stop methods with two different jobs: preventDefault and stopPropagation.</p>
     <p>Curriculum example: <code>keydown</code> + <code>evt.code === "Space"</code> + preventDefault stops the page scrolling. (Our deck uses Space for "next slide": same idea.)</p>
   </aside>
 </section>
@@ -286,6 +298,7 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
   <h2>Handle the form without a reload <span class="say">index.html · script.js</span></h2>
   <div class="livepad" data-lesson="js-dom" data-start="f4s2" data-steps="f5s1 f5s2 f5s3 f5s4" data-files="script.js index.html"></div>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> We stop the form reloading the page: JavaScript reads the name and writes the answer on the page instead.</p>
     <p><b>** CODE ALONG, about 4 minutes. **</b> After N 3: fill the form, press <b>Send</b>: the text flashes, the page reloads, the name is gone. N 4 fixes it.</p>
 <!-- steps:js-dom:f5 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
@@ -318,6 +331,7 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
   </div>
   <p class="bottomline">One listener on the list can handle every item, even new ones (event delegation).</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> How one click travels up through every parent element: bubbling.</p>
     <p>Say: "Clicking the li is also clicking the ol, the section, the body. Every listener on the way hears it."</p>
   </aside>
 </section>
@@ -326,6 +340,7 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
   <h2>Bubbling, then stop it <span class="say">styles.css · script.js</span></h2>
   <div class="livepad" data-lesson="js-dom" data-start="f5s4" data-steps="f6s1 f6s2 f6s3 f6s4" data-files="script.js styles.css index.html"></div>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> We see bubbling break something: clicking a Pokémon removes it but also toggles the card outline. Then we stop it with stopPropagation.</p>
     <p><b>** CODE ALONG, about 3 minutes. **</b> After N 3: click a Pokémon: it goes away <b>and</b> the card outline toggles. N 4 stops that.</p>
 <!-- steps:js-dom:f6 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
@@ -351,6 +366,7 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
   </table>
   <p class="bottomline">Know the DOM, and React stops being magic.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> Everything we did by hand today, next to what React will do for us.</p>
     <p>Say: "Frameworks abstract the DOM, but it is still the DOM underneath. When React confuses you, think: what would I do by hand?"</p>
     <p>Code Explorer has both lectures; Lecture 2 lines from lecture 1 link back to lecture 1.</p>
   </aside>
@@ -366,6 +382,7 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
   </ol>
   <p class="bottomline">Stretch: Create a Static Webpage. Links are on the class site.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> Walk through Homework Part II.</p>
     <p>Order = the curriculum's Part II list. Part I (To-Do Lists, Top Ten, Portfolio) was lecture 1.</p>
   </aside>
 </section>

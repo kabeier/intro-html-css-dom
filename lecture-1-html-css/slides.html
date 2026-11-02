@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lecture 1 · HTML & CSS</title>
-<link rel="stylesheet" href="../shared/deck.css?v=1">
+<link rel="stylesheet" href="../shared/deck.css?v=2">
 <link rel="stylesheet" href="../shared/filetree.css?v=1">
 <link rel="stylesheet" href="../shared/livepad.css?v=5">
 <style>
@@ -55,6 +55,7 @@
   <h1>HTML is what's on the page. CSS is how it looks.</h1>
   <p class="sub">We build a Trainer profile page, one short step at a time.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> Today we build a Trainer profile page from an empty file: first the HTML content, then the CSS looks.</p>
     <p><b>Before class</b> (demo-kit/RUNBOOK.md): open this deck, press <b>F</b> (fullscreen), then <b>P</b> (these notes).</p>
     <p>Second tab: the class site (Code Explorer + Fix it are linked there).</p>
     <p>Press <b>T</b> to start the clock.</p>
@@ -74,6 +75,7 @@
   </table>
   <p class="bottomline">Type along in VS Code: index.html and styles.css.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> Before any code: HTML says what's on the page, CSS says how it looks. Then everyone makes the project folder.</p>
     <p>Say: "HTML answers <b>what</b>. CSS answers <b>how it looks</b>. Today we keep them apart on purpose."</p>
     <p>Say: "HTML is not a programming language. It's a <b>markup language</b>: no logic, just tags that describe the content. The browser reads them and draws the page."</p>
     <p><b>Students:</b> new folder <code>trainer-profile</code>, files <code>index.html</code> + <code>styles.css</code>. The next two slides set up Live Server, so they see the page as they type.</p>
@@ -91,6 +93,7 @@
     <li>Click <b>Install</b></li>
   </ol>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> Everyone installs Live Server in VS Code, so the page reloads every time they save.</p>
     <p><b>** LIVE, about 2 minutes. **</b> Students do this with you. Once per laptop.</p>
     <table style="border-collapse:collapse;font-size:17px;margin:8px 0">
       <tr><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">Point at</th><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">How it works</th></tr>
@@ -118,6 +121,7 @@
   </div>
   <p class="bottomline">Bottom right of VS Code: Go Live starts it, Port : 5500 stops it.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> We start Live Server, see the page in the browser, change something, and learn how to stop it.</p>
     <p><b>** LIVE, about 1 minute. **</b> Students: File → Open Folder → <code>trainer-profile</code>, then Go Live.</p>
     <table style="border-collapse:collapse;font-size:17px;margin:8px 0">
       <tr><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">Point at</th><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">How it works</th></tr>
@@ -139,6 +143,7 @@
   <h2>The skeleton every page has <span class="say">index.html</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="null" data-steps="f1s1 f1s2 f1s3" data-files="index.html styles.css"></div>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> We type the frame every web page needs: doctype, html, head and body. It ends with one heading on the page.</p>
     <p><b>** CODE ALONG, about 4 minutes. **</b> Press <b>N</b> for each step; students type the same lines.</p>
 <!-- steps:html-css:f1 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
@@ -186,6 +191,7 @@
   </div>
   <p class="bottomline">The head is for the browser. Only the body is drawn.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> A look back at the frame we just typed, and everything that can go in the head.</p>
     <p><b>About 2 minutes.</b> Say: "We typed the frame. Here's what each part is for, and everything else that can live in the head."</p>
     <table style="border-collapse:collapse;font-size:17px;margin:8px 0">
       <tr><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">Point at</th><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">How it works</th></tr>
@@ -211,6 +217,7 @@
   </table>
   <p class="bottomline">Void elements like &lt;img&gt; and &lt;br&gt; have no content and no end tag. The slash in &lt;img /&gt; is ignored.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> We take one tag apart: start tag, attribute, content, end tag. Then the tags that have no end tag.</p>
     <p>Say: "Every element is a start tag, maybe attributes, content, and an end tag."</p>
     <ul>
       <li><b>Void elements</b>: <code>&lt;img&gt;</code>, <code>&lt;br&gt;</code>, <code>&lt;meta&gt;</code>, <code>&lt;link&gt;</code>, <code>&lt;input&gt;</code>.</li>
@@ -225,6 +232,7 @@
   <h2>Content with meaning <span class="say">index.html</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f1s3" data-steps="f2s1 f2s2 f2s3 f2s4 f2s5 f2s6" data-files="index.html styles.css"></div>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> We turn the page into real content: a header with a menu, three sections with jump links, an image, a real link and a footer.</p>
     <p><b>** CODE ALONG, about 5 minutes. **</b></p>
 <!-- steps:html-css:f2 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
@@ -264,6 +272,7 @@
   </table>
   <p class="bottomline">Improves accessibility, SEO, maintainability and team communication.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> Why we used header, nav, main and section instead of plain boxes: the tag says what that part of the page is.</p>
     <p>Say: "A <b>div</b> says nothing. A <b>nav</b> says 'this is the menu'. Screen readers use that."</p>
     <p>Semantic HTML improves: <b>accessibility</b>, <b>SEO</b>, <b>maintainability</b>, <b>team communication</b> (curriculum list).</p>
   </aside>
@@ -273,6 +282,7 @@
   <h2>Small tags and plain boxes <span class="say">index.html</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f2s6" data-steps="f8s1 f8s2 f8s3 f8s4 f8s5 f8s6 f8s7" data-files="index.html styles.css"></div>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> We add the small tags: em, br and span inside a line, a div box, then headings down to h6, article and aside.</p>
     <p><b>** CODE ALONG, about 7 minutes. **</b> Keep the page open beside the code (<b>A</b>).</p>
 <!-- steps:html-css:f8 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
@@ -305,6 +315,7 @@
   <h2>Three lists and a table <span class="say">index.html</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f8s7" data-steps="f3s1 f3s2 f3s3 f3s4 f3s5 f3s6" data-files="index.html styles.css"></div>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> We add a My team card: a list that turns into a numbered list, a table of Pokémon, and a definition list.</p>
     <p><b>** CODE ALONG, about 5 minutes. **</b></p>
 <!-- steps:html-css:f3 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
@@ -355,6 +366,7 @@
   </div>
   <p class="bottomline">Pick a tag for what it means, not for how it looks.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> A one-minute look back at every tag so far. Nothing new.</p>
     <p><b>About 1 minute.</b> This is a look-back at what we just typed, not new material. Don't read it out.</p>
     <table style="border-collapse:collapse;font-size:17px;margin:8px 0">
       <tr><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">Point at</th><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">How it works</th></tr>
@@ -400,6 +412,7 @@
   </div>
   <p class="bottomline">Every element has a default. CSS <code>display</code> can change it.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> Why some tags stack and others stay in the line: block-level vs inline, shown with real elements.</p>
     <p><b>About 2 minutes.</b> These are real elements, not pictures.</p>
     <p><b>Say:</b> "Tags don't only mean something. They also have a default way of sitting on the page."</p>
     <table style="border-collapse:collapse;font-size:17px;margin:8px 0">
@@ -436,6 +449,7 @@
   </div>
   <p class="bottomline">No name, no data: a field without a name is not sent.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> Before we type the form: the input types, and what action, method and name do.</p>
     <p><b>About 2 minutes.</b> Say: "One tag, input, does most of the work. Its type decides what it is."</p>
     <p>Say: "A form sends <b>name = value</b> pairs. Next we build one, and send it to a real server."</p>
   </aside>
@@ -445,6 +459,7 @@
   <h2>A form, and where it sends the data <span class="say">index.html</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f3s6" data-steps="f4s1 f4s2 f4s3 f4s4 f4s5 f4s6 f4s7 f4s8 f4s9 f4s10" data-files="index.html styles.css"></div>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> We build a full form with every input type, then send it to a real server, first with GET, then with POST.</p>
     <p><b>** CODE ALONG, about 9 minutes. **</b> Keep the page open beside the code (<b>A</b>).</p>
 <!-- steps:html-css:f4 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
@@ -499,6 +514,7 @@
   </ol>
   <p class="muted small" style="margin-top:24px">Page: <a href="../fixit.html?lesson=html-css" target="_blank" rel="noopener">fixit.html</a> · stuck 2 minutes? press <b>Hint</b>, then <b>Show solution</b></p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> Students fix broken pages on their own. Six minutes, problems 1 to 6.</p>
     <p>Click the timer to start (6 minutes). Students work alone; then go over 2 or 3 in chat.</p>
     <p>Answers: in your Notes (teacher guide) and behind <b>Show solution</b>.</p>
     <p>The ✅ is saved in their browser, so they can come back later.</p>
@@ -529,6 +545,7 @@
   </div>
   <p class="bottomline">On a tie, the later rule wins, wherever it lives.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> CSS starts here: the three places CSS can live, and which one wins when they disagree.</p>
     <p><b>About 2 minutes.</b> Say: "We'll do all three in the next code-along, then keep only the last."</p>
     <p>External: improves <b>maintainability</b>, scales to real projects, keeps <b>separation of concerns</b>.</p>
     <p>Say: "The cascade is the C in CSS. It's how the browser decides when two rules set the same thing. Read the right table from the top: the first line that settles it wins."</p>
@@ -548,6 +565,7 @@
   <h2>Inline, internal, external <span class="say">index.html · styles.css</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f4s10" data-steps="f5s1 f5s2 f5s3 f5s4 f5s5 f5s6" data-files="index.html styles.css"></div>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> We try all three ways on the heading: inline, a style tag, then a linked file. We keep the file and write our first rules in styles.css.</p>
     <p><b>** CODE ALONG, about 4 minutes. **</b> Keep the live page open (<b>A</b>) the whole time.</p>
 <!-- steps:html-css:f5 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
@@ -586,6 +604,7 @@
   </table>
   <p class="bottomline">Same colour, same result. Pick hex, and be consistent.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> Every way to write a colour: name, hex, short hex, rgb, hsl and see-through.</p>
     <p><b>About 2 minutes.</b> Say: "We've used names and hex already. All of these mean the same thing to the browser. The first five swatches are the same colour."</p>
     <table style="border-collapse:collapse;font-size:17px;margin:8px 0">
       <tr><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">Point at</th><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">How it works</th></tr>
@@ -605,6 +624,7 @@
   <h2>Element, .class, #id: the most specific wins <span class="say">styles.css</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f5s6" data-steps="f6s1 f6s2 f6s3 f6s4" data-files="styles.css index.html"></div>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> We style by tag, .class and #id: the sections become cards, the title goes red because the id wins, the span gets a look, the labels stack.</p>
     <p><b>** CODE ALONG, about 3 minutes. **</b></p>
 <!-- steps:html-css:f6 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
@@ -641,6 +661,7 @@
   </div>
   <p class="bottomline">DevTools → hover an element → you see these four layers.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> Every element is a box: content, padding, border, margin.</p>
     <p>Say: "Inside out: content, padding, border, margin."</p>
     <p><b>DevTools, if time allows:</b> press ↗, right-click a card → <b>Inspect</b>. In the <b>Elements</b> panel, hover the <code>&lt;section&gt;</code> line: the page colours the layers. In <b>Computed</b>, the box diagram shows the four numbers.</p>
   </aside>
@@ -658,6 +679,7 @@
   </table>
   <p class="bottomline">Mobile, tablet, desktop: one HTML file, and the CSS adapts.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> The tools that make one page fit every screen: rem, %, flex and a media query.</p>
     <p><b>About 1 minute.</b> Say: "Responsive design means one page that works on a phone, a tablet and a desktop. We use all of these in the next code-along."</p>
     <p>Media queries come back in depth in a future lecture, with Tailwind.</p>
   </aside>
@@ -667,6 +689,7 @@
   <h2>Box model and responsive design <span class="say">styles.css</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f6s4" data-steps="f7s1 f7s2 f7s3 f7s4 f7s5 f7s6" data-files="styles.css index.html"></div>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> We finish the page: real spacing on the cards, relative sizes, a flex menu, and a media query that stacks the links on a phone.</p>
     <p><b>** CODE ALONG, about 6 minutes. **</b></p>
 <!-- steps:html-css:f7 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
@@ -698,6 +721,7 @@
   <h2>CSS Playground: try any property</h2>
   <iframe class="playground" src="css-playground/?embed=1" title="CSS Playground" loading="lazy"></iframe>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> You demo the CSS Playground: pick a property, change it, see what it does.</p>
     <p><b>** YOUR DEMO, about 2 minutes. **</b> A live page inside the slide: 35 common properties. Click a property on the left, then <b>Next value</b> or <b>Play the values</b>. Students open it from the class site (<b>CSS Playground</b>): the full list is further down the page.</p>
     <table style="border-collapse:collapse;font-size:17px;margin:8px 0">
       <tr><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">Click</th><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">Point at</th><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">How it works</th></tr>
@@ -720,6 +744,7 @@
   </ol>
   <p class="bottomline">One missing tag can cause many errors. Start at the top.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> You paste our page into the W3C validator, then break it on purpose to show how to read the errors.</p>
     <p><b>** YOUR DEMO, about 2 minutes. **</b> Paste the finished page: <b>"No errors or warnings to show."</b></p>
     <p>Delete one <code>&lt;/section&gt;</code> and check again. You get <b>2 errors</b>:</p>
     <ul>
@@ -740,6 +765,7 @@
   <p class="small" style="margin-top:22px"><b>CSS Playground</b> (class site): 35 properties to try · <b>Code Explorer</b> (class site): the page after every feature, click any line for its story · <b>MDN</b>: the reference for every tag and property · <b>Standards</b>: HTML is a WHATWG living standard, CSS is from the W3C</p>
   <p class="bottomline">HTML defines what exists. CSS defines how it looks.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> The habits to keep for HTML and CSS, and where to look things up later.</p>
     <p>Say: "You don't memorize tags. You look them up on MDN, every day."</p>
     <p>Standards: HTML is the WHATWG living standard; CSS is the W3C.</p>
   </aside>
@@ -755,6 +781,7 @@
   </ol>
   <p class="bottomline">Top to bottom: they get harder as you go. Links are on the class site.</p>
   <aside class="notes">
+    <p class="plan"><b>The plan:</b> Walk through Homework Part I, top to bottom.</p>
     <p>Curriculum: "Assignments should be completed from top to bottom as they will raise in difficulty the lower in the stack."</p>
     <p>Portfolio: "This does not need to be completed today, but it's important to begin." Today's Trainer profile is a good starting shape.</p>
   </aside>
