@@ -6,7 +6,7 @@
 window.CSS_PROPERTIES = [
   // ---------------------------------------------------------------- Text
   { name: 'color', group: 'Text', demo: 'text', what: 'The colour of the text.', use: 'Any text. Names, hex or rgb all work.', values: [
-    ['#1b2230', 'A very dark blue, softer on the eyes than pure black.'], ['crimson', 'A named colour. There are about 140 names.'], ['#2a75bb', 'Hex: pairs of digits for red, green and blue.'], ['rgb(19, 121, 91)', 'The same idea as hex, written as three numbers from 0 to 255.']], tip: 'It is spelled color, the American way. colour does nothing.' },
+    ['#1b2230', 'A very dark blue, softer on the eyes than pure black.'], ['crimson', 'A named colour. There are about 140 names.'], ['#2a75bb', 'Hex: pairs of digits for red, green and blue.'], ['rgb(19, 121, 91)', 'The same idea as hex, written as three numbers from 0 to 255.'], ['hsl(270, 50%, 40%)', 'Hue (a spot on the colour wheel, 0 to 360), saturation, lightness.'], ['rgb(102, 51, 153, 0.5)', 'A 4th value makes it see-through: 0 is invisible, 1 is solid.']], tip: 'It is spelled color, the American way. colour does nothing.' },
   { name: 'font-size', group: 'Text', demo: 'text', ex: 2, what: 'How big the text is.', use: 'Headings and body text. Prefer rem, so it follows the size the user chose.', values: [
     ['12px', 'Fixed size: small print.'], ['1rem', '1 × the browser text size: usually 16px.'], ['1.5rem', '1.5 × the browser text size: usually 24px.'], ['2.5rem', '2.5 × the browser text size: usually 40px.']] },
   { name: 'font-family', group: 'Text', demo: 'text', what: 'Which font the text uses.', use: 'Usually once, on body. List fallbacks, because the browser uses the first font it has.', values: [

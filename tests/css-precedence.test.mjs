@@ -48,3 +48,19 @@ test('on a usual page (link, then style) the same selector ranks inline, interna
 test('swap link and style and external beats internal: order matters', async () => {
   assert.equal(await colour(style('h1 { color: green }') + link('h1 { color: red }'), h1), red)
 })
+
+test('the colours slide: every way of writing the colour really is the same colour', async () => {
+  const page = await browser.newPage({ viewport: { width: 1600, height: 900 } })
+  const { serve } = await import('./helpers.mjs')
+  const srv = await serve()
+  await page.goto(srv.url + '/lecture-1-html-css/slides.html')
+  const r = await page.evaluate(() => [...document.querySelectorAll('.colours .sw[data-c]')].map((s) => [s.dataset.c, getComputedStyle(s).backgroundColor]))
+  await page.close(); srv.close()
+  const solid = r.filter(([c]) => !/0\.5|80$/.test(c))
+  assert.deepEqual(solid.map(([c]) => c), ['rebeccapurple', '#663399', '#639', 'rgb(102, 51, 153)', 'hsl(270, 50%, 40%)'])
+  for (const [c, v] of solid) assert.equal(v, 'rgb(102, 51, 153)', c)
+  const see = r.filter(([c]) => /0\.5|80$/.test(c))
+  assert.equal(see.length, 2)
+  assert.match(see[0][1], /^rgba\(102, 51, 153, 0\.5\)$/)
+  assert.match(see[1][1], /^rgba\(102, 51, 153, 0\.5\d*\)$/, '#66339980 is about 50%')
+})

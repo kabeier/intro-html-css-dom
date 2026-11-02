@@ -67,7 +67,7 @@ test('a typed value applies; a wrong one is explained and ignored', async () => 
 test('keys and Play move through values and properties', async () => {
   const { page } = await open()
   await page.keyboard.press('ArrowRight')
-  assert.match(await page.textContent('#step'), /Value 2 of 4/)
+  assert.match(await page.textContent('#step'), /Value 2 of 6/)
   await page.keyboard.press('ArrowDown')
   assert.equal(await page.textContent('#name'), 'font-size')
   await page.keyboard.press('ArrowUp')
