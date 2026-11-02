@@ -118,7 +118,7 @@ test('clicking a link in the preview scrolls the preview; the deck stays on its 
   await page.keyboard.press('a')
   const frame = page.frames().find((f) => f.url() === 'about:srcdoc' && f.parentFrame() === page.mainFrame())
   await page.waitForTimeout(500)
-  const fr = page.frames().filter((f) => f.parentFrame() === page.mainFrame())
+  const fr = page.frames().filter((f) => f.parentFrame() === page.mainFrame() && f.url() === 'about:srcdoc') // the code previews, not other iframes
   const live = await (async () => { for (const f of fr) { try { if (await f.$('nav a[href="#about"]')) return f } catch {} } })()
   await live.click('nav a[href="#about"]')
   await page.waitForTimeout(800)

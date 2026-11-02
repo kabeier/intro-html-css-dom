@@ -44,9 +44,10 @@ If you typed in the editor and **N** says "can't apply": press **Shift+N**.
 | 15 | 54 | (DevTools on the pop-out if time) | content, padding, border, margin |
 | 16 | 55 | — | px, rem, %, flex, media query |
 | 17 | 56 | **N ×6**, then Pop out + narrow window | rem, %, flex; media query: links stack |
-| 18 | 62 | paste the page into the validator, delete a `</section>`, check again | fix the first error first |
-| 19 | 64 | — | MDN, Code Explorer |
-| 20 | 65 | — | Homework Part I, top to bottom |
+| 18 | 62 | in the playground: border-radius, display, justify-content, type `tomatoo` | the rule shape; flex goes on the parent; wrong values are skipped silently |
+| 19 | 64 | paste the page into the validator, delete a `</section>`, check again | fix the first error first |
+| 20 | 66 | — | MDN, Code Explorer, CSS Playground |
+| 21 | 67 | — | Homework Part I, top to bottom |
 
 ## Time checks
 

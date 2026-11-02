@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="../shared/livepad.css?v=4">
 <style>
   .precedence td, .precedence th { padding: 8px 12px; font-size: 21px; }
+  iframe.playground { width: 100%; flex: 1; min-height: 640px; border: 0; }
   .rank { margin-top: 18px; padding: 12px 20px; }
   .rank p { font-size: 23px; margin: 4px 0; max-width: none; }
   .slide.code { padding: 60px 64px 36px; }
@@ -25,7 +26,7 @@
   .keys td:first-child { font: 700 26px var(--mono); white-space: nowrap; }
 </style>
 </head>
-<body data-minutes="66">
+<body data-minutes="68">
 <div class="stage">
 
 <!-- ============ OPEN (0–3) ============ -->
@@ -469,8 +470,25 @@
   </aside>
 </section>
 
-<!-- ============ WRAP (64–66) ============ -->
-<section class="slide" data-seg="Wrap up" data-at="62">
+<!-- ============ WRAP (64–68) ============ -->
+<section class="slide" data-seg="CSS" data-at="62">
+  <h2>CSS Playground: try any property</h2>
+  <iframe class="playground" src="css-playground/?embed=1" title="CSS Playground" loading="lazy"></iframe>
+  <aside class="notes">
+    <p><b>** YOUR DEMO, about 2 minutes. **</b> A live page inside the slide: 35 common properties. Click a property on the left, then <b>Next value</b> or <b>Play the values</b>. Students open it from the class site (<b>CSS Playground</b>): the full list is further down the page.</p>
+    <table style="border-collapse:collapse;font-size:17px;margin:8px 0">
+      <tr><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">Click</th><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">Point at</th><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">How it works</th></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><b>border-radius</b></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">The corners of the yellow box, and the dark box showing the rule</td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">The dark box is the real CSS rule being applied. The value changes, and the rule shape stays <code>selector { property: value; }</code>.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><b>display</b></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">The three names, as you step through</td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><code>block</code> stacks them. <code>inline</code> sits them side by side but ignores width. <code>none</code> removes them completely.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><b>justify-content</b></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">The blue pill: "This rule goes on the parent"</td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">Flex rules go on the box <b>holding</b> the items, not on the items. This is the most common flex mistake.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">Type <code>tomatoo</code> in the box</td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">The red message</td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">A wrong value is not an error: the browser skips that line and carries on. That's why CSS mistakes are silent.</td></tr>
+    </table>
+    <p>Say: "You don't memorize these. This page and MDN are where you look."</p>
+    <p><b>Arrow keys:</b> after you click inside the playground, the arrows work there. ← → change the value, ↑ ↓ change the property. Click the slide <b>outside</b> it, or use the presenter's Next, to move on.</p>
+  </aside>
+</section>
+
+<section class="slide" data-seg="Wrap up" data-at="64">
   <h2>Let a tool check your HTML</h2>
   <ol class="steps">
     <li>Open <a href="https://validator.w3.org/nu/#textarea" target="_blank" rel="noopener">validator.w3.org/nu</a> → <b>Text input</b></li>
@@ -490,13 +508,13 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="Wrap up" data-at="64">
+<section class="slide" data-seg="Wrap up" data-at="66">
   <h2>Habits, and where to look later</h2>
   <div class="cols">
     <div class="card blue"><h3>HTML</h3><p>Semantic tags · alt on every image · a label for every input · check it at <b>validator.w3.org</b></p></div>
     <div class="card green"><h3>CSS</h3><p>External file · no inline styles · class names that say the role (<code>card</code>, not <code>yellow-box</code>)</p></div>
   </div>
-  <p class="small" style="margin-top:22px"><b>Code Explorer</b> (class site): the page after every feature, click any line for its story · <b>MDN</b>: the reference for every tag and property</p>
+  <p class="small" style="margin-top:22px"><b>CSS Playground</b> (class site): 35 properties to try · <b>Code Explorer</b> (class site): the page after every feature, click any line for its story · <b>MDN</b>: the reference for every tag and property</p>
   <p class="bottomline">HTML defines what exists. CSS defines how it looks.</p>
   <aside class="notes">
     <p>Say: "You don't memorize tags. You look them up on MDN, every day."</p>
@@ -504,7 +522,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="Wrap up" data-at="65">
+<section class="slide" data-seg="Wrap up" data-at="67">
   <h2>Homework, Part I</h2>
   <ol class="steps small">
     <li><b>To-Do List I</b></li>
