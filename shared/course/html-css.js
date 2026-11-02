@@ -96,7 +96,17 @@ Course.register({
           ],
         },
         {
-          id: 'f2s5', file: 'index.html', mode: 'insertAfter', find: '  </main>',
+          id: 'f2s5', file: 'index.html', mode: 'insertAfter', find: 'one tag at a time</strong>.</p>',
+          code: '      <p>Read about Pikachu on the <a href="https://www.pokemon.com/us/pokedex/pikachu" target="_blank">Pokédex</a>.</p>',
+          say: 'A real hyperlink. Same <a> tag as the menu, but href is a full address, so it leaves our page. target="_blank" opens it in a new tab.',
+          notes: [
+            { match: 'href="https://', what: 'A full address: the link goes to another site.', why: 'href decides where a link goes. "#about" stays on this page; "https://…" leaves it.',
+              api: { name: '<a href="https://…">', does: 'Goes to another page when clicked.', params: [['href', 'the address to go to', 'copy the whole URL, https:// included'], ['target', 'where it opens', '"_blank" = a new tab; leave it out and the link replaces this page']], mistakes: ['href="www.pokemon.com" without https://: the browser looks for a file with that name next to your page.', 'Link text like "click here": screen readers read links out of context, so say where it goes.'] } },
+            { match: 'target="_blank"', what: 'Opens the link in a new tab.', why: 'Our page stays open behind it. Without it, the new page replaces ours.' },
+          ],
+        },
+        {
+          id: 'f2s6', file: 'index.html', mode: 'insertAfter', find: '  </main>',
           code: '  <footer>\n    <p>Made with HTML and CSS</p>\n  </footer>',
           say: 'The footer closes the page. Now we have header, main and footer: the classic page shape.',
           notes: [

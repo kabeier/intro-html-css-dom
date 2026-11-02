@@ -77,3 +77,13 @@ test('content facts: alt matches the sprite, post is not called private', () => 
   assert.doesNotMatch(all, /Pikachu waving/)
   assert.doesNotMatch(all, /for anything private/)
 })
+
+test('a real hyperlink: the About section links to another site, and the menu keeps its #id links', async () => {
+  const page = Course.checkpoint(lesson, 'f2')['index.html']
+  assert.match(page, /<a href="https:\/\/www\.pokemon\.com\/us\/pokedex\/pikachu" target="_blank">[^<]+<\/a>/)
+  const steps = lesson.features.find((f) => f.id === 'f2').steps.map((s) => s.id)
+  assert.deepEqual(steps, ['f2s1', 'f2s2', 'f2s3', 'f2s4', 'f2s5', 'f2s6'])
+  const link = lesson.features.find((f) => f.id === 'f2').steps[4]
+  assert.ok(link.notes.some((n) => n.match.includes('target') && n.api === undefined) && link.notes.some((n) => n.api && n.api.params.length >= 2), 'href and target are explained')
+  for (const a of page.match(/<nav>[\s\S]*<\/nav>/)[0].match(/href="[^"]+"/g)) assert.match(a, /href="#/)
+})

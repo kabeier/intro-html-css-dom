@@ -105,7 +105,7 @@
 
 <section class="slide code" data-seg="Code along: content" data-at="9">
   <h2>Content with meaning <span class="say">index.html</span></h2>
-  <div class="livepad" data-lesson="html-css" data-start="f1s3" data-steps="f2s1 f2s2 f2s3 f2s4 f2s5" data-files="index.html styles.css"></div>
+  <div class="livepad" data-lesson="html-css" data-start="f1s3" data-steps="f2s1 f2s2 f2s3 f2s4 f2s5 f2s6" data-files="index.html styles.css"></div>
   <aside class="notes">
     <p><b>** CODE ALONG, about 5 minutes. **</b></p>
 <!-- steps:html-css:f2 -->
@@ -114,12 +114,14 @@
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;nav&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Links! href="#about" jumps to the element with id="about". Those sections come next.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;main&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">One &lt;main&gt; per page: the real content. Each part of it is a &lt;section&gt; with its own &lt;h2&gt;.</td></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;img src="https://raw.githubusercontent.com/…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">An image and a paragraph. &lt;img&gt; has no closing tag: it is a "void" element.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 5</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;footer&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">The footer closes the page. Now we have header, main and footer: the classic page shape.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 5</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;p&gt;Read about Pikachu on the &lt;a href="https:…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A real hyperlink. Same &lt;a&gt; tag as the menu, but href is a full address, so it leaves our page. target="_blank" opens it in a new tab.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 6</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;footer&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">The footer closes the page. Now we have header, main and footer: the classic page shape.</td></tr>
 </table>
 <!-- /steps -->
     <ul>
       <li>After N 2: press <b>A</b>, click <b>About</b>: nothing happens yet (no id="about"). After N 3 it jumps.</li>
       <li>Say: "<b>id</b> = one element. <b>class</b> = a group."</li>
+      <li>After N 5: click <b>Pokédex</b>: a new tab opens. Say: "Same <code>&lt;a&gt;</code> tag. <code>#about</code> stays on this page; <code>https://…</code> leaves it."</li>
       <li>Watch for: a missing <code>"</code> in src: the image breaks and the rest of the line turns odd colours.</li>
     </ul>
   </aside>
@@ -145,7 +147,7 @@
 
 <section class="slide code" data-seg="Code along: lists + table" data-at="15">
   <h2>Lists and a table <span class="say">index.html</span></h2>
-  <div class="livepad" data-lesson="html-css" data-start="f2s5" data-steps="f3s1 f3s2 f3s3 f3s4 f3s5" data-files="index.html styles.css"></div>
+  <div class="livepad" data-lesson="html-css" data-start="f2s6" data-steps="f3s1 f3s2 f3s3 f3s4 f3s5" data-files="index.html styles.css"></div>
   <aside class="notes">
     <p><b>** CODE ALONG, about 3 minutes. **</b></p>
 <!-- steps:html-css:f3 -->
@@ -336,7 +338,7 @@
 </div>
 <script src="../shared/deck.js?v=2"></script>
 <script src="../shared/course.js?v=7"></script>
-<script src="../shared/course/html-css.js?v=2"></script>
+<script src="../shared/course/html-css.js?v=3"></script>
 <script src="../shared/livepad.js?v=6"></script>
 </body>
 </html>

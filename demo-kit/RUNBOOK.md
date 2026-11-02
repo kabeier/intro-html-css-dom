@@ -31,7 +31,7 @@ If you typed in the editor and **N** says "can't apply": press **Shift+N**.
 | 2 | 1 | students make `trainer-profile/index.html` + `styles.css` | keys N / A / Pop out |
 | 3 | 3 | **N ×3**, A after N 2 | the four skeleton tags (table in notes) |
 | 4 | 7 | — | start tag · attribute · content · end tag; void elements |
-| 5 | 9 | **N ×5**, A after N 2, click About | id = one, class = group |
+| 5 | 9 | **N ×6**, A after N 2, click About; click Pokédex after N 5 | id = one, class = group; #id stays, https:// leaves |
 | 6 | 14 | — | semantic tags table |
 | 7 | 15 | **N ×5**, A before N 3 | ul → ol; tables are for data |
 | 8 | 18 | **N ×4** | label for = input id; name = the data |
