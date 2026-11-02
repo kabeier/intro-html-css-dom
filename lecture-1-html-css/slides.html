@@ -12,6 +12,8 @@
   .colours td, .colours th { padding: 6px 12px; font-size: 21px; }
   .colours .swc { width: 96px; padding: 4px 10px; background: repeating-linear-gradient(45deg, #fff 0 8px, #c9d1de 8px 16px); }
   .colours .sw { display: block; width: 76px; height: 38px; border-radius: 4px; }
+  .frame td, .frame th { padding: 6px 10px; font-size: 19px; }
+  .frame code { font-size: 0.86em; }
   .rank { margin-top: 18px; padding: 12px 20px; }
   .rank p { font-size: 23px; margin: 4px 0; max-width: none; }
   .slide.code { padding: 60px 64px 36px; }
@@ -29,7 +31,7 @@
   .keys td:first-child { font: 700 26px var(--mono); white-space: nowrap; }
 </style>
 </head>
-<body data-minutes="70">
+<body data-minutes="73">
 <div class="stage">
 
 <!-- ============ OPEN (0–3) ============ -->
@@ -47,8 +49,8 @@
 <section class="slide" data-seg="Open" data-at="1">
   <h2>Two questions, two languages</h2>
   <div class="cols">
-    <div class="card blue"><h3>HTML: structure</h3><p><b>"What is on this page?"</b><br>Headings, text, images, links, forms.</p></div>
-    <div class="card green"><h3>CSS: presentation</h3><p><b>"What should it look like?"</b><br>Colours, fonts, spacing, layout.</p></div>
+    <div class="card blue"><h3>HTML: structure</h3><p><b>"What is on this page?"</b><br>Headings, text, images, links, forms. A markup language, not a programming language.</p></div>
+    <div class="card green"><h3>CSS: presentation</h3><p><b>"What should it look like?"</b><br>Colours, fonts, spacing, layout, responsiveness.</p></div>
   </div>
   <table class="dbt small keys" style="margin-top:26px">
     <tr><td>N</td><td>types the next short chunk of code</td></tr>
@@ -64,7 +66,7 @@
   </aside>
 </section>
 
-<!-- ============ HTML (3–39) ============ -->
+<!-- ============ HTML (3–42) ============ -->
 <section class="slide code" data-seg="Code along: skeleton" data-at="3">
   <h2>The skeleton every page has <span class="say">index.html</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="null" data-steps="f1s1 f1s2 f1s3" data-files="index.html styles.css"></div>
@@ -93,6 +95,43 @@
 </section>
 
 <section class="slide" data-seg="HTML" data-at="7">
+  <h2>The frame, and what goes in the head</h2>
+  <div class="cols" style="grid-template-columns:0.72fr 1.28fr;gap:24px;align-items:start">
+    <table class="dbt small frame">
+      <tr><th>Tag</th><th>Job</th></tr>
+      <tr><td><code>&lt;!DOCTYPE html&gt;</code></td><td>use modern standards</td></tr>
+      <tr><td><code>&lt;html&gt;</code></td><td>the root: wraps it all</td></tr>
+      <tr><td><code>&lt;head&gt;</code></td><td class="pk">metadata: not drawn</td></tr>
+      <tr><td><code>&lt;body&gt;</code></td><td>everything you see</td></tr>
+    </table>
+    <table class="dbt small frame">
+      <tr><th>In the head</th><th>Example</th><th>Job</th></tr>
+      <tr><td><code>&lt;title&gt;</code></td><td><code>&lt;title&gt;My Trainer Profile&lt;/title&gt;</code></td><td>the browser tab</td></tr>
+      <tr><td rowspan="3"><code>&lt;meta&gt;</code></td><td><code>&lt;meta charset="UTF-8"&gt;</code></td><td>letters like é</td></tr>
+      <tr><td><code>&lt;meta name="viewport" …&gt;</code></td><td>fits phones</td></tr>
+      <tr><td><code>&lt;meta name="description" content="…"&gt;</code></td><td>search results (SEO)</td></tr>
+      <tr><td rowspan="2"><code>&lt;link&gt;</code></td><td><code>&lt;link rel="stylesheet" href="styles.css"&gt;</code></td><td>the CSS file</td></tr>
+      <tr><td><code>&lt;link rel="icon" href="icon.png"&gt;</code></td><td>the tab icon</td></tr>
+      <tr><td><code>&lt;style&gt;</code></td><td><code>&lt;style&gt; h1 { … } &lt;/style&gt;</code></td><td>CSS in the page</td></tr>
+      <tr><td><code>&lt;script&gt;</code></td><td><code>&lt;script src="script.js" defer&gt;&lt;/script&gt;</code></td><td>JavaScript</td></tr>
+    </table>
+  </div>
+  <p class="bottomline">The head is for the browser. Only the body is drawn.</p>
+  <aside class="notes">
+    <p><b>About 2 minutes.</b> Say: "We typed the frame. Here's what each part is for, and everything else that can live in the head."</p>
+    <table style="border-collapse:collapse;font-size:17px;margin:8px 0">
+      <tr><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">Point at</th><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">How it works</th></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;!DOCTYPE html&gt;</code></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">Not a tag: a note to the browser. Without it the browser uses old "quirks mode" and some CSS behaves differently.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;head&gt;</code>: not drawn</td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">Metadata = information about the page. Nothing in the head appears on the page, except that the title shows in the tab.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><code>name="description"</code></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">The short text under your link in Google. Not on our page, but real sites have it.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><code>rel="icon"</code></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">The small picture on the browser tab (a favicon). Same <code>&lt;link&gt;</code> tag as the CSS file: <code>rel</code> says what kind of file it is.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;style&gt;</code></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">We try it in the CSS code-along. It's fine for a demo, discouraged for big projects.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;script&gt;</code></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">Not used today: lecture 2 adds it. <code>defer</code> means "run this after the page has loaded".</td></tr>
+    </table>
+  </aside>
+</section>
+
+<section class="slide" data-seg="HTML" data-at="9">
   <h2>Anatomy of an element</h2>
   <div class="anatomy">&lt;<span class="t">a</span> <span class="a">href</span>=<span class="s">"#team"</span>&gt;Team&lt;/<span class="t">a</span>&gt;</div>
   <table class="dbt small">
@@ -102,19 +141,19 @@
     <tr><td><b>Content</b></td><td><code>Team</code></td><td>what is shown</td></tr>
     <tr><td><b>End tag</b></td><td><code>&lt;/a&gt;</code></td><td>closes it (note the <b>/</b>)</td></tr>
   </table>
-  <p class="bottomline">Void elements like &lt;img&gt; and &lt;br&gt; have no content and no end tag.</p>
+  <p class="bottomline">Void elements like &lt;img&gt; and &lt;br&gt; have no content and no end tag. The slash in &lt;img /&gt; is ignored.</p>
   <aside class="notes">
     <p>Say: "Every element is a start tag, maybe attributes, content, and an end tag."</p>
     <ul>
       <li><b>Void elements</b>: <code>&lt;img&gt;</code>, <code>&lt;br&gt;</code>, <code>&lt;meta&gt;</code>, <code>&lt;link&gt;</code>, <code>&lt;input&gt;</code>.</li>
       <li>You will see <code>&lt;img /&gt;</code> online: the slash is allowed and <b>ignored</b>.</li>
-      <li><b>Different from the curriculum</b> (until the fix is merged): the page called these "self-closing". HTML has no self-closing tags.</li>
+      <li>Say: "HTML has no self-closing tags." The slash in <code>&lt;img /&gt;</code> does nothing.</li>
     </ul>
     <p>Common attributes: <code>id</code>, <code>class</code>, <code>src</code>, <code>href</code>, <code>alt</code>. We use all five in the next code-along.</p>
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: content" data-at="9">
+<section class="slide code" data-seg="Code along: content" data-at="11">
   <h2>Content with meaning <span class="say">index.html</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f1s3" data-steps="f2s1 f2s2 f2s3 f2s4 f2s5 f2s6" data-files="index.html styles.css"></div>
   <aside class="notes">
@@ -144,7 +183,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="HTML" data-at="15">
+<section class="slide" data-seg="HTML" data-at="17">
   <h2>Semantic tags say what a part of the page is</h2>
   <table class="dbt small">
     <tr><th>Tag</th><th>Means</th><th>On our page</th></tr>
@@ -155,14 +194,14 @@
     <tr><td><code>&lt;article&gt;</code> / <code>&lt;aside&gt;</code></td><td>stands alone / side note</td><td>Latest battle / the type tip</td></tr>
     <tr><td><code>&lt;footer&gt;</code></td><td>the bottom</td><td>"Made with HTML and CSS"</td></tr>
   </table>
-  <p class="bottomline">Looks like a &lt;div&gt;. Means more: accessibility, search, the next developer.</p>
+  <p class="bottomline">Improves accessibility, SEO, maintainability and team communication.</p>
   <aside class="notes">
     <p>Say: "A <b>div</b> says nothing. A <b>nav</b> says 'this is the menu'. Screen readers use that."</p>
     <p>Semantic HTML improves: <b>accessibility</b>, <b>SEO</b>, <b>maintainability</b>, <b>team communication</b> (curriculum list).</p>
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: text + boxes" data-at="16">
+<section class="slide code" data-seg="Code along: text + boxes" data-at="18">
   <h2>Small tags and plain boxes <span class="say">index.html</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f2s6" data-steps="f8s1 f8s2 f8s3 f8s4 f8s5 f8s6 f8s7" data-files="index.html styles.css"></div>
   <aside class="notes">
@@ -194,7 +233,7 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: lists + table" data-at="23">
+<section class="slide code" data-seg="Code along: lists + table" data-at="25">
   <h2>Three lists and a table <span class="say">index.html</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f8s7" data-steps="f3s1 f3s2 f3s3 f3s4 f3s5 f3s6" data-files="index.html styles.css"></div>
   <aside class="notes">
@@ -223,7 +262,43 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="Forms" data-at="28">
+<section class="slide" data-seg="HTML" data-at="30">
+  <h2>Tags at a glance</h2>
+  <div class="cols" style="grid-template-columns:1fr 1fr;gap:24px;align-items:start">
+    <table class="dbt small frame">
+      <tr><th>Tag</th><th>Use it for</th></tr>
+      <tr><td><code>&lt;h1&gt;</code> → <code>&lt;h6&gt;</code></td><td>the hierarchy of the page</td></tr>
+      <tr><td><code>&lt;p&gt;</code></td><td>a block of text</td></tr>
+      <tr><td><code>&lt;br&gt;</code></td><td>a line break, same paragraph</td></tr>
+      <tr><td><code>&lt;div&gt;</code></td><td>a generic block box</td></tr>
+      <tr><td><code>&lt;span&gt;</code></td><td>a generic inline box</td></tr>
+      <tr><td><code>&lt;strong&gt;</code></td><td>strong importance</td></tr>
+      <tr><td><code>&lt;em&gt;</code></td><td>emphasis</td></tr>
+    </table>
+    <table class="dbt small frame">
+      <tr><th>Tag</th><th>Use it for</th></tr>
+      <tr><td><code>&lt;a href="…"&gt;</code></td><td>a hyperlink</td></tr>
+      <tr><td><code>&lt;img src="…" alt="…"&gt;</code></td><td class="pk">alt is critical for accessibility</td></tr>
+      <tr><td><code>&lt;ul&gt;</code></td><td>a list, order doesn't matter</td></tr>
+      <tr><td><code>&lt;ol&gt;</code></td><td>a list, order matters</td></tr>
+      <tr><td><code>&lt;dl&gt;</code> <code>&lt;dt&gt;</code> <code>&lt;dd&gt;</code></td><td>a definition list: term, meaning</td></tr>
+      <tr><td><code>&lt;table&gt;</code></td><td class="pk">data, never for layout</td></tr>
+    </table>
+  </div>
+  <p class="bottomline">Pick a tag for what it means, not for how it looks.</p>
+  <aside class="notes">
+    <p><b>About 1 minute.</b> This is a look-back at what we just typed, not new material. Don't read it out.</p>
+    <table style="border-collapse:collapse;font-size:17px;margin:8px 0">
+      <tr><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">Point at</th><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">How it works</th></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;div&gt;</code> and <code>&lt;span&gt;</code></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">Neither means anything. div starts a new line (block); span stays in the sentence (inline). Use them when no meaningful tag fits.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;strong&gt;</code> and <code>&lt;em&gt;</code></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">Bold and italic are only how browsers show them. They carry meaning: importance, and stress on a word. For looks alone, use CSS.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><code>alt</code></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">A screen reader reads it aloud, and it shows if the picture fails. Without it, a blind user gets nothing, or the file name.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;table&gt;</code></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">Old sites used tables to lay out pages. Now that's CSS's job: tables are only for rows and columns of data.</td></tr>
+    </table>
+  </aside>
+</section>
+
+<section class="slide" data-seg="Forms" data-at="31">
   <h2>A form sends named data somewhere</h2>
   <div class="cols" style="align-items:start">
     <table class="dbt small">
@@ -250,7 +325,7 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: form" data-at="30">
+<section class="slide code" data-seg="Code along: form" data-at="33">
   <h2>A form, and where it sends the data <span class="say">index.html</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f3s6" data-steps="f4s1 f4s2 f4s3 f4s4 f4s5 f4s6 f4s7 f4s8 f4s9 f4s10" data-files="index.html styles.css"></div>
   <aside class="notes">
@@ -296,8 +371,8 @@
   </aside>
 </section>
 
-<!-- ============ ACTIVITY (39–45) ============ -->
-<section class="slide activity" data-seg="Activity: Fix it" data-at="39">
+<!-- ============ ACTIVITY (42–48) ============ -->
+<section class="slide activity" data-seg="Activity: Fix it" data-at="42">
   <h2>Activity: Fix it</h2>
   <div class="countdown" data-sec="360"></div>
   <ol class="steps">
@@ -314,15 +389,15 @@
   </aside>
 </section>
 
-<!-- ============ CSS (45–66) ============ -->
-<section class="slide" data-seg="CSS" data-at="45">
+<!-- ============ CSS (48–69) ============ -->
+<section class="slide" data-seg="CSS" data-at="48">
   <h2>Three places CSS can live, and which one wins</h2>
   <div class="cols" style="grid-template-columns:1.1fr 1fr;gap:28px;align-items:start">
     <table class="dbt small precedence">
       <tr><th>Way</th><th>Looks like</th><th>Use it?</th></tr>
       <tr><td><b>Inline</b></td><td><code>&lt;p style="…"&gt;</code></td><td>Avoid: one element only</td></tr>
       <tr><td><b>Internal</b></td><td><code>&lt;style&gt;</code> in the head</td><td>Small demos: one page</td></tr>
-      <tr><td><b>External</b></td><td><code>&lt;link href="styles.css"&gt;</code></td><td class="pk"><b>Yes</b>: every page</td></tr>
+      <tr><td><b>External</b></td><td><code>&lt;link href="styles.css"&gt;</code></td><td class="pk"><b>Yes</b>: every page, scales, separation of concerns</td></tr>
     </table>
     <table class="dbt small precedence">
       <tr><th colspan="2">Two rules set the same thing: who wins?</th></tr>
@@ -353,7 +428,7 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: CSS" data-at="47">
+<section class="slide code" data-seg="Code along: CSS" data-at="50">
   <h2>Inline, internal, external <span class="say">index.html · styles.css</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f4s10" data-steps="f5s1 f5s2 f5s3 f5s4 f5s5 f5s6" data-files="index.html styles.css"></div>
   <aside class="notes">
@@ -381,7 +456,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="CSS" data-at="50">
+<section class="slide" data-seg="CSS" data-at="53">
   <h2>One colour, many ways to write it</h2>
   <table class="dbt small colours">
     <tr><th>Way</th><th>Looks like</th><th></th><th>Good for</th></tr>
@@ -410,7 +485,7 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: selectors" data-at="52">
+<section class="slide code" data-seg="Code along: selectors" data-at="55">
   <h2>Element, .class, #id: the most specific wins <span class="say">styles.css</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f5s6" data-steps="f6s1 f6s2 f6s3 f6s4" data-files="styles.css index.html"></div>
   <aside class="notes">
@@ -437,7 +512,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="CSS" data-at="56">
+<section class="slide" data-seg="CSS" data-at="59">
   <h2>Every element is a box</h2>
   <div class="cols">
     <div class="boxm"><div class="m">margin: outside, see-through<div class="b"><div class="p">padding: inside, takes the background<div class="c">content</div></div></div></div></div>
@@ -455,13 +530,13 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="CSS" data-at="57">
+<section class="slide" data-seg="CSS" data-at="60">
   <h2>One page, every screen</h2>
   <table class="dbt small">
     <tr><th>Tool</th><th>Example</th><th>Why it flexes</th></tr>
     <tr><td><b>px</b></td><td><code>16px</code></td><td>it doesn't: fixed size</td></tr>
-    <tr><td><b>rem</b></td><td><code>2.5rem</code></td><td>follows the browser's text size</td></tr>
-    <tr><td><b>%</b></td><td><code>90%</code></td><td>follows the parent box</td></tr>
+    <tr><td><b>rem</b></td><td><code>2.5rem</code></td><td>relative: follows the browser's text size</td></tr>
+    <tr><td><b>%</b></td><td><code>90%</code></td><td>relative: follows the parent box</td></tr>
     <tr><td><b>Flexible layout</b></td><td><code>display: flex</code></td><td>children share the space</td></tr>
     <tr><td><b>Media query</b></td><td><code>@media (max-width: 600px)</code></td><td>different rules on small screens</td></tr>
   </table>
@@ -472,7 +547,7 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: box + responsive" data-at="58">
+<section class="slide code" data-seg="Code along: box + responsive" data-at="61">
   <h2>Box model and responsive design <span class="say">styles.css</span></h2>
   <div class="livepad" data-lesson="html-css" data-start="f6s4" data-steps="f7s1 f7s2 f7s3 f7s4 f7s5 f7s6" data-files="styles.css index.html"></div>
   <aside class="notes">
@@ -502,8 +577,8 @@
   </aside>
 </section>
 
-<!-- ============ WRAP (66–70) ============ -->
-<section class="slide" data-seg="CSS" data-at="64">
+<!-- ============ WRAP (69–73) ============ -->
+<section class="slide" data-seg="CSS" data-at="67">
   <h2>CSS Playground: try any property</h2>
   <iframe class="playground" src="css-playground/?embed=1" title="CSS Playground" loading="lazy"></iframe>
   <aside class="notes">
@@ -520,8 +595,8 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="Wrap up" data-at="66">
-  <h2>Let a tool check your HTML</h2>
+<section class="slide" data-seg="Wrap up" data-at="69">
+  <h2>Let the W3C validator check your HTML</h2>
   <ol class="steps">
     <li>Open <a href="https://validator.w3.org/nu/#textarea" target="_blank" rel="noopener">validator.w3.org/nu</a> → <b>Text input</b></li>
     <li>Paste your whole index.html, press <b>Check</b></li>
@@ -540,21 +615,21 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="Wrap up" data-at="68">
+<section class="slide" data-seg="Wrap up" data-at="71">
   <h2>Habits, and where to look later</h2>
   <div class="cols">
-    <div class="card blue"><h3>HTML</h3><p>Semantic tags · alt on every image · a label for every input · check it at <b>validator.w3.org</b></p></div>
-    <div class="card green"><h3>CSS</h3><p>External file · no inline styles · class names that say the role (<code>card</code>, not <code>yellow-box</code>)</p></div>
+    <div class="card blue"><h3>HTML</h3><p>Semantic tags · accessible markup: alt on every image, a label for every input · check it at <b>validator.w3.org</b></p></div>
+    <div class="card green"><h3>CSS</h3><p>External file · no inline styles · class names that say the role (<code>card</code>, not <code>yellow-box</code>) · styles modular and readable</p></div>
   </div>
-  <p class="small" style="margin-top:22px"><b>CSS Playground</b> (class site): 35 properties to try · <b>Code Explorer</b> (class site): the page after every feature, click any line for its story · <b>MDN</b>: the reference for every tag and property</p>
+  <p class="small" style="margin-top:22px"><b>CSS Playground</b> (class site): 35 properties to try · <b>Code Explorer</b> (class site): the page after every feature, click any line for its story · <b>MDN</b>: the reference for every tag and property · <b>Standards</b>: HTML is a WHATWG living standard, CSS is from the W3C</p>
   <p class="bottomline">HTML defines what exists. CSS defines how it looks.</p>
   <aside class="notes">
     <p>Say: "You don't memorize tags. You look them up on MDN, every day."</p>
-    <p>Standards: HTML is the WHATWG living standard; CSS is the W3C. (<b>Different from the curriculum</b> until merged: it said both are W3C.)</p>
+    <p>Standards: HTML is the WHATWG living standard; CSS is the W3C.</p>
   </aside>
 </section>
 
-<section class="slide" data-seg="Wrap up" data-at="69">
+<section class="slide" data-seg="Wrap up" data-at="72">
   <h2>Homework, Part I</h2>
   <ol class="steps small">
     <li><b>To-Do List I</b></li>

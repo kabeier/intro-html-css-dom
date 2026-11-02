@@ -30,33 +30,35 @@ If you typed in the editor and **N** says "can't apply": press **Shift+N**.
 | 1 | 0 | T (clock) | "HTML is what's on the page. CSS is how it looks." |
 | 2 | 1 | students make `trainer-profile/index.html` + `styles.css` | markup language, not programming; keys N / A / Pop out |
 | 3 | 3 | **N ×3**, A after N 2 | the four skeleton tags (table in notes) |
-| 4 | 7 | — | start tag · attribute · content · end tag; void elements |
-| 5 | 9 | **N ×6**, A after N 2, click About; click Pokédex after N 5 | id = one, class = group; #id stays, https:// leaves |
-| 6 | 15 | — | semantic tags table |
-| 7 | 16 | **N ×7**, A open | em, br, span, div, h3–h6, article, aside |
-| 8 | 23 | **N ×6**, A before N 3 | ul → ol; tables are for data; dl = term + meaning |
-| 9 | 28 | — | form tags; action, method, name |
-| 10 | 30 | **N ×10**, A open; press Send after N 8, 9, 10 (table in notes) | GET: password in the URL. POST: in the body |
-| 11 | 39 | click the timer (6:00) | Fix It, problems 1–6 |
-| 12 | 45 | — | inline / internal / external; who wins: usual page = inline, internal, external; then order matters |
-| 13 | 47 | **N ×6**, A open the whole time | selector { property: value; } |
-| 14 | 50 | — | one colour, many ways: name, hex, short hex, rgb, hsl, see-through |
-| 15 | 52 | **N ×4** | ID > class > element: red wins; span gets a look; labels stack |
-| 16 | 56 | (DevTools on the pop-out if time) | content, padding, border, margin |
-| 17 | 57 | — | px, rem, %, flex, media query |
-| 18 | 58 | **N ×6**, then Pop out + narrow window | rem, %, flex; media query: links stack |
-| 19 | 64 | in the playground: border-radius, display, justify-content, type `tomatoo` | the rule shape; flex goes on the parent; wrong values are skipped silently |
-| 20 | 66 | paste the page into the validator, delete a `</section>`, check again | fix the first error first |
-| 21 | 68 | — | MDN, Code Explorer, CSS Playground |
-| 22 | 69 | — | Homework Part I, top to bottom |
+| 4 | 7 | — | the frame; everything that can live in the head (only the body is drawn) |
+| 5 | 9 | — | start tag · attribute · content · end tag; void elements |
+| 6 | 11 | **N ×6**, A after N 2, click About; click Pokédex after N 5 | id = one, class = group; #id stays, https:// leaves |
+| 7 | 17 | — | semantic tags table |
+| 8 | 18 | **N ×7**, A open | em, br, span, div, h3–h6, article, aside |
+| 9 | 25 | **N ×6**, A before N 3 | ul → ol; tables are for data; dl = term + meaning |
+| 10 | 30 | — | tags at a glance: a look-back, don't read it out |
+| 11 | 31 | — | form tags; action, method, name |
+| 12 | 33 | **N ×10**, A open; press Send after N 8, 9, 10 (table in notes) | GET: password in the URL. POST: in the body |
+| 13 | 42 | click the timer (6:00) | Fix It, problems 1–6 |
+| 14 | 48 | — | inline / internal / external; who wins: usual page = inline, internal, external; then order matters |
+| 15 | 50 | **N ×6**, A open the whole time | selector { property: value; } |
+| 16 | 53 | — | one colour, many ways: name, hex, short hex, rgb, hsl, see-through |
+| 17 | 55 | **N ×4** | ID > class > element: red wins; span gets a look; labels stack |
+| 18 | 59 | (DevTools on the pop-out if time) | content, padding, border, margin |
+| 19 | 60 | — | px, rem, %, flex, media query |
+| 20 | 61 | **N ×6**, then Pop out + narrow window | rem, %, flex; media query: links stack |
+| 21 | 67 | in the playground: border-radius, display, justify-content, type `tomatoo` | the rule shape; flex goes on the parent; wrong values are skipped silently |
+| 22 | 69 | paste the page into the validator, delete a `</section>`, check again | fix the first error first |
+| 23 | 71 | — | MDN, Code Explorer, CSS Playground |
+| 24 | 72 | — | Homework Part I, top to bottom |
 
 ## Time checks
 
 | At slide | Should be | If late |
 |---|---|---|
-| 7 (text tags) | min 16 | press N through it, say one line per tag |
-| 11 (activity) | min 39 | shorten the activity to 4 minutes (problems 1–4) |
-| 16 | min 56 | skip DevTools; say the four layers |
+| 8 (text tags) | min 18 | press N through it, say one line per tag |
+| 13 (activity) | min 42 | shorten the activity to 4 minutes (problems 1–4) |
+| 18 | min 59 | skip DevTools; say the four layers |
 
 ## Things to expect
 

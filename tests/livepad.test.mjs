@@ -112,7 +112,7 @@ test('a JS error in the page shows in the status line', async () => {
 
 test('clicking a link in the preview scrolls the preview; the deck stays on its slide', async () => {
   const page = await browser.newPage({ viewport: { width: 1600, height: 900 } })
-  await page.goto(srv.url + '/lecture-1-html-css/slides.html#5')
+  await page.goto(srv.url + '/lecture-1-html-css/slides.html#6')
   await until(page, () => window.Livepad && window.Livepad.current() && window.Livepad.current().ready, null, 20000)
   for (let k = 0; k < 5; k++) { await page.keyboard.press('n'); await until(page, () => !window.Livepad.current().busy) }
   await page.keyboard.press('a')
@@ -122,7 +122,7 @@ test('clicking a link in the preview scrolls the preview; the deck stays on its 
   const live = await (async () => { for (const f of fr) { try { if (await f.$('nav a[href="#about"]')) return f } catch {} } })()
   await live.click('nav a[href="#about"]')
   await page.waitForTimeout(800)
-  assert.match(page.url(), /#5$/)
+  assert.match(page.url(), /#6$/)
   assert.equal(live.url(), 'about:srcdoc')
   assert.ok(await live.$('#about'), 'still our page in the preview')
   await page.close()
