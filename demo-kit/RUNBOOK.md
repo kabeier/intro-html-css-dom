@@ -38,15 +38,15 @@ If you typed in the editor and **N** says "can't apply": press **Shift+N**.
 | 9 | 28 | — | form tags; action, method, name |
 | 10 | 30 | **N ×10**, A open; press Send after N 8, 9, 10 (table in notes) | GET: password in the URL. POST: in the body |
 | 11 | 39 | click the timer (6:00) | Fix It, problems 1–6 |
-| 12 | 45 | — | inline / internal / external |
-| 13 | 46 | **N ×6**, A open the whole time | selector { property: value; } |
-| 14 | 49 | **N ×4** | ID > class > element: red wins; span gets a look; labels stack |
-| 15 | 53 | (DevTools on the pop-out if time) | content, padding, border, margin |
-| 16 | 54 | — | px, rem, %, flex, media query |
-| 17 | 55 | **N ×6**, then Pop out + narrow window | rem, %, flex; media query: links stack |
-| 18 | 61 | paste the page into the validator, delete a `</section>`, check again | fix the first error first |
-| 19 | 63 | — | MDN, Code Explorer |
-| 20 | 64 | — | Homework Part I, top to bottom |
+| 12 | 45 | — | inline / internal / external; who wins: !important, inline, specific, then later in the page |
+| 13 | 47 | **N ×6**, A open the whole time | selector { property: value; } |
+| 14 | 50 | **N ×4** | ID > class > element: red wins; span gets a look; labels stack |
+| 15 | 54 | (DevTools on the pop-out if time) | content, padding, border, margin |
+| 16 | 55 | — | px, rem, %, flex, media query |
+| 17 | 56 | **N ×6**, then Pop out + narrow window | rem, %, flex; media query: links stack |
+| 18 | 62 | paste the page into the validator, delete a `</section>`, check again | fix the first error first |
+| 19 | 64 | — | MDN, Code Explorer |
+| 20 | 65 | — | Homework Part I, top to bottom |
 
 ## Time checks
 
@@ -54,7 +54,7 @@ If you typed in the editor and **N** says "can't apply": press **Shift+N**.
 |---|---|---|
 | 7 (text tags) | min 16 | press N through it, say one line per tag |
 | 11 (activity) | min 39 | shorten the activity to 4 minutes (problems 1–4) |
-| 15 | min 53 | skip DevTools; say the four layers |
+| 15 | min 54 | skip DevTools; say the four layers |
 
 ## Things to expect
 

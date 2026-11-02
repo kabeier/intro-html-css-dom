@@ -356,7 +356,7 @@ Course.register({
           say: 'Delete it again. We do not want CSS scattered through the HTML.',
         },
         {
-          id: 'f5s3', point: "The title turns green, and this time the CSS is in the head, not on the tag. It styles every h1 on this page, but no other page can use it.", file: 'index.html', mode: 'insertAfter', find: '  <title>My Trainer Profile</title>',
+          id: 'f5s3', point: "The title turns green, and this time the CSS is in the head, not on the tag. It styles every h1 on this page, but no other page can use it. If the purple inline style were still on the tag, purple would win: inline beats any selector.", file: 'index.html', mode: 'insertAfter', find: '  <title>My Trainer Profile</title>',
           code: '  <style>\n    h1 {\n      color: green;\n    }\n  </style>',
           say: 'Way 2, internal: a <style> tag in the head. Works for this page only.',
           notes: [

@@ -20,7 +20,7 @@ const slides = html.split('<section class="slide').slice(1)
 const test2 = (name, fn) => test(DECK + ': ' + name, fn)
 
 test2('the deck has 14-20 slides, each with presenter notes and a start minute', () => {
-  // Lecture 1 demos the whole curriculum page, so it runs about 65 minutes; the others are 40.
+  // Lecture 1 demos the whole curriculum page, so it runs about 66 minutes; the others are 40.
   const long = lessonId === 'html-css'
   assert.ok(slides.length >= 14 && slides.length <= (long ? 20 : 17), 'slides: ' + slides.length)
   let last = -1
