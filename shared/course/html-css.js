@@ -315,7 +315,7 @@ Course.register({
           ],
         },
         {
-          id: 'f4s8', point: "Read the address bar in the new tab. After the ? is the data: name=value pairs joined by &. Each key is a name=\"…\" from our form, and there is password=… in plain text. The page itself shows the same pairs under \"args\". httpbin only echoes what it received.", file: 'index.html', mode: 'replace', find: '      <form>',
+          id: 'f4s8', point: "Tell students first: type a made-up password, because this goes to a public test server. Then read the address bar in the new tab. After the ? is the data: name=value pairs joined by &. Each key is a name=\"…\" from our form, and there is password=… in plain text. The page itself shows the same pairs under \"args\". httpbin only echoes what it received.", file: 'index.html', mode: 'replace', find: '      <form>',
           code: '      <form action="https://httpbin.org/get" method="get" target="_blank">',
           say: 'action = where the data goes. method = how. httpbin.org is a test server that shows what it received. Fill it in, press Send: your password is in the URL.',
           notes: [
