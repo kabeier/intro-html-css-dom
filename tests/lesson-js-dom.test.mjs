@@ -89,3 +89,28 @@ test('the finished page works: count, add, guard, submit, bubbling', async () =>
   assert.deepEqual(errors, [])
   await page.close()
 })
+
+test('the HTMLCollection vs NodeList slide tells the truth', async () => {
+  const page = await browser.newPage()
+  await page.setContent('<div id="box"><p class="card" id="a">a</p><p class="card" id="b">b</p></div>')
+  const r = await page.evaluate(() => {
+    const boxes = document.getElementsByClassName('card'), cards = document.querySelectorAll('.card')
+    const seen = []
+    for (const box of boxes) seen.push(box.id)
+    cards.forEach((card) => seen.push(card.id))
+    const fail = (fn) => { try { fn(); return null } catch (e) { return e.message } }
+    const out = { types: [boxes.constructor.name, cards.constructor.name], seen, ids: Array.from(cards).map((c) => c.id),
+      noForEach: fail(() => boxes.forEach(() => {})), noMapH: fail(() => boxes.map(() => {})), noMapN: fail(() => cards.map(() => {})) }
+    const p = document.createElement('p'); p.className = 'card'; document.getElementById('box').append(p)
+    out.after = [boxes.length, cards.length]
+    return out
+  })
+  assert.deepEqual(r.types, ['HTMLCollection', 'NodeList'])
+  assert.deepEqual(r.seen, ['a', 'b', 'a', 'b'], 'for...of works on both, forEach on NodeList')
+  assert.deepEqual(r.ids, ['a', 'b'], 'Array.from(list).map works')
+  assert.match(r.noForEach, /boxes\.forEach is not a function/)
+  assert.match(r.noMapH, /boxes\.map is not a function/)
+  assert.match(r.noMapN, /cards\.map is not a function/)
+  assert.deepEqual(r.after, [3, 2], 'the HTMLCollection is live, the NodeList is a snapshot')
+  await page.close()
+})

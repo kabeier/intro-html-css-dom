@@ -11,6 +11,8 @@
   .slide.code h2 { font-size: 44px; margin: 0; display: flex; align-items: baseline; gap: 18px; }
   .slide.code h2 .say { font: 500 22px var(--mono); color: var(--muted); }
   .slide.code .livepad { flex: 1; height: auto; min-height: 0; }
+  .lists.dbt td, .lists.dbt th { padding: 7px 12px; font-size: 22px; }
+  pre.lists { font-size: 19px; padding: 16px 20px; margin: 0; }
   .tree { font: 26px/1.5 var(--mono); }
   .tree ul { list-style: none; margin: 0; padding-left: 34px; border-left: 3px solid var(--grid); }
   .tree li { margin: 2px 0; }
@@ -21,7 +23,7 @@
   .bubble .stop { background: #fde2e1; border-color: #b42318; }
 </style>
 </head>
-<body data-minutes="40">
+<body data-minutes="42">
 <div class="stage">
 
 <!-- ============ OPEN (0–5) ============ -->
@@ -139,7 +141,51 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: create + click" data-at="14">
+<section class="slide" data-seg="Concept" data-at="14">
+  <h2>HTMLCollection vs NodeList: neither is an array</h2>
+  <div class="cols" style="grid-template-columns:1fr 1.05fr;gap:28px;align-items:start">
+    <table class="dbt small lists">
+      <tr><th></th><th>HTMLCollection</th><th>NodeList</th></tr>
+      <tr><td><b>From</b></td><td><code>getElementsBy…</code></td><td><code>querySelectorAll</code></td></tr>
+      <tr><td><b>Page changes</b></td><td class="pk">updates: live</td><td>stays: a snapshot</td></tr>
+      <tr><td><code>[0]</code> <code>.length</code></td><td>yes</td><td>yes</td></tr>
+      <tr><td><code>for...of</code></td><td>yes</td><td>yes</td></tr>
+      <tr><td><code>.forEach</code></td><td class="pk">no</td><td>yes</td></tr>
+      <tr><td><code>.map</code> <code>.filter</code></td><td class="pk">no</td><td class="pk">no</td></tr>
+    </table>
+    <pre class="lists">const cards = document.querySelectorAll(".card")
+const boxes = document.getElementsByClassName("card")
+
+<span class="c">// NodeList: forEach works</span>
+cards.forEach((card) =&gt; console.log(card.id))
+
+<span class="c">// Both: for...of works</span>
+for (const box of boxes) {
+  console.log(box.id)
+}
+
+<span class="c">// Need map? Make a real array first</span>
+const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
+  </div>
+  <p class="bottomline">Use for...of on either. For .map or .filter: Array.from(list) first.</p>
+  <aside class="notes">
+    <p><b>About 2 minutes.</b> Say: "Last slide's console said <b>NodeList</b>. It looks like an array, but it isn't one. There are two of these list types, and they don't do the same things."</p>
+    <table style="border-collapse:collapse;font-size:17px;margin:8px 0">
+      <tr><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">Point at</th><th style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top" align="left">How it works</th></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><b>From</b> row</td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">The method decides the type. <code>getElementsByClassName</code> and <code>getElementsByTagName</code> give an HTMLCollection (so does <code>.children</code>). <code>querySelectorAll</code> gives a NodeList.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><b>Page changes</b> row</td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><b>Live</b> = the list updates itself. Add a card with JavaScript and an HTMLCollection grows from 3 to 4. A NodeList from <code>querySelectorAll</code> is a snapshot of that moment: it stays at 3.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><code>.forEach</code> row</td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">Only NodeList has it. On the other: <code>boxes.forEach is not a function</code>.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><code>.map</code> row</td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><b>Neither has it</b>: <code>cards.map is not a function</code>. People often think NodeList has map because it has forEach. map and filter are array methods.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top"><code>Array.from(cards)</code></td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">Copies the list into a real array, so every array method works. <code>[...cards]</code> does the same. The result is a normal array: it never updates.</td></tr>
+      <tr><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">Output</td><td style="padding:4px 12px;border-bottom:1px solid #34405a;vertical-align:top">On our page each loop prints <code>about</code>, <code>team</code>, <code>contact</code>. <code>ids</code> is <code>["about", "team", "contact"]</code>.</td></tr>
+    </table>
+    <p><b>If someone asks about the live trap:</b> loop over an HTMLCollection by index and remove the class as you go, and items get skipped, because the list shrinks under you. With 3 cards, one is left with its class. Looping over a NodeList has no such problem.</p>
+    <p>Say: "We use <code>querySelectorAll</code> almost everywhere, because the snapshot does what you expect."</p>
+    <p>Students can try it: their own page, right-click → Inspect → Console, then paste the lines from the slide.</p>
+  </aside>
+</section>
+
+<section class="slide code" data-seg="Code along: create + click" data-at="16">
   <h2>Create an element when the user clicks <span class="say">index.html · script.js</span></h2>
   <div class="livepad" data-lesson="js-dom" data-start="f2s3" data-steps="f3s1 f3s2 f3s3 f3s4 f3s5 f3s6" data-files="script.js index.html"></div>
   <aside class="notes">
@@ -163,7 +209,7 @@
 </section>
 
 <!-- ============ ACTIVITY (20–26) ============ -->
-<section class="slide activity" data-seg="Activity: Fix it" data-at="20">
+<section class="slide activity" data-seg="Activity: Fix it" data-at="21">
   <h2>Activity: Fix it (JavaScript)</h2>
   <div class="countdown" data-sec="360"></div>
   <ol class="steps">
@@ -181,7 +227,7 @@
 </section>
 
 <!-- ============ EVENTS (26–38) ============ -->
-<section class="slide" data-seg="Concept" data-at="26">
+<section class="slide" data-seg="Concept" data-at="27">
   <h2>Every listener gets an event object</h2>
   <div class="cols">
     <table class="dbt small">
@@ -207,7 +253,7 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: event object" data-at="27">
+<section class="slide code" data-seg="Code along: event object" data-at="28">
   <h2>target vs currentTarget <span class="say">script.js</span></h2>
   <div class="livepad" data-lesson="js-dom" data-start="f3s6" data-steps="f4s1 f4s2" data-files="script.js index.html"></div>
   <aside class="notes">
@@ -222,7 +268,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="Concept" data-at="30">
+<section class="slide" data-seg="Concept" data-at="31">
   <h2>Two "stop" methods, two different jobs</h2>
   <table class="dbt">
     <tr><th>Method</th><th>Stops</th><th>Example</th></tr>
@@ -235,7 +281,7 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: form" data-at="31">
+<section class="slide code" data-seg="Code along: form" data-at="32">
   <h2>Handle the form without a reload <span class="say">index.html · script.js</span></h2>
   <div class="livepad" data-lesson="js-dom" data-start="f4s2" data-steps="f5s1 f5s2 f5s3 f5s4" data-files="script.js index.html"></div>
   <aside class="notes">
@@ -253,7 +299,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="Concept" data-at="34">
+<section class="slide" data-seg="Concept" data-at="35">
   <h2>A click bubbles up through every parent</h2>
   <div class="cols">
     <div class="bubble">
@@ -275,7 +321,7 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: bubbling" data-at="35">
+<section class="slide code" data-seg="Code along: bubbling" data-at="36">
   <h2>Bubbling, then stop it <span class="say">styles.css · script.js</span></h2>
   <div class="livepad" data-lesson="js-dom" data-start="f5s4" data-steps="f6s1 f6s2 f6s3 f6s4" data-files="script.js styles.css index.html"></div>
   <aside class="notes">
@@ -293,7 +339,7 @@
 </section>
 
 <!-- ============ WRAP (38–40) ============ -->
-<section class="slide" data-seg="Wrap up" data-at="38">
+<section class="slide" data-seg="Wrap up" data-at="39">
   <h2>You just did by hand what React will do for you</h2>
   <table class="dbt small">
     <tr><th>Today, by hand</th><th>In React (a future lecture)</th></tr>
@@ -309,7 +355,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="Wrap up" data-at="39">
+<section class="slide" data-seg="Wrap up" data-at="40">
   <h2>Homework, Part II</h2>
   <ol class="steps small">
     <li><b>MDN Introduction to Events</b>: the Simple Example tutorial; read What is an Event, addEventListener(), other listener mechanisms, event objects, preventing default, bubbling</li>

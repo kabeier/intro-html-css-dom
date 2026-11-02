@@ -64,7 +64,7 @@ If you typed in the editor and **N** says "can't apply": press **Shift+N**.
 - Fell-behind student: Code Explorer → their feature → **Download the code at this feature**.
 
 
-# Runbook · Lecture 2: JavaScript DOM (~40 min)
+# Runbook · Lecture 2: JavaScript DOM (~42 min)
 
 Same keys as lecture 1. New: a **Console** panel under the live page shows `console.log` and errors.
 
@@ -76,18 +76,19 @@ Same keys as lecture 1. New: a **Console** panel under the live page shows `cons
 | 4 | 5 | **N ×3**, students create script.js | defer table in the notes |
 | 5 | 9 | — | five selection methods; querySelector speaks CSS |
 | 6 | 11 | **N ×3**, A: Console shows the NodeList | |
-| 7 | 14 | **N ×6**; after N 4 click Add with an empty box | hand over the function, no () |
-| 8 | 20 | timer 6:00 | Fix It → Lecture 2, problems 1–6 |
-| 9 | 26 | — | events; target vs currentTarget |
-| 10 | 27 | **N ×2**, A, move the mouse over About | console shows SECTION / H2 / P / IMG |
-| 11 | 30 | — | preventDefault vs stopPropagation |
-| 12 | 31 | **N ×4**; after N 3 submit: it flashes and reloads | N 4 = preventDefault |
-| 13 | 34 | — | bubbling picture |
-| 14 | 35 | **N ×4**; after N 3 click a Pokémon | outline toggles too; N 4 stops it |
-| 15 | 38 | — | DOM by hand vs React |
-| 16 | 39 | — | Homework Part II |
+| 7 | 14 | — | HTMLCollection vs NodeList: use for...of; `Array.from` for map |
+| 8 | 16 | **N ×6**; after N 4 click Add with an empty box | hand over the function, no () |
+| 9 | 21 | timer 6:00 | Fix It → Lecture 2, problems 1–6 |
+| 10 | 27 | — | events; target vs currentTarget |
+| 11 | 28 | **N ×2**, A, move the mouse over About | console shows SECTION / H2 / P / IMG |
+| 12 | 31 | — | preventDefault vs stopPropagation |
+| 13 | 32 | **N ×4**; after N 3 submit: it flashes and reloads | N 4 = preventDefault |
+| 14 | 35 | — | bubbling picture |
+| 15 | 36 | **N ×4**; after N 3 click a Pokémon | outline toggles too; N 4 stops it |
+| 16 | 39 | — | DOM by hand vs React |
+| 17 | 40 | — | Homework Part II |
 
-Time checks: slide 8 at min 20 (late? 4-minute activity); slide 13 at min 34 (late? skip the picture, say it during slide 14).
+Time checks: slide 9 at min 21 (late? 4-minute activity); slide 14 at min 35 (late? skip the picture, say it during slide 14).
 
 Things to expect:
 - **"Cannot set properties of null"**: the element wasn't found (wrong selector, or no `defer`). Fix It 1–3 practise this.
