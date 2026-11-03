@@ -24,14 +24,14 @@
   .bubble .stop { background: #fde2e1; border-color: #b42318; }
 </style>
 </head>
-<body data-minutes="42">
+<body data-minutes="43">
 <div class="stage">
 
 <!-- ============ OPEN (0–5) ============ -->
 <section class="slide title" data-seg="Open" data-at="0">
   <div class="kicker">Front-End · Vanilla Development · Lecture 2 of 2</div>
   <h1>JavaScript makes the page react.</h1>
-  <p class="sub">Same Trainer profile page, now with script.js: find elements, change them, answer clicks and forms.</p>
+  <p class="sub">Same Trainer profile page, now in css/ and js/ folders, with js/script.js: find elements, change them, answer clicks and forms.</p>
   <aside class="notes">
     <p class="plan"><b>The plan:</b> Same Trainer page as last time, and today we make it react: find elements, change them, answer clicks and forms.</p>
     <p><b>Before class</b>: open this deck, <b>Ctrl+Shift+R</b>, <b>F</b>, then <b>P</b>.</p>
@@ -92,16 +92,22 @@
 </section>
 
 <section class="slide code" data-seg="Code along: script" data-at="5">
-  <h2>Connect script.js and change the page <span class="say">index.html · script.js</span></h2>
-  <div class="livepad" data-lesson="js-dom" data-start="null" data-steps="f1s1 f1s2 f1s3" data-files="index.html script.js styles.css"></div>
+  <h2>Folders, then connect a script <span class="say">css/ · js/ · index.html</span></h2>
+  <div class="livepad" data-lesson="js-dom" data-start="null" data-steps="f1s1 f1s2 f1s3 f1s4 f1s5" data-files="index.html styles.css css/styles.css js/script.js"></div>
   <aside class="notes">
-    <p class="plan"><b>The plan:</b> We connect script.js to the page, log our first message, and change the heading from JavaScript.</p>
-    <p><b>** CODE ALONG, about 4 minutes. **</b> Students: create <code>script.js</code> next to index.html.</p>
+    <p class="plan"><b>The plan:</b> We move the CSS into a css folder and fix its link, add js/script.js, log our first message, and change the heading from JavaScript.</p>
+    <p><b>** CODE ALONG, about 5 minutes. **</b> Students do it with you in VS Code: make a <code>css</code> folder and drag <code>styles.css</code> in. Then make a <code>js</code> folder with <code>script.js</code> inside.</p>
+    <p><b>Say:</b> "Three kinds of files now: HTML, CSS and JavaScript. Most static sites keep CSS in a css folder and JavaScript in a js folder, next to index.html."</p>
+    <p><b>Before N 1:</b> press <b>A</b> so the page shows. <b>After N 1:</b> stop and let them see the plain page. "Nothing in the CSS changed. The link still points at the old place." On a real page, DevTools → Network shows a red 404 for styles.css.</p>
 <!-- steps:js-dom:f1 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;script src="script.js" defer&gt;&lt;/script&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">One line links script.js, like the CSS link. defer = run it after the HTML is read.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>console.log("script.js is running")</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">First line of JavaScript in the browser. Look at the Console panel under the page.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>const title = document.getElementById("page-…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">document = the whole page as an object. Find the h1 by its id, change its text. The page changes, no reload.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>(moves it to css/styles.css)</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Make a css folder and drag styles.css into it. Look at the page: the styles are gone.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The file tree: styles.css now sits inside css/. The page is plain black on white, because the link still says href="styles.css" and there is no file there any more. Nothing is broken in the CSS; only the path is wrong.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>href="css/styles.css"</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Fix the path: css/styles.css means "the css folder, then the file inside it". The styles come back.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"></td><td colspan="3" style="font-size:18px;line-height:1.45;padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>Point at:</b> The link line now reads href="css/styles.css" and the page has its colours back. A path is a route from index.html: folder name, slash, file name.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;script src="js/script.js" defer&gt;&lt;/script&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Make a js folder with script.js inside. One line links it, like the CSS link. defer = run it after the HTML is read.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>js/script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>console.log("script.js is running")</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">First line of JavaScript in the browser. Look at the Console panel under the page.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 5</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>js/script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>const title = document.getElementById("page-…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">document = the whole page as an object. Find the h1 by its id, change its text. The page changes, no reload.</td></tr>
 </table>
 <!-- /steps -->
     <table style="border-collapse:collapse;font-size:15px;margin:6px 0">
@@ -114,7 +120,7 @@
   </aside>
 </section>
 
-<section class="slide" data-seg="Concept" data-at="9">
+<section class="slide" data-seg="Concept" data-at="10">
   <h2>Five ways to find elements</h2>
   <table class="dbt small">
     <tr><th>Method</th><th>Gives back</th><th>Use it for</th></tr>
@@ -132,23 +138,23 @@
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: select" data-at="11">
-  <h2>Select many, count them <span class="say">script.js</span></h2>
-  <div class="livepad" data-lesson="js-dom" data-start="f1s3" data-steps="f2s1 f2s2 f2s3" data-files="script.js index.html"></div>
+<section class="slide code" data-seg="Code along: select" data-at="12">
+  <h2>Select many, count them <span class="say">js/script.js</span></h2>
+  <div class="livepad" data-lesson="js-dom" data-start="f1s5" data-steps="f2s1 f2s2 f2s3" data-files="js/script.js index.html"></div>
   <aside class="notes">
     <p class="plan"><b>The plan:</b> We select all the cards, count them with JavaScript, and write the count on the page.</p>
     <p><b>** CODE ALONG, about 3 minutes. **</b> Press <b>A</b>: the Console panel shows the NodeList after N 2.</p>
 <!-- steps:js-dom:f2 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;p id="card-count"&gt;&lt;/p&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">An empty paragraph: JavaScript will fill it in.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>const cards = document.querySelectorAll(".ca…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">querySelectorAll takes a CSS selector. Look at the console: a NodeList of 3 sections.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>const countText = document.querySelector("#c…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">querySelector (no All) gives the first match. #card-count = the id, CSS style.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>js/script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>const cards = document.querySelectorAll(".ca…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">querySelectorAll takes a CSS selector. Look at the console: a NodeList of 3 sections.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>js/script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>const countText = document.querySelector("#c…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">querySelector (no All) gives the first match. #card-count = the id, CSS style.</td></tr>
 </table>
 <!-- /steps -->
   </aside>
 </section>
 
-<section class="slide" data-seg="Concept" data-at="14">
+<section class="slide" data-seg="Concept" data-at="15">
   <h2>HTMLCollection vs NodeList: neither is an array</h2>
   <div class="cols" style="grid-template-columns:1fr 1.05fr;gap:28px;align-items:start">
     <table class="dbt small lists">
@@ -193,20 +199,20 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: create + click" data-at="16">
-  <h2>Create an element when the user clicks <span class="say">index.html · script.js</span></h2>
-  <div class="livepad" data-lesson="js-dom" data-start="f2s3" data-steps="f3s1 f3s2 f3s3 f3s4 f3s5 f3s6" data-files="script.js index.html"></div>
+<section class="slide code" data-seg="Code along: create + click" data-at="17">
+  <h2>Create an element when the user clicks <span class="say">index.html · js/script.js</span></h2>
+  <div class="livepad" data-lesson="js-dom" data-start="f2s3" data-steps="f3s1 f3s2 f3s3 f3s4 f3s5 f3s6" data-files="js/script.js index.html"></div>
   <aside class="notes">
     <p class="plan"><b>The plan:</b> We build an Add Pokémon box: type a name, click Add, and a new list item appears in My team.</p>
     <p><b>** CODE ALONG, about 6 minutes. **</b> Keep the live page open (<b>A</b>). After N 4: type a name, click <b>Add to team</b>.</p>
 <!-- steps:js-dom:f3 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;label for="new-pokemon"&gt;New Pokémon&lt;/label&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A label, an input, a button. type="button": it does nothing until JavaScript says so.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>const teamList = document.querySelector("#te…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Grab the three elements we need, once, at the top. "#team ol" = the ol inside #team.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>const addPokemon = () =&gt; {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Make an li, give it the typed text, attach it to the list. Nothing runs yet: it is only a function.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>addButton.addEventListener("click", addPokem…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Now connect it: on click, run addPokemon. No () after addPokemon: we hand over the function, we do not call it.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 5</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>if (newPokemon.value.trim() === "") return</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Click Add with an empty box: an empty li. One line guards it: no name, stop here.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 6</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>newPokemon.value = ""</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Clear the box after adding, so the next name starts fresh.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>js/script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>const teamList = document.querySelector("#te…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Grab the three elements we need, once, at the top. "#team ol" = the ol inside #team.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>js/script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>const addPokemon = () =&gt; {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Make an li, give it the typed text, attach it to the list. Nothing runs yet: it is only a function.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>js/script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>addButton.addEventListener("click", addPokem…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Now connect it: on click, run addPokemon. No () after addPokemon: we hand over the function, we do not call it.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 5</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>js/script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>if (newPokemon.value.trim() === "") return</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Click Add with an empty box: an empty li. One line guards it: no name, stop here.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 6</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>js/script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>newPokemon.value = ""</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Clear the box after adding, so the next name starts fresh.</td></tr>
 </table>
 <!-- /steps -->
     <ul>
@@ -218,7 +224,7 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
 </section>
 
 <!-- ============ ACTIVITY (20–26) ============ -->
-<section class="slide activity" data-seg="Activity: Fix it" data-at="21">
+<section class="slide activity" data-seg="Activity: Fix it" data-at="22">
   <h2>Activity: Fix it (JavaScript)</h2>
   <div class="countdown" data-sec="360"></div>
   <ol class="steps">
@@ -237,7 +243,7 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
 </section>
 
 <!-- ============ EVENTS (26–38) ============ -->
-<section class="slide" data-seg="Concept" data-at="27">
+<section class="slide" data-seg="Concept" data-at="28">
   <h2>Every listener gets an event object</h2>
   <div class="cols">
     <table class="dbt small">
@@ -264,23 +270,23 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: event object" data-at="28">
-  <h2>target vs currentTarget <span class="say">script.js</span></h2>
-  <div class="livepad" data-lesson="js-dom" data-start="f3s6" data-steps="f4s1 f4s2" data-files="script.js index.html"></div>
+<section class="slide code" data-seg="Code along: event object" data-at="29">
+  <h2>target vs currentTarget <span class="say">js/script.js</span></h2>
+  <div class="livepad" data-lesson="js-dom" data-start="f3s6" data-steps="f4s1 f4s2" data-files="js/script.js index.html"></div>
   <aside class="notes">
     <p class="plan"><b>The plan:</b> We watch target and currentTarget change: move the mouse over the About card, and it changes colour by which side the mouse is on.</p>
     <p><b>** CODE ALONG, about 3 minutes. **</b> After N 1: <b>A</b>, move the mouse over About me, watch the Console: SECTION, H2, P, IMG.</p>
 <!-- steps:js-dom:f4 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>const about = document.querySelector("#about")</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Move the mouse over About. The console shows SECTION, H2, P, IMG: target is whatever is under the mouse.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>const box = about.getBoundingClientRect()</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Mouse left = red, right = white. currentTarget = the section we listened on, so the whole card changes, not just the child under the mouse.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>js/script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>const about = document.querySelector("#about")</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Move the mouse over About. The console shows SECTION, H2, P, IMG: target is whatever is under the mouse.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>js/script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>const box = about.getBoundingClientRect()</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Mouse left = red, right = white. currentTarget = the section we listened on, so the whole card changes, not just the child under the mouse.</td></tr>
 </table>
 <!-- /steps -->
     <p>Say: "JS writes CSS names in camelCase: background-color → backgroundColor."</p>
   </aside>
 </section>
 
-<section class="slide" data-seg="Concept" data-at="31">
+<section class="slide" data-seg="Concept" data-at="32">
   <h2>Two "stop" methods, two different jobs</h2>
   <table class="dbt">
     <tr><th>Method</th><th>Stops</th><th>Example</th></tr>
@@ -294,18 +300,18 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: form" data-at="32">
-  <h2>Handle the form without a reload <span class="say">index.html · script.js</span></h2>
-  <div class="livepad" data-lesson="js-dom" data-start="f4s2" data-steps="f5s1 f5s2 f5s3 f5s4" data-files="script.js index.html"></div>
+<section class="slide code" data-seg="Code along: form" data-at="33">
+  <h2>Handle the form without a reload <span class="say">index.html · js/script.js</span></h2>
+  <div class="livepad" data-lesson="js-dom" data-start="f4s2" data-steps="f5s1 f5s2 f5s3 f5s4" data-files="js/script.js index.html"></div>
   <aside class="notes">
     <p class="plan"><b>The plan:</b> We stop the form reloading the page: JavaScript reads the name and writes the answer on the page instead.</p>
     <p><b>** CODE ALONG, about 4 minutes. **</b> After N 3: fill the form, press <b>Send</b>: the text flashes, the page reloads, the name is gone. N 4 fixes it.</p>
 <!-- steps:js-dom:f5 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
 <tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>index.html</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>&lt;p id="output"&gt;&lt;/p&gt;</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A place for the answer.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>const form = document.querySelector("form")</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Grab the form and the output paragraph.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>form.addEventListener("submit", (evt) =&gt; {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Listen for submit (on the form, not the button). Type a name, press Send: the text flashes and the page reloads. Everything is gone.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>evt.preventDefault()</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">One line: stop the browser's default (the reload). Now the text stays.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>js/script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>const form = document.querySelector("form")</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Grab the form and the output paragraph.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>js/script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>form.addEventListener("submit", (evt) =&gt; {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Listen for submit (on the form, not the button). Type a name, press Send: the text flashes and the page reloads. Everything is gone.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>js/script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>evt.preventDefault()</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">One line: stop the browser's default (the reload). Now the text stays.</td></tr>
 </table>
 <!-- /steps -->
     <p>Say: "The keys come from each input's <b>name</b>: name="trainer" → formProps.trainer."</p>
@@ -313,7 +319,7 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
   </aside>
 </section>
 
-<section class="slide" data-seg="Concept" data-at="35">
+<section class="slide" data-seg="Concept" data-at="36">
   <h2>A click bubbles up through every parent</h2>
   <div class="cols">
     <div class="bubble">
@@ -336,18 +342,18 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
   </aside>
 </section>
 
-<section class="slide code" data-seg="Code along: bubbling" data-at="36">
-  <h2>Bubbling, then stop it <span class="say">styles.css · script.js</span></h2>
-  <div class="livepad" data-lesson="js-dom" data-start="f5s4" data-steps="f6s1 f6s2 f6s3 f6s4" data-files="script.js styles.css index.html"></div>
+<section class="slide code" data-seg="Code along: bubbling" data-at="37">
+  <h2>Bubbling, then stop it <span class="say">css/styles.css · js/script.js</span></h2>
+  <div class="livepad" data-lesson="js-dom" data-start="f5s4" data-steps="f6s1 f6s2 f6s3 f6s4" data-files="js/script.js css/styles.css index.html"></div>
   <aside class="notes">
     <p class="plan"><b>The plan:</b> We see bubbling break something: clicking a Pokémon removes it but also toggles the card outline. Then we stop it with stopPropagation.</p>
     <p><b>** CODE ALONG, about 3 minutes. **</b> After N 3: click a Pokémon: it goes away <b>and</b> the card outline toggles. N 4 stops that.</p>
 <!-- steps:js-dom:f6 -->
 <table style="border-collapse:collapse;font-size:15px;margin:6px 0"><tr><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Press</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">File</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Types</th><th style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Say</th></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>.picked {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A class we will switch on and off from JavaScript.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>document.querySelector("#team").addEventList…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Click anywhere in My team: the card gets an outline. Click again: gone.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>teamList.addEventListener("click", (evt) =&gt; {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Click a Pokémon: it disappears, and the card outline toggles too. The click bubbled up from the li, through the ol, to #team.</td></tr>
-<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>evt.stopPropagation()</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Stop the bubbling right here: removing a Pokémon no longer toggles the card.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 1</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>css/styles.css</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>.picked {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">A class we will switch on and off from JavaScript.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 2</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>js/script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>document.querySelector("#team").addEventList…</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Click anywhere in My team: the card gets an outline. Click again: gone.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 3</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>js/script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>teamList.addEventListener("click", (evt) =&gt; {</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Click a Pokémon: it disappears, and the card outline toggles too. The click bubbled up from the li, through the ol, to #team.</td></tr>
+<tr><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><b>N 4</b></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>js/script.js</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top"><code>evt.stopPropagation()</code></td><td style="padding:4px 10px;border-bottom:1px solid #34405a;vertical-align:top">Stop the bubbling right here: removing a Pokémon no longer toggles the card.</td></tr>
 </table>
 <!-- /steps -->
     <p>Also try: click <b>Add to team</b>: the outline toggles too (the button is inside #team, so its click bubbles there).</p>
@@ -355,7 +361,7 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
 </section>
 
 <!-- ============ WRAP (38–40) ============ -->
-<section class="slide" data-seg="Wrap up" data-at="39">
+<section class="slide" data-seg="Wrap up" data-at="40">
   <h2>You just did by hand what React will do for you</h2>
   <table class="dbt small">
     <tr><th>Today, by hand</th><th>In React (a future lecture)</th></tr>
@@ -372,7 +378,7 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
   </aside>
 </section>
 
-<section class="slide" data-seg="Wrap up" data-at="40">
+<section class="slide" data-seg="Wrap up" data-at="41">
   <h2>Homework, Part II</h2>
   <ol class="steps small">
     <li><b>MDN Introduction to Events</b>: the Simple Example tutorial; read What is an Event, addEventListener(), other listener mechanisms, event objects, preventing default, bubbling</li>
@@ -389,10 +395,10 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
 
 </div>
 <script src="../shared/deck.js?v=2"></script>
-<script src="../shared/course.js?v=8"></script>
+<script src="../shared/course.js?v=9"></script>
 <script src="../shared/course/html-css.js?v=8"></script>
-<script src="../shared/course/js-dom.js?v=1"></script>
+<script src="../shared/course/js-dom.js?v=2"></script>
 <script src="../shared/filetree.js?v=1"></script>
-<script src="../shared/livepad.js?v=10"></script>
+<script src="../shared/livepad.js?v=11"></script>
 </body>
 </html>

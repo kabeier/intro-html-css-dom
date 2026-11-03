@@ -30,7 +30,7 @@ test2('the deck has 14-28 slides, each with presenter notes and a start minute',
     assert.ok(at >= last, 'minutes go up at slide ' + (k + 1))
     last = at
   }
-  assert.ok(last <= (long ? 79 : 40), 'last slide starts on time')
+  assert.ok(last <= (long ? 79 : lessonId === 'js-dom' ? 41 : 40), 'last slide starts on time')
 })
 
 test2('every feature is coded along once, starting where the previous one ended', () => {

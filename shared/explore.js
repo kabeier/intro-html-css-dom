@@ -96,7 +96,7 @@
         ${f.steps.map((s, n) => `
           <div class="ex-change" data-step="${s.id}">
             <p class="ex-step"><b>Step ${n + 1}</b> · <code>${esc(s.file)}</code> · ${esc(s.say || '')}</p>
-            ${s.code ? `<pre class="ex-snippet">${s.code.split('\n').map((l) => paint(l, s.file)).join('\n')}</pre>` : '<p class="ex-removed">(this step deletes code)</p>'}
+            ${s.mode === 'move' ? `<p class="ex-removed">(moves <code>${esc(s.file)}</code> to <code>${esc(s.to)}</code>)</p>` : s.code ? `<pre class="ex-snippet">${s.code.split('\n').map((l) => paint(l, s.file)).join('\n')}</pre>` : '<p class="ex-removed">(this step deletes code)</p>'}
             ${(s.notes || []).length ? `<ul class="ex-notes">${s.notes.map((n2) => `<li><code>${esc(n2.match)}</code> ${esc(n2.what)} <span class="muted">${esc(n2.why)}</span></li>`).join('')}</ul>` : ''}
           </div>`).join('')}
       </section>

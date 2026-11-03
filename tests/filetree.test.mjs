@@ -4,7 +4,7 @@ import { readdirSync, readFileSync, existsSync } from 'node:fs'
 import path from 'node:path'
 import { serve, launch, until, ROOT } from './helpers.mjs'
 
-const DECK = 'lecture-2-js-dom/slides.html', LESSON = 'js-dom', PROJECT = 'trainer-profile', OTHER = 'styles.css'
+const DECK = 'lecture-2-js-dom/slides.html', LESSON = 'js-dom', PROJECT = 'trainer-profile', OTHER = 'css/styles.css'
 let srv, browser
 before(async () => { srv = await serve(); browser = await launch() })
 after(async () => { await browser?.close(); srv?.close() })

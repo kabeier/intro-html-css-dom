@@ -199,3 +199,23 @@ test('inherited lines point at their real step in the base lesson, even when the
   const r = idx.map((n) => Course.noteFor(js, 'f6s4', 'index.html', n))
   assert.deepEqual(r.map((x) => [x.lessonId, x.stepId]), [['html-css', 'f2s3'], ['html-css', 'f3s1'], ['html-css', 'f4s1']])
 })
+
+test('a move step renames a file and its lines keep where they came from', () => {
+  const l = Course.register({ id: 'mover', title: 'Mover', files: { 'styles.css': 'h1 {}' }, features: [{ id: 'f1', title: 'Tidy', why: 'folders', steps: [
+    { id: 'f1s1', file: 'styles.css', mode: 'append', code: 'p {}', notes: [{ match: 'p {', what: 'a paragraph rule', why: 'w' }] },
+    { id: 'f1s2', file: 'styles.css', mode: 'move', to: 'css/styles.css', say: 'into a folder' },
+  ] }] }) || Course.get('mover')
+  assert.deepEqual(Course.filesAt(l, 'f1s2'), { 'css/styles.css': 'h1 {}\n\np {}' })
+  assert.deepEqual(Course.origins(l, 'f1s2')['css/styles.css'].map((x) => x.stepId), [null, 'f1s1', 'f1s1'])
+  assert.equal(Course.noteFor(l, 'f1s2', 'css/styles.css', 3).note.what, 'a paragraph rule')
+})
+
+test('a lesson built on another keeps the link back to it after a file moves', () => {
+  Course.register({ id: 'mv-base', title: 'B', files: { 'a.css': '' }, features: [{ id: 'f1', title: 'T', why: 'w', steps: [
+    { id: 'f1s1', file: 'a.css', mode: 'append', code: 'h1 {}', notes: [{ match: 'h1 {', what: 'heading rule', why: 'w' }] }] }] })
+  Course.register({ id: 'mv-next', title: 'N', base: { lesson: 'mv-base', feature: 'f1' }, files: { 'a.css': 'h1 {}' }, features: [{ id: 'f1', title: 'T', why: 'w', steps: [
+    { id: 'f1s1', file: 'a.css', mode: 'move', to: 'css/a.css' }] }] })
+  const r = Course.noteFor(Course.get('mv-next'), 'f1s1', 'css/a.css', 1)
+  assert.equal(r.lessonId, 'mv-base')
+  assert.equal(r.note.what, 'heading rule')
+})

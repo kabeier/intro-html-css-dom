@@ -72,7 +72,7 @@ If you typed in the editor and **N** says "can't apply": press **Shift+N**.
 - Fell-behind student: Code Explorer → their feature → **Download the code at this feature**.
 
 
-# Runbook · Lecture 2: JavaScript DOM (~42 min)
+# Runbook · Lecture 2: JavaScript DOM (~43 min)
 
 Same keys as lecture 1. New: a **Console** panel under the live page shows `console.log` and errors.
 
@@ -81,22 +81,22 @@ Same keys as lecture 1. New: a **Console** panel under the live page shows `cons
 | 1 | 0 | T | "JavaScript makes the page react." Students start from lecture 1's finished page |
 | 2 | 1 | — | Node vs browser: `document` is new |
 | 3 | 3 | (Inspect → Elements in the pop-out) | the DOM tree; attributes live on elements |
-| 4 | 5 | **N ×3**, students create script.js | defer table in the notes |
-| 5 | 9 | — | five selection methods; querySelector speaks CSS |
-| 6 | 11 | **N ×3**, A: Console shows the NodeList | |
-| 7 | 14 | — | HTMLCollection vs NodeList: use for...of; `Array.from` for map |
-| 8 | 16 | **N ×6**; after N 4 click Add with an empty box | hand over the function, no () |
-| 9 | 21 | timer 6:00 | Fix It → Lecture 2, problems 1–6 |
-| 10 | 27 | — | events; target vs currentTarget |
-| 11 | 28 | **N ×2**, A, move the mouse over About | console shows SECTION / H2 / P / IMG |
-| 12 | 31 | — | preventDefault vs stopPropagation |
-| 13 | 32 | **N ×4**; after N 3 submit: it flashes and reloads | N 4 = preventDefault |
-| 14 | 35 | — | bubbling picture |
-| 15 | 36 | **N ×4**; after N 3 click a Pokémon | outline toggles too; N 4 stops it |
-| 16 | 39 | — | DOM by hand vs React |
-| 17 | 40 | — | Homework Part II |
+| 4 | 5 | **N ×5**; students make `css/` (drag styles.css in) and `js/script.js`; after N 1 let them see the plain page | the link must follow the file: `css/styles.css`; defer table in the notes |
+| 5 | 10 | — | five selection methods; querySelector speaks CSS |
+| 6 | 12 | **N ×3**, A: Console shows the NodeList | |
+| 7 | 15 | — | HTMLCollection vs NodeList: use for...of; `Array.from` for map |
+| 8 | 17 | **N ×6**; after N 4 click Add with an empty box | hand over the function, no () |
+| 9 | 22 | timer 6:00 | Fix It → Lecture 2, problems 1–6 |
+| 10 | 28 | — | events; target vs currentTarget |
+| 11 | 29 | **N ×2**, A, move the mouse over About | console shows SECTION / H2 / P / IMG |
+| 12 | 32 | — | preventDefault vs stopPropagation |
+| 13 | 33 | **N ×4**; after N 3 submit: it flashes and reloads | N 4 = preventDefault |
+| 14 | 36 | — | bubbling picture |
+| 15 | 37 | **N ×4**; after N 3 click a Pokémon | outline toggles too; N 4 stops it |
+| 16 | 40 | — | DOM by hand vs React |
+| 17 | 41 | — | Homework Part II |
 
-Time checks: slide 9 at min 21 (late? 4-minute activity); slide 14 at min 35 (late? skip the picture, say it during slide 14).
+Time checks: slide 9 at min 22 (late? 4-minute activity); slide 14 at min 36 (late? skip the picture, say it during slide 14).
 
 Things to expect:
 - **"Cannot set properties of null"**: the element wasn't found (wrong selector, or no `defer`). Fix It 1–3 practise this.

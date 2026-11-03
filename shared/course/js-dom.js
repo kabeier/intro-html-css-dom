@@ -1,28 +1,43 @@
-// Lecture 2 · JavaScript DOM: the Trainer profile page from lecture 1 gets script.js.
+// Lecture 2 · JavaScript DOM: the Trainer profile page from lecture 1 moves into css/ and js/ folders and gets js/script.js.
 // Follows the curriculum page phase-II/04-Front-End/1-vanilla-development/2-js-dom.md
 // Needs html-css.js loaded first (it starts from lecture 1's finished page).
 Course.register({
   id: 'js-dom',
   title: 'JavaScript DOM: Trainer profile',
   base: { lesson: 'html-css', feature: 'f7' },
-  files: { ...Course.checkpoint(Course.get('html-css'), 'f7'), 'script.js': '' },
+  files: Course.checkpoint(Course.get('html-css'), 'f7'),
   features: [
     // ---------------------------------------------------------------- f1
     {
-      id: 'f1', title: 'Connect a script',
-      why: 'The browser runs JavaScript from a <script> tag. With defer it waits until the whole page exists, so the script can find every element.',
+      id: 'f1', title: 'Folders, then connect a script',
+      why: 'A real project keeps each kind of file in its own folder: css/ for styles, js/ for scripts. Then the browser runs JavaScript from a <script> tag; with defer it waits until the whole page exists, so the script can find every element.',
       steps: [
         {
-          id: 'f1s1', file: 'index.html', mode: 'insertAfter', find: '  <link rel="stylesheet" href="styles.css">',
-          code: '  <script src="script.js" defer></script>',
-          say: 'One line links script.js, like the CSS link. defer = run it after the HTML is read.',
+          id: 'f1s1', file: 'styles.css', mode: 'move', to: 'css/styles.css',
+          say: 'Make a css folder and drag styles.css into it. Look at the page: the styles are gone.',
+          point: 'The file tree: styles.css now sits inside css/. The page is plain black on white, because the link still says href="styles.css" and there is no file there any more. Nothing is broken in the CSS; only the path is wrong.',
+        },
+        {
+          id: 'f1s2', file: 'index.html', mode: 'replace', find: 'href="styles.css"',
+          code: 'href="css/styles.css"',
+          say: 'Fix the path: css/styles.css means "the css folder, then the file inside it". The styles come back.',
+          point: 'The link line now reads href="css/styles.css" and the page has its colours back. A path is a route from index.html: folder name, slash, file name.',
           notes: [
-            { match: '<script src', what: 'Loads and runs a JavaScript file.', why: 'Keeps behaviour (JS) apart from structure (HTML), like we did with CSS.',
-              api: { name: '<script>', does: 'Runs JavaScript in the page.', params: [['src', 'the file to run', 'a path next to the HTML: "script.js"'], ['defer', 'wait until the HTML is parsed (no value needed)', 'use it for scripts in the <head>: then document.querySelector can find everything']], mistakes: ['A script in the <head> without defer runs before the body exists: querySelector returns null and the next line crashes.', 'Writing <script src="script.js" /> : a <script> always needs </script>.'] } },
+            { match: 'href="css/styles.css"', what: 'A relative path: the css folder next to index.html, then styles.css inside it.', why: 'Folders keep a project tidy; every link and src must say which folder the file is in.',
+              api: { name: 'relative path', does: 'Finds a file starting from the folder index.html is in.', params: [['css/styles.css', 'folder / file', 'a folder name, a slash, then the file name; ../ goes up one folder']], mistakes: ['Moving a file and forgetting the link: the page silently loses its styles (no error on the page, a 404 in DevTools → Network).', 'Starting with a slash, "/css/styles.css": that means the top of the website, which breaks on GitHub Pages.'] } },
           ],
         },
         {
-          id: 'f1s2', file: 'script.js', mode: 'append',
+          id: 'f1s3', file: 'index.html', mode: 'insertAfter', find: '  <link rel="stylesheet" href="css/styles.css">',
+          code: '  <script src="js/script.js" defer></script>',
+          say: 'Make a js folder with script.js inside. One line links it, like the CSS link. defer = run it after the HTML is read.',
+          notes: [
+            { match: '<script src', what: 'Loads and runs a JavaScript file.', why: 'Keeps behaviour (JS) apart from structure (HTML), like we did with CSS.',
+              api: { name: '<script>', does: 'Runs JavaScript in the page.', params: [['src', 'the file to run', 'a path from the HTML: "js/script.js"'], ['defer', 'wait until the HTML is parsed (no value needed)', 'use it for scripts in the <head>: then document.querySelector can find everything']], mistakes: ['A script in the <head> without defer runs before the body exists: querySelector returns null and the next line crashes.', 'Writing <script src="js/script.js" /> : a <script> always needs </script>.'] } },
+          ],
+        },
+        {
+          id: 'f1s4', file: 'js/script.js', mode: 'append',
           code: 'console.log("script.js is running")',
           say: 'First line of JavaScript in the browser. Look at the Console panel under the page.',
           notes: [
@@ -31,7 +46,7 @@ Course.register({
           ],
         },
         {
-          id: 'f1s3', file: 'script.js', mode: 'append',
+          id: 'f1s5', file: 'js/script.js', mode: 'append',
           code: 'const title = document.getElementById("page-title")\ntitle.textContent = "Trainer Profile (with JavaScript)"',
           say: 'document = the whole page as an object. Find the h1 by its id, change its text. The page changes, no reload.',
           notes: [
@@ -55,7 +70,7 @@ Course.register({
           notes: [{ match: 'id="card-count"', what: 'An empty paragraph with an id, a place for JavaScript to write into.', why: 'HTML gives the spot; JavaScript fills in the text.' }],
         },
         {
-          id: 'f2s2', file: 'script.js', mode: 'append',
+          id: 'f2s2', file: 'js/script.js', mode: 'append',
           code: 'const cards = document.querySelectorAll(".card")\nconsole.log(cards)',
           say: 'querySelectorAll takes a CSS selector. Look at the console: a NodeList of 3 sections.',
           notes: [
@@ -64,7 +79,7 @@ Course.register({
           ],
         },
         {
-          id: 'f2s3', file: 'script.js', mode: 'append',
+          id: 'f2s3', file: 'js/script.js', mode: 'append',
           code: 'const countText = document.querySelector("#card-count")\ncountText.textContent = cards.length + " sections on this page"',
           say: 'querySelector (no All) gives the first match. #card-count = the id, CSS style.',
           notes: [
@@ -90,13 +105,13 @@ Course.register({
           ],
         },
         {
-          id: 'f3s2', file: 'script.js', mode: 'append',
+          id: 'f3s2', file: 'js/script.js', mode: 'append',
           code: 'const teamList = document.querySelector("#team ol")\nconst newPokemon = document.querySelector("#new-pokemon")\nconst addButton = document.querySelector("#add-pokemon")',
           say: 'Grab the three elements we need, once, at the top. "#team ol" = the ol inside #team.',
           notes: [{ match: '"#team ol"', what: 'A descendant selector: the <ol> inside the element with id="team".', why: 'Same selectors as CSS: narrow it down by nesting.' }],
         },
         {
-          id: 'f3s3', file: 'script.js', mode: 'append',
+          id: 'f3s3', file: 'js/script.js', mode: 'append',
           code: 'const addPokemon = () => {\n  const item = document.createElement("li")\n  item.textContent = newPokemon.value\n  teamList.appendChild(item)\n}',
           say: 'Make an li, give it the typed text, attach it to the list. Nothing runs yet: it is only a function.',
           notes: [
@@ -109,7 +124,7 @@ Course.register({
           ],
         },
         {
-          id: 'f3s4', file: 'script.js', mode: 'append',
+          id: 'f3s4', file: 'js/script.js', mode: 'append',
           code: 'addButton.addEventListener("click", addPokemon)',
           say: 'Now connect it: on click, run addPokemon. No () after addPokemon: we hand over the function, we do not call it.',
           notes: [
@@ -118,7 +133,7 @@ Course.register({
           ],
         },
         {
-          id: 'f3s5', file: 'script.js', mode: 'insertAfter', find: 'const addPokemon = () => {',
+          id: 'f3s5', file: 'js/script.js', mode: 'insertAfter', find: 'const addPokemon = () => {',
           code: '  if (newPokemon.value.trim() === "") return',
           say: 'Click Add with an empty box: an empty li. One line guards it: no name, stop here.',
           notes: [
@@ -127,7 +142,7 @@ Course.register({
           ],
         },
         {
-          id: 'f3s6', file: 'script.js', mode: 'insertAfter', find: '  teamList.appendChild(item)',
+          id: 'f3s6', file: 'js/script.js', mode: 'insertAfter', find: '  teamList.appendChild(item)',
           code: '  newPokemon.value = ""',
           say: 'Clear the box after adding, so the next name starts fresh.',
         },
@@ -139,7 +154,7 @@ Course.register({
       why: 'Every listener gets an event object: where the mouse is, which key, which element. target is where it happened; currentTarget is the element we listened on.',
       steps: [
         {
-          id: 'f4s1', file: 'script.js', mode: 'append',
+          id: 'f4s1', file: 'js/script.js', mode: 'append',
           code: 'const about = document.querySelector("#about")\nabout.addEventListener("mousemove", (evt) => {\n  console.log(evt.target.tagName)\n})',
           say: 'Move the mouse over About. The console shows SECTION, H2, P, IMG: target is whatever is under the mouse.',
           notes: [
@@ -148,7 +163,7 @@ Course.register({
           ],
         },
         {
-          id: 'f4s2', file: 'script.js', mode: 'replace', find: '  console.log(evt.target.tagName)',
+          id: 'f4s2', file: 'js/script.js', mode: 'replace', find: '  console.log(evt.target.tagName)',
           code: '  const box = about.getBoundingClientRect()\n  const xRatio = 1 - (evt.clientX - box.left) / box.width\n  const value = Math.round(255 * xRatio)\n  evt.currentTarget.style.backgroundColor = `rgb(255, ${value}, ${value})`',
           say: 'Mouse left = red, right = white. currentTarget = the section we listened on, so the whole card changes, not just the child under the mouse.',
           notes: [
@@ -175,13 +190,13 @@ Course.register({
           notes: [{ match: 'id="output"', what: 'An empty paragraph for the result.', why: 'JavaScript writes the battle request here.' }],
         },
         {
-          id: 'f5s2', file: 'script.js', mode: 'append',
+          id: 'f5s2', file: 'js/script.js', mode: 'append',
           code: 'const form = document.querySelector("form")\nconst output = document.querySelector("#output")',
           say: 'Grab the form and the output paragraph.',
           notes: [{ match: 'querySelector("form")', what: 'A tag selector: the first <form> on the page.', why: 'There is only one form, so the tag name is enough.' }],
         },
         {
-          id: 'f5s3', file: 'script.js', mode: 'append',
+          id: 'f5s3', file: 'js/script.js', mode: 'append',
           code: 'form.addEventListener("submit", (evt) => {\n  const formProps = Object.fromEntries(new FormData(evt.target))\n  output.textContent = "Battle request from " + formProps.trainer + " (" + formProps.favorite + ")"\n})',
           say: 'Listen for submit (on the form, not the button). Type a name, press Send: the text flashes and the page reloads. Everything is gone.',
           notes: [
@@ -193,7 +208,7 @@ Course.register({
           ],
         },
         {
-          id: 'f5s4', file: 'script.js', mode: 'insertAfter', find: 'form.addEventListener("submit", (evt) => {',
+          id: 'f5s4', file: 'js/script.js', mode: 'insertAfter', find: 'form.addEventListener("submit", (evt) => {',
           code: '  evt.preventDefault()',
           say: 'One line: stop the browser\'s default (the reload). Now the text stays.',
           notes: [
@@ -209,7 +224,7 @@ Course.register({
       why: 'An event starts at the element you clicked and then bubbles up through every parent. stopPropagation() stops it from going further up.',
       steps: [
         {
-          id: 'f6s1', file: 'styles.css', mode: 'append',
+          id: 'f6s1', file: 'css/styles.css', mode: 'append',
           code: '.picked {\n  outline: 4px solid #2a75bb;\n}',
           say: 'A class we will switch on and off from JavaScript.',
           notes: [
@@ -218,7 +233,7 @@ Course.register({
           ],
         },
         {
-          id: 'f6s2', file: 'script.js', mode: 'append',
+          id: 'f6s2', file: 'js/script.js', mode: 'append',
           code: 'document.querySelector("#team").addEventListener("click", (evt) => {\n  evt.currentTarget.classList.toggle("picked")\n})',
           say: 'Click anywhere in My team: the card gets an outline. Click again: gone.',
           notes: [
@@ -227,7 +242,7 @@ Course.register({
           ],
         },
         {
-          id: 'f6s3', file: 'script.js', mode: 'append',
+          id: 'f6s3', file: 'js/script.js', mode: 'append',
           code: 'teamList.addEventListener("click", (evt) => {\n  if (evt.target.tagName === "LI") {\n    evt.target.remove()\n  }\n})',
           say: 'Click a Pokémon: it disappears, and the card outline toggles too. The click bubbled up from the li, through the ol, to #team.',
           notes: [
@@ -237,7 +252,7 @@ Course.register({
           ],
         },
         {
-          id: 'f6s4', file: 'script.js', mode: 'insertAfter', find: '    evt.target.remove()',
+          id: 'f6s4', file: 'js/script.js', mode: 'insertAfter', find: '    evt.target.remove()',
           code: '    evt.stopPropagation()',
           say: 'Stop the bubbling right here: removing a Pokémon no longer toggles the card.',
           notes: [

@@ -99,7 +99,7 @@
       const f = from.features.find((x) => x.id === lesson.base.feature)
       const baseFiles = checkpoint(from, f.id)
       for (const name of Object.keys(files)) {
-        if (baseFiles[name] === lesson.files[name]) files[name] = files[name].map((l, k) => ({ ...l, baseLine: k + 1 }))
+        if (baseFiles[name] === lesson.files[name]) files[name] = files[name].map((l, k) => ({ ...l, baseLine: k + 1, baseFile: name }))
       }
     }
     if (stepId == null) return files
@@ -108,6 +108,8 @@
     if (stop < 0) throw new Error(`No step ${stepId} in lesson ${lesson.id}`)
     for (const step of steps.slice(0, stop + 1)) {
       if (step.mode === 'delete') delete files[step.file]
+      // A move renames the file; its lines keep where they came from.
+      else if (step.mode === 'move') { files[step.to] = files[step.file]; delete files[step.file] }
       else files[step.file] = applyLines(files[step.file] || [], step)
     }
     return files
@@ -137,7 +139,7 @@
       const from = lesson.base && get(lesson.base.lesson)
       if (!from || !line.baseLine) return { note: explainLine(file, line.text, own), ...base }
       const f = from.features.find((x) => x.id === lesson.base.feature)
-      return { ...noteFor(from, f.steps[f.steps.length - 1].id, file, line.baseLine), lessonId: from.id }
+      return { ...noteFor(from, f.steps[f.steps.length - 1].id, line.baseFile || file, line.baseLine), lessonId: from.id }
     }
     const hit = (own.notes || []).find((n) => line.text.includes(n.match))
     if (hit) return { note: hit, ...base }

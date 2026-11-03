@@ -296,6 +296,19 @@
     pad.next = async () => {
       if (pad.busy || pad.idx >= pad.steps.length) return
       const step = pad.steps[pad.idx]
+      // A move renames the file: its tab hides and the new name's tab shows the same text.
+      if (step.mode === 'move') {
+        pad.files[step.to] = pad.files[step.file]
+        delete pad.files[step.file]
+        if (!pad.tabs.includes(step.to)) pad.openFile(step.to)
+        pad.setFile(step.to, pad.files[step.to])
+        pad.syncTabs()
+        pad.showTab(step.to)
+        pad.idx++
+        pad.refresh()
+        pad.showLater()
+        return
+      }
       if (step.mode === 'delete') {
         delete pad.files[step.file]
         pad.syncTabs()

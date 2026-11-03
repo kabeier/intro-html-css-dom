@@ -28,7 +28,7 @@ function table(lessonId, featureId) {
   const lesson = Course.get(lessonId)
   const f = lesson.features.find((x) => x.id === featureId)
   const rows = f.steps.map((s, k) => {
-    const first = s.code ? s.code.split('\n').find((l) => l.trim()) .trim() : '(deletes code)'
+    const first = s.mode === 'move' ? `(moves it to ${s.to})` : s.code ? s.code.split('\n').find((l) => l.trim()) .trim() : '(deletes code)'
     const short = first.length > 46 ? first.slice(0, 44) + '…' : first
     // Code we replace later, and the steps that replace it, are marked so the instructor says so.
     const ref = (r) => { const [lid, sid] = r.includes(':') ? r.split(':') : [lessonId, r]; return Course.get(lid).features.flatMap((x) => x.steps).find((x) => x.id === sid) }

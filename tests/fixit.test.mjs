@@ -141,7 +141,7 @@ test('the Fix It page links to the other lecture', async () => {
 test('lecture 2: deleting the card listener is not a fix for the bubbling problem', async () => {
   const { context, page } = await open('bubble', {}, 'js-dom')
   const files = await page.evaluate(() => window.FixIt.getFiles())
-  files['script.js'] = files['script.js'].replace('document.querySelector("#team").addEventListener("click", (evt) => {\n  evt.currentTarget.classList.toggle("picked")\n})', '')
+  files['js/script.js'] = files['js/script.js'].replace('document.querySelector("#team").addEventListener("click", (evt) => {\n  evt.currentTarget.classList.toggle("picked")\n})', '')
   await page.evaluate((f) => window.FixIt.setFiles(f), files)
   assert.match(await press(page), /Still broken/)
   await context.close()
@@ -159,8 +159,8 @@ test('lecture 2: renaming the h1 id to match the typo also fixes it', async () =
 test('lecture 2: DOMContentLoaded wrapper is an accepted fix for defer', async () => {
   const { context, page } = await open('defer', {}, 'js-dom')
   const files = await page.evaluate(() => window.FixIt.getFiles())
-  files['index.html'] = files['index.html'].replace('<script src="script.js"></script>', '<script src="script.js" defer></script>')
-  files['script.js'] = 'document.addEventListener("DOMContentLoaded", () => {\n' + files['script.js'] + '\n})'
+  files['index.html'] = files['index.html'].replace('<script src="js/script.js"></script>', '<script src="js/script.js" defer></script>')
+  files['js/script.js'] = 'document.addEventListener("DOMContentLoaded", () => {\n' + files['js/script.js'] + '\n})'
   await page.evaluate((f) => window.FixIt.setFiles(f), files)
   assert.match(await press(page), /Fixed!/)
   await context.close()

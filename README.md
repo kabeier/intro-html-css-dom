@@ -13,7 +13,7 @@ Lecture site for Code Platoon Phase II, Front-End unit 1 (Vanilla Development). 
 | `shared/course.js` | Lesson data model: steps → checkpoints, line origins, notes, `buildDoc` |
 | `shared/course/html-css.js` | Lecture 1's page as data (8 features). **Edit code here**: slides, explorer and Fix It all read it |
 | `shared/course/html-css-fixit.js` | Lecture 1's Fix It problems |
-| `shared/course/js-dom.js`, `js-dom-fixit.js` | Lecture 2: starts from lecture 1's page (`base`), adds script.js; its Fix It problems (async checks) |
+| `shared/course/js-dom.js`, `js-dom-fixit.js` | Lecture 2: starts from lecture 1's page (`base`), moves it into `css/` and `js/`, adds js/script.js; its Fix It problems (async checks) |
 | `shared/livepad.js`, `.css`, `popout.html` | The editor + live preview in the slides |
 | `tools/gen-notes.mjs` | Regenerates the presenter-note step tables from the lesson data |
 | `demo-kit/` | RUNBOOK, the finished page (`html-css-final/`) |

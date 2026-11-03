@@ -17,9 +17,21 @@ const steps = lesson.features.flatMap((f) => f.steps)
 const notes = [...steps, ...base.features.flatMap((f) => f.steps)].flatMap((s) => s.notes || [])
 const final = Course.checkpoint(lesson, 'f6')
 
-test('js-dom starts from the end of lecture 1 plus an empty script.js', () => {
-  assert.deepEqual(Course.filesAt(lesson, null), { ...Course.checkpoint(base, 'f7'), 'script.js': '' })
+test('js-dom starts from the end of lecture 1', () => {
+  assert.deepEqual(Course.filesAt(lesson, null), Course.checkpoint(base, 'f7'))
   assert.deepEqual(lesson.base, { lesson: 'html-css', feature: 'f7' })
+})
+
+test('f1 tidies the project into css/ and js/ folders, the common layout for a static site', () => {
+  assert.deepEqual(Object.keys(final).sort(), ['css/styles.css', 'index.html', 'js/script.js'])
+  assert.match(final['index.html'], /<link rel="stylesheet" href="css\/styles.css">/)
+  assert.match(final['index.html'], /<script src="js\/script.js" defer><\/script>/)
+  const f1 = lesson.features[0].steps
+  assert.deepEqual(f1.slice(0, 3).map((s) => [s.mode, s.file]), [['move', 'styles.css'], ['replace', 'index.html'], ['insertAfter', 'index.html']])
+  // Between the move and the fixed link, the page has lost its CSS: the path matters.
+  const moved = Course.filesAt(lesson, f1[0].id)
+  assert.ok(!Course.buildDoc(moved, {}).includes('box-sizing'), 'no CSS while the link is wrong')
+  assert.ok(Course.buildDoc(Course.filesAt(lesson, f1[1].id), {}).includes('box-sizing'), 'CSS back once the link points into css/')
 })
 
 test('features f1..f6, each with a why; every step applies, is short, has a say', () => {
@@ -27,7 +39,7 @@ test('features f1..f6, each with a why; every step applies, is short, has a say'
   for (const f of lesson.features) assert.ok(f.why && f.why.length > 10, f.id)
   for (const s of steps) {
     assert.doesNotThrow(() => Course.filesAt(lesson, s.id), s.id)
-    assert.ok(s.code.split('\n').length <= 6, s.id + ' short')
+    if (s.mode !== 'move') assert.ok(s.code.split('\n').length <= 6, s.id + ' short')
     assert.ok(s.say, s.id + ' say')
   }
 })
@@ -35,7 +47,7 @@ test('features f1..f6, each with a why; every step applies, is short, has a say'
 test('the final page passes html-validate', () => {
   const out = path.join(ROOT, 'demo-kit', 'js-dom-final')
   mkdirSync(out, { recursive: true })
-  for (const [f, t] of Object.entries(final)) writeFileSync(path.join(out, f), t + '\n')
+  for (const [f, t] of Object.entries(final)) { mkdirSync(path.dirname(path.join(out, f)), { recursive: true }); writeFileSync(path.join(out, f), t + '\n') }
   execFileSync('npx', ['-y', 'html-validate@9', path.join(out, 'index.html')], { stdio: 'pipe' })
 })
 
@@ -49,7 +61,7 @@ test('every DOM function and property the script uses has a note', () => {
     'addEventListener', 'preventDefault', 'FormData', 'Object.fromEntries', 'classList', 'stopPropagation', '.remove()',
     'console.log', 'getBoundingClientRect', 'currentTarget', 'evt.target', 'style.backgroundColor', '.trim()', 'Math.round', '.value']
   for (const u of used) {
-    assert.ok(final['script.js'].includes(u), 'script uses ' + u)
+    assert.ok(final['js/script.js'].includes(u), 'script uses ' + u)
     assert.ok(steps.flatMap((s) => s.notes || []).some((x) => x.match.includes(u)), 'note for ' + u)
   }
 })
