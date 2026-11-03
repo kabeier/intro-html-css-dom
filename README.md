@@ -5,7 +5,7 @@ Lecture site for Code Platoon Phase II, Front-End unit 1 (Vanilla Development). 
 | Path | What |
 |---|---|
 | `index.html` | Landing page: lectures, Fix It, Code Explorer, homework |
-| `lecture-1-html-css/slides.html` | Lecture 1 deck (27 slides, ~78 min: the whole curriculum page) |
+| `lecture-1-html-css/slides.html` | Lecture 1 deck (28 slides, ~80 min: the whole curriculum page) |
 | `lecture-1-html-css/css-playground/` | 35 CSS properties to try live (edit `properties.js`) |
 | `lecture-2-js-dom/slides.html` | Lecture 2 deck (17 slides, ~42 min) |
 | `explore.html?lesson=html-css&at=f3` | Code Explorer: the page after any feature, the changes, the story of every line, zip download |

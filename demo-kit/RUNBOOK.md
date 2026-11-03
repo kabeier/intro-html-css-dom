@@ -40,28 +40,29 @@ If you typed in the editor and **N** says "can't apply": press **Shift+N**.
 | 11 | 28 | **N ×6**, A before N 3 | ul → ol; tables are for data; dl = term + meaning |
 | 12 | 33 | — | tags at a glance: a look-back, don't read it out |
 | 13 | 34 | — | block vs inline: real elements; width works on the div, is ignored on the span; display changes it |
-| 14 | 36 | — | form tags; action, method, name |
-| 15 | 38 | **N ×10**, A open; press Send after N 8, 9, 10 (table in notes) | GET: password in the URL. POST: in the body |
-| 16 | 47 | click the timer (6:00) | Fix It, problems 1–6 |
-| 17 | 53 | — | inline / internal / external; who wins: usual page = inline, internal, external; then order matters |
-| 18 | 55 | **N ×6**, A open the whole time | selector { property: value; } |
-| 19 | 58 | — | one colour, many ways: name, hex, short hex, rgb, hsl, see-through |
-| 20 | 60 | **N ×4** | ID > class > element: red wins; span gets a look; labels stack |
-| 21 | 64 | (DevTools on the pop-out if time) | content, padding, border, margin |
-| 22 | 65 | — | px, rem, %, flex, media query |
-| 23 | 66 | **N ×6**, then Pop out + narrow window | rem, %, flex; media query: links stack |
-| 24 | 72 | in the playground: border-radius, display, justify-content, type `tomatoo` | the rule shape; flex goes on the parent; wrong values are skipped silently |
-| 25 | 74 | paste the page into the validator, delete a `</section>`, check again | fix the first error first |
-| 26 | 76 | — | MDN, Code Explorer, CSS Playground |
-| 27 | 77 | — | Homework Part I, top to bottom |
+| 14 | 36 | click 5–6 chips: h1–h6, img, lists, table, blockquote, a form control | every look is a browser default with no CSS; table has no lines; q adds its own quote marks |
+| 15 | 38 | — | form tags; action, method, name |
+| 16 | 40 | **N ×10**, A open; press Send after N 8, 9, 10 (table in notes) | GET: password in the URL. POST: in the body |
+| 17 | 49 | click the timer (6:00) | Fix It, problems 1–6 |
+| 18 | 55 | — | inline / internal / external; who wins: usual page = inline, internal, external; then order matters |
+| 19 | 57 | **N ×6**, A open the whole time | selector { property: value; } |
+| 20 | 60 | — | one colour, many ways: name, hex, short hex, rgb, hsl, see-through |
+| 21 | 62 | **N ×4** | ID > class > element: red wins; span gets a look; labels stack |
+| 22 | 66 | (DevTools on the pop-out if time) | content, padding, border, margin |
+| 23 | 67 | — | px, rem, %, flex, media query |
+| 24 | 68 | **N ×6**, then Pop out + narrow window | rem, %, flex; media query: links stack |
+| 25 | 74 | in the playground: border-radius, display, justify-content, type `tomatoo` | the rule shape; flex goes on the parent; wrong values are skipped silently |
+| 26 | 76 | paste the page into the validator, delete a `</section>`, check again | fix the first error first |
+| 27 | 78 | — | MDN, Code Explorer, CSS Playground |
+| 28 | 79 | — | Homework Part I, top to bottom |
 
 ## Time checks
 
 | At slide | Should be | If late |
 |---|---|---|
 | 10 (text tags) | min 21 | press N through it, say one line per tag |
-| 16 (activity) | min 47 | shorten the activity to 4 minutes (problems 1–4) |
-| 21 | min 64 | skip DevTools; say the four layers |
+| 17 (activity) | min 49 | shorten the activity to 4 minutes (problems 1–4) |
+| 22 | min 66 | skip DevTools; say the four layers |
 
 ## Things to expect
 

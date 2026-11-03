@@ -19,10 +19,10 @@ const html = readFileSync(path.join(ROOT, DECK), 'utf8')
 const slides = html.split('<section class="slide').slice(1)
 const test2 = (name, fn) => test(DECK + ': ' + name, fn)
 
-test2('the deck has 14-27 slides, each with presenter notes and a start minute', () => {
-  // Lecture 1 demos the whole curriculum page, so it runs about 78 minutes; the others are 40.
+test2('the deck has 14-28 slides, each with presenter notes and a start minute', () => {
+  // Lecture 1 demos the whole curriculum page, so it runs about 80 minutes; the others are 40.
   const long = lessonId === 'html-css'
-  assert.ok(slides.length >= 14 && slides.length <= (long ? 27 : 17), 'slides: ' + slides.length)
+  assert.ok(slides.length >= 14 && slides.length <= (long ? 28 : 17), 'slides: ' + slides.length)
   let last = -1
   for (const [k, s] of slides.entries()) {
     assert.match(s, /<aside class="notes">/, 'notes on slide ' + (k + 1))
@@ -30,7 +30,7 @@ test2('the deck has 14-27 slides, each with presenter notes and a start minute',
     assert.ok(at >= last, 'minutes go up at slide ' + (k + 1))
     last = at
   }
-  assert.ok(last <= (long ? 77 : 40), 'last slide starts on time')
+  assert.ok(last <= (long ? 79 : 40), 'last slide starts on time')
 })
 
 test2('every feature is coded along once, starting where the previous one ended', () => {
