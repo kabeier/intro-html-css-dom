@@ -22,9 +22,14 @@
   .bubble div { padding: 12px 20px; border: 3px solid var(--ink); border-radius: 8px; background: #fff; }
   .bubble .start { background: #ffe76a; }
   .bubble .stop { background: #fde2e1; border-color: #b42318; }
+/* Where to look later: reference links */
+.refs { width: 100%; border-collapse: collapse; background: #fff; font-size: 23px; margin-top: 12px; }
+.refs th, .refs td { border: 2px solid #c9d2e0; padding: 10px 16px; text-align: left; }
+.refs th { background: #eef2f8; font-size: 20px; }
+.refs a { color: var(--blue); font-weight: 600; }
 </style>
 </head>
-<body data-minutes="43">
+<body data-minutes="44">
 <div class="stage">
 
 <!-- ============ OPEN (0–5) ============ -->
@@ -379,6 +384,30 @@ const ids = Array.from(cards).map((card) =&gt; card.id)</pre>
 </section>
 
 <section class="slide" data-seg="Wrap up" data-at="41">
+  <h2>Where to look later: JavaScript and the DOM</h2>
+  <table class="refs">
+    <tr><th></th><th>JavaScript (the language)</th><th>The DOM and events</th></tr>
+    <tr><td><b>Look it up</b> (every day)</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference" target="_blank" rel="noopener">MDN: JavaScript reference</a></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model" target="_blank" rel="noopener">MDN: the DOM</a> · <a href="https://developer.mozilla.org/en-US/docs/Web/Events" target="_blank" rel="noopener">MDN: every event</a></td></tr>
+    <tr><td><b>The official rules</b></td><td><a href="https://tc39.es/ecma262/" target="_blank" rel="noopener">ECMAScript spec (TC39)</a></td><td><a href="https://dom.spec.whatwg.org/" target="_blank" rel="noopener">WHATWG DOM Living Standard</a></td></tr>
+    <tr><td><b>Check your code</b></td><td colspan="2"><a href="https://developer.chrome.com/docs/devtools/console" target="_blank" rel="noopener">Chrome DevTools: the Console</a> (where console.log and errors show up)</td></tr>
+    <tr><td><b>Works in every browser?</b></td><td colspan="2"><a href="https://caniuse.com/" target="_blank" rel="noopener">Can I use</a> · or the Browser compatibility table at the bottom of every MDN page</td></tr>
+  </table>
+  <p class="small" style="margin-top:14px;font-size:22px">Class site: <b>Code Explorer</b> (both lectures, every line with its story) · <b>Fix It</b> (the bugs from today)</p>
+  <p class="bottomline">Nobody memorizes the DOM. Everybody looks it up.</p>
+  <aside class="notes">
+    <p class="plan"><b>The plan:</b> Where to look up JavaScript and the DOM later. Same idea as the HTML and CSS table from lecture 1.</p>
+    <p>Say: "querySelector, addEventListener, preventDefault: you will look these up for years. Here's where."</p>
+    <p>Point at the table, row by row (each link opens in a new tab):</p>
+    <ul>
+      <li><b>MDN</b>: click <b>MDN: every event</b> to show the list: click, submit, input, keydown. Say: "Today we used two of these."</li>
+      <li><b>The official rules</b>: JavaScript itself is ECMAScript, written by the TC39 committee. querySelector and events are not JavaScript: they are the DOM, a WHATWG standard. Say: "That's why Node has no document."</li>
+      <li><b>DevTools Console</b>: where our console.log lines and red errors went today.</li>
+      <li><b>Can I use</b>: type a feature name, see which browsers support it.</li>
+    </ul>
+  </aside>
+</section>
+
+<section class="slide" data-seg="Wrap up" data-at="42">
   <h2>Homework, Part II</h2>
   <ol class="steps small">
     <li><b>MDN Introduction to Events</b>: the Simple Example tutorial; read What is an Event, addEventListener(), other listener mechanisms, event objects, preventing default, bubbling</li>

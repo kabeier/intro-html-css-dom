@@ -74,7 +74,7 @@ If you typed in the editor and **N** says "can't apply": press **Shift+N** (or *
 - Fell-behind student: Code Explorer → their feature → **Download the code at this feature**.
 
 
-# Runbook · Lecture 2: JavaScript DOM (~43 min)
+# Runbook · Lecture 2: JavaScript DOM (~44 min)
 
 Same keys as lecture 1. New: a **Console** panel under the live page shows `console.log` and errors.
 
@@ -96,7 +96,8 @@ Same keys as lecture 1. New: a **Console** panel under the live page shows `cons
 | 14 | 36 | — | bubbling picture |
 | 15 | 37 | **N ×4**; after N 3 click a Pokémon | outline toggles too; N 4 stops it |
 | 16 | 40 | — | DOM by hand vs React |
-| 17 | 41 | — | Homework Part II |
+| 17 | 41 | — | Where to look later: click MDN: every event, then point at each row | MDN, ECMAScript vs the DOM, Console, Can I use |
+| 18 | 42 | — | Homework Part II |
 
 Time checks: slide 9 at min 22 (late? 4-minute activity); slide 14 at min 36 (late? skip the picture, say it during slide 14).
 
