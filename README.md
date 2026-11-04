@@ -21,7 +21,7 @@ Lecture site for Code Platoon Phase II, Front-End unit 1 (Vanilla Development). 
 
 ## Deck keys
 
-→ / Space next · ← back · **N** type the next step · **Shift+N** reset the slide · **A** show/hide the live page · **↗ Pop out** live page in its own window · P presenter notes · T clock · O overview · F fullscreen
+→ / Space next · ← back · **N** type the next step · **Shift+N** reset the slide (or the **▶ Next line** / **↺ Reset** buttons on the code bar) · **A** show/hide the live page · **↗ Pop out** live page in its own window · P presenter notes · T clock · O overview · F fullscreen
 
 ## After changing a lesson
 

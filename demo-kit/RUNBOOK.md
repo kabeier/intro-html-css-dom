@@ -17,11 +17,13 @@
 | **N** | types the next short chunk (also in the notes table) |
 | **Type next step** (presenter window) | same as N, from the notes window. Shows "Typed 2 of 6 steps". **N** works there too |
 | **Shift+N** | resets this slide to its start |
+| **▶ Next line** / **↺ Reset** (on the code slide's bar) | same as N / Shift+N, by mouse. Students following along on their own laptop use these. Reset also stops a step halfway through typing |
+| **↺ Reset slide code** (presenter window) | same as Shift+N, from the notes window |
 | **A** | live page beside the code; A again hides it (stays open on later slides) |
 | **↗ Pop out** | live page in its own window, synced; resize it to show the media query |
 | click in the editor | type yourself; the page updates as you type. **Esc** leaves the editor so arrows change slides again |
 
-If you typed in the editor and **N** says "can't apply": press **Shift+N**.
+If you typed in the editor and **N** says "can't apply": press **Shift+N** (or **↺ Reset**).
 
 ## Slide by slide
 

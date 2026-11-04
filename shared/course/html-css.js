@@ -369,7 +369,7 @@ Course.register({
           say: 'Way 3, external: one line links a CSS file. The heading goes back to black: styles.css is still empty.',
           notes: [
             { match: '<link rel="stylesheet"', what: 'Links an external CSS file.', why: 'One file holds all the looks; every page links the same file.',
-              api: { name: '<link>', does: 'Connects another file to the page.', params: [['rel', 'what kind of file it is', '"stylesheet" for CSS (also "icon" for the tab icon)'], ['href', 'where the file is', 'a path next to the HTML: "styles.css" or "./styles.css"']], mistakes: ['Forgetting rel="stylesheet": the file loads but no style is applied.', 'A typo in href: no error on the page, just no styles. Check the Network tab.'] } },
+              api: { name: '<link>', does: 'Connects another file to the page.', params: [['rel', 'what kind of file it is', '"stylesheet" for CSS (also "icon" for the favicon, the little picture on the browser tab)'], ['href', 'where the file is', 'a path next to the HTML: "styles.css" or "./styles.css"']], mistakes: ['Forgetting rel="stylesheet": the file loads but no style is applied.', 'A typo in href: no error on the page, just no styles. Check the Network tab.'] } },
           ],
         },
         {

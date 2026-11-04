@@ -79,6 +79,7 @@
     if (e.data.type === 'go' && e.data.i !== i) go(e.data.i, true)
     if (e.data.type === 'hello') { channel.postMessage({ type: 'go', i, total }); dispatchEvent(new Event('deck-pad-ask')) } // presenter window just opened
     if (e.data.type === 'pad-next') dispatchEvent(new Event('deck-pad-next')) // its "Type next step" button (N)
+    if (e.data.type === 'pad-reset') dispatchEvent(new Event('deck-pad-reset')) // its "Reset" button (Shift+N)
   }
   // Code slides report their step count; the presenter window shows it (livepad.js).
   addEventListener('deck-pad-status', (e) => channel.postMessage({ type: 'pad', pad: e.detail }))
@@ -127,6 +128,7 @@
           <div class="next"></div>
           <div id="padbox" hidden style="display:flex;flex-direction:column;gap:6px">
             <button id="stepb" style="background:#1f9d6b;color:#fff;font-size:24px;padding:20px">Type next step (N)</button>
+            <button id="padreset">↺ Reset slide code (Shift+N)</button>
             <div id="stepinfo" class="meta" style="font-size:17px"></div>
           </div>
           <button id="prev">← Back</button><button id="nextb" style="background:#2552c9;color:#fff">Next →</button>
@@ -171,6 +173,7 @@
     }
     $('#prev').onclick = () => go2(i - 1); $('#nextb').onclick = () => go2(i + 1)
     $('#stepb').onclick = nextStep
+    $('#padreset').onclick = () => { if (pad && pad.total) channel.postMessage({ type: 'pad-reset' }) }
     $('#clockb').onclick = toggleClock
     $('#resetb').onclick = () => writeClock({ start: null, paused: 0, pausedAt: null })
     addEventListener('keydown', (e) => {
@@ -178,6 +181,7 @@
       if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); go2(i - 1) }
       if (e.key === 't' || e.key === 'T') toggleClock()
       if (e.key === 'n') nextStep()
+      if (e.key === 'N' && e.shiftKey) $('#padreset').click()
     })
     drawPad()
     setInterval(tickClock, 500); draw(); tickClock()
