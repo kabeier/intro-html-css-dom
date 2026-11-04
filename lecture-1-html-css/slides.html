@@ -57,6 +57,12 @@
   .eg-code .t { color: #569cd6; } .eg-code .a { color: #9cdcfe; } .eg-code .s { color: #ce9178; }
   .eg iframe { flex: 1; width: 100%; border: 2px solid var(--ink, #1b2230); border-radius: 8px; background: #fff; }
   .keys td:first-child { font: 700 26px var(--mono); white-space: nowrap; }
+/* Habits slide: reference links */
+.refs { width: 100%; border-collapse: collapse; background: #fff; font-size: 23px; }
+.refs th, .refs td { border: 2px solid #c9d2e0; padding: 9px 16px; text-align: left; }
+.refs th { background: #eef2f8; font-size: 20px; }
+.refs a { color: var(--blue); font-weight: 600; }
+.habits .card { padding: 18px 26px; } .habits .card p { font-size: 24px; } .habits .card h3 { font-size: 28px; }
 </style>
 </head>
 <body data-minutes="80">
@@ -800,16 +806,29 @@
 
 <section class="slide" data-seg="Wrap up" data-at="78">
   <h2>Habits, and where to look later</h2>
-  <div class="cols">
+  <div class="cols habits">
     <div class="card blue"><h3>HTML</h3><p>Semantic tags · accessible markup: alt on every image, a label for every input · check it at <b>validator.w3.org</b></p></div>
     <div class="card green"><h3>CSS</h3><p>External file · no inline styles · class names that say the role (<code>card</code>, not <code>yellow-box</code>) · styles modular and readable</p></div>
   </div>
-  <p class="small" style="margin-top:22px"><b>CSS Playground</b> (class site): 35 properties to try · <b>Code Explorer</b> (class site): the page after every feature, click any line for its story · <b>MDN</b>: the reference for every tag and property · <b>Standards</b>: HTML is a WHATWG living standard, CSS is from the W3C</p>
+  <table class="refs" style="margin-top:18px">
+    <tr><th></th><th>HTML</th><th>CSS</th></tr>
+    <tr><td><b>Look it up</b> (every day)</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements" target="_blank" rel="noopener">MDN: every HTML tag</a></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference" target="_blank" rel="noopener">MDN: every CSS property</a></td></tr>
+    <tr><td><b>The official rules</b></td><td><a href="https://html.spec.whatwg.org/multipage/" target="_blank" rel="noopener">WHATWG HTML Living Standard</a></td><td><a href="https://www.w3.org/Style/CSS/current-work" target="_blank" rel="noopener">W3C CSS specifications</a></td></tr>
+    <tr><td><b>Check your code</b></td><td><a href="https://validator.w3.org/" target="_blank" rel="noopener">W3C HTML validator</a></td><td><a href="https://jigsaw.w3.org/css-validator/" target="_blank" rel="noopener">W3C CSS validator</a></td></tr>
+    <tr><td><b>Accessibility</b></td><td colspan="2"><a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener">W3C WCAG: the accessibility guidelines</a> (why every image needs alt, every input a label)</td></tr>
+  </table>
+  <p class="small" style="margin-top:12px;font-size:22px">Class site: <b>CSS Playground</b> (35 properties to try) · <b>Code Explorer</b> (the page after every feature)</p>
   <p class="bottomline">HTML defines what exists. CSS defines how it looks.</p>
   <aside class="notes">
     <p class="plan"><b>The plan:</b> The habits to keep for HTML and CSS, and where to look things up later.</p>
     <p>Say: "You don't memorize tags. You look them up on MDN, every day."</p>
-    <p>Standards: HTML is the WHATWG living standard; CSS is the W3C.</p>
+    <p>Point at the table, row by row (each link opens in a new tab):</p>
+    <ul>
+      <li><b>MDN</b>: the everyday reference, written by Mozilla with Google, Microsoft and others. Click <b>MDN: every HTML tag</b> to show the list.</li>
+      <li><b>The official rules</b>: HTML is the WHATWG Living Standard (the browser makers write it). CSS specs come from the W3C. Say: "This is the law. MDN is the readable version."</li>
+      <li><b>Validators</b>: the same HTML validator we just used, plus one for CSS.</li>
+      <li><b>WCAG</b>: the accessibility rules behind alt text and labels.</li>
+    </ul>
   </aside>
 </section>
 
